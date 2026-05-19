@@ -661,6 +661,8 @@ const I18N = {
     'r.invite':'Invite friends','r.inviteSub':'Send your code & both get rewards.','r.referReward':'You get ฿200 credit · they get ฿200 off · for every friend who completes the quiz.',
     'r.copied':'Copied! ✨','r.generating':'Generating your Top 3 story card… 🎨','r.igTip':'Image saved — open Instagram and upload to your Story 📸','r.ttTip':'Link copied — paste in TikTok 🎵',
     'r.shareText1':'I just took the PawMatch quiz — I’m','r.shareText2':'Take the quiz & find your Pet Persona →',
+    'r.bestTitle':'Your dream breeds','r.leastTitle':'Not your vibe','r.leastSub':'just for fun · don\'t take it personally',
+    'r.shareBtn':'Share my Pet Persona','r.seeAvail':'See available pets','r.shareMethods':'Share to',
     'weeks':'wks','months':'mo',
   },
   th: {
@@ -706,6 +708,8 @@ const I18N = {
     'r.invite':'ชวนเพื่อน','r.inviteSub':'ส่งโค้ดให้เพื่อน รับรางวัลทั้งคู่','r.referReward':'คุณได้เครดิต ฿200 · เพื่อนได้ส่วนลด ฿200 · ทุกครั้งที่เพื่อนทำแบบทดสอบครบ',
     'r.copied':'คัดลอกแล้ว! ✨','r.generating':'กำลังสร้างการ์ด Top 3 ของคุณ… 🎨','r.igTip':'บันทึกรูปแล้ว — เปิด Instagram และอัพโหลดใน Story 📸','r.ttTip':'คัดลอกลิงก์แล้ว — วางใน TikTok 🎵',
     'r.shareText1':'เพิ่งทำ PawMatch quiz มา ฉันคือ','r.shareText2':'มาหา Pet Persona ของคุณกัน →',
+    'r.bestTitle':'สายพันธุ์ในฝันของคุณ','r.leastTitle':'ไม่ใช่สายคุณ','r.leastSub':'แค่สนุกๆ · อย่าซีเรียส',
+    'r.shareBtn':'แชร์ Pet Persona ของฉัน','r.seeAvail':'ดูสัตว์เลี้ยงที่พร้อมรับเลี้ยง','r.shareMethods':'แชร์ไปยัง',
     'weeks':'สัปดาห์','months':'เดือน',
   }
 };
@@ -1033,6 +1037,58 @@ const ARCHETYPES = {
                              {n:'คาวาเลียร์',d:'ขี้กอด อ่อนโยน รักทุกคน',i:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80'}]} },
 };
 
+/* ============= Least compatible breeds (playful, not negative) ============= */
+const LEAST_COMPAT = {
+  cozy: {
+    en:[{n:'Labrador',         d:'24/7 energy = zero nap zone 🥲',         i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'Thai Ridgeback',   d:'Built for hikes, not couches 🏃',         i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'Sun Conure',       d:"6 am alarm you can't turn off ⏰",         i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ลาบราดอร์',          d:'พลังงาน 24 ชม. ไม่มีเวลานอนเลย 🥲',         i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'ไทยหลังอาน',         d:'เกิดมาเดินป่า ไม่ใช่นอนโซฟา 🏃',           i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'นกซันคอนัวร์',        d:'นาฬิกาปลุกตี 6 ที่ปิดไม่ได้ ⏰',             i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+  },
+  adventurer: {
+    en:[{n:'Ragdoll',           d:'Naps through your adventures 😴',         i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'British Shorthair', d:'Beach trip? Hard pass 🏖️',                i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+        {n:'Holland Lop',       d:'Too tiny for the trail 🥲',                i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'แร็กดอลล์',           d:'หลับตลอดการผจญภัยของคุณ 😴',              i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'บริติช ชอร์ตแฮร์',     d:'เที่ยวทะเล? ขอผ่าน 🏖️',                    i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+        {n:'ฮอลแลนด์ลอป',        d:'ตัวเล็กไป เดินป่าไม่ไหว 🥲',                i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}],
+  },
+  social: {
+    en:[{n:'Sugar Glider',      d:'Nocturnal vibes vs. your party schedule 🌙', i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'Thai Ridgeback',    d:'Side-eyes your friend group 👀',           i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'British Shorthair', d:"Won't pose for your feed 📵",              i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ชูการ์ไกลเดอร์',      d:'สายดึก ไม่ชอบปาร์ตี้ของคุณ 🌙',              i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'ไทยหลังอาน',         d:'มองเพื่อนคุณแบบไม่ไว้ใจ 👀',                i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'บริติช ชอร์ตแฮร์',    d:'ไม่ยอมโพสต์ท่าให้ฟีด 📵',                  i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'}],
+  },
+  guardian: {
+    en:[{n:'Golden Retriever',  d:'Welcomes burglars with kisses 💋',         i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'Ragdoll',           d:'Naps through any emergency 😴',            i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'Pomeranian',        d:'Cute bark, zero scare factor 🐾',          i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'โกลเด้น รีทรีฟเวอร์',   d:'ต้อนรับขโมยด้วยจูบ 💋',                    i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'แร็กดอลล์',            d:'นอนหลับท่ามกลางทุกเหตุการณ์ 😴',           i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'ปอมเมอเรเนียน',       d:'น่ารักเกิน ขู่ใครก็ไม่ขึ้น 🐾',                i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+  },
+  freespirit: {
+    en:[{n:'Labrador',          d:'Too mainstream-coded for your aesthetic 📌', i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'Golden Retriever',  d:'Vanilla energy, no edge 🥱',                i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'Pomeranian',        d:'Already all over your TikTok FYP 😴',       i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ลาบราดอร์',           d:'โหลโคจรเกินไปสำหรับสายอินดี้ 📌',           i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'โกลเด้น รีทรีฟเวอร์',    d:'ธรรมดาเกินสำหรับสายแปลก 🥱',                i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'ปอมเมอเรเนียน',        d:'เห็นทั่ว TikTok แล้ว 😴',                    i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+  },
+  nurturer: {
+    en:[{n:'Shiba Inu',          d:'Strong "don\'t touch me" energy 🙅',        i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+        {n:'Sugar Glider',       d:'Nocturnal = no family time 🌙',             i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'Sun Conure',         d:'Loud screams during dinner ⚠️',             i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ชิบะ อินุ',             d:'พลัง "อย่ามาแตะ" รัวๆ 🙅',                    i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+        {n:'ชูการ์ไกลเดอร์',         d:'หากินกลางคืน ไม่มีเวลาให้ครอบครัว 🌙',         i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'นกซันคอนัวร์',          d:'เสียงดังตอนทานข้าวครอบครัว ⚠️',              i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+  },
+};
+
 function calcArchetype(a){
   const s = { cozy:0, adventurer:0, social:0, guardian:0, freespirit:0, nurturer:0 };
   // home
@@ -1162,132 +1218,156 @@ function renderResults(){
     : { dog:'Dogs', cat:'Cats', small:'Small pets', exotic:'Exotic' };
   const typeIcons = { dog:'🐕', cat:'🐈', small:'🐰', exotic:'🦜' };
 
+  const leastList = (LEAST_COMPAT[archKey] && LEAST_COMPAT[archKey][lang]) || [];
+
   qcontent.innerHTML = `
-    <!-- HERO RESULT CARD -->
-    <div id="result-card" class="relative rounded-3xl overflow-hidden bg-gradient-to-br ${arch.grad} text-cream-50 p-5 sm:p-10 shadow-lift">
+    <div class="space-y-4 sm:space-y-5">
+
+    <!-- HERO PERSONA CARD (compact, shareable) -->
+    <div id="result-card" class="relative rounded-3xl overflow-hidden bg-gradient-to-br ${arch.grad} text-cream-50 p-5 sm:p-8 shadow-lift">
       <div class="absolute inset-0 grain opacity-100"></div>
-      <div class="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-cream-50/15 blur-3xl"></div>
-      <div class="relative">
-        <div class="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] opacity-90">
-          <span>PawMatch · ${t('r.persona')}</span>
+      <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-cream-50/15 blur-3xl"></div>
+      <!-- Hand-drawn doodles -->
+      <svg class="absolute top-3 left-3 w-5 h-5 opacity-60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 5h5.3l-4.3 3.1L16 15l-4-3-4 3 1.3-4.9L5 7h5.3z"/></svg>
+      <svg class="absolute bottom-3 right-4 w-5 h-5 opacity-60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.35-7-10a4 4 0 017-2.65A4 4 0 0119 11c0 5.65-7 10-7 10z"/></svg>
+      <svg class="absolute top-1/2 left-2 w-4 h-4 opacity-40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/></svg>
+      <div class="relative text-center">
+        <div class="inline-flex items-center gap-1.5 bg-cream-50/20 backdrop-blur border border-cream-50/30 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-[0.22em] font-semibold">
+          🐾 ${t('r.persona')}
         </div>
-        <div class="mt-2 text-6xl sm:text-7xl leading-none">${arch.emoji}</div>
-        <h3 class="font-display text-3xl sm:text-4xl font-bold mt-3 leading-tight">${t('r.youAre')} <span class="italic">${A.name}</span></h3>
-        <p class="mt-2 opacity-90 text-sm sm:text-base">${A.tag}</p>
-
-        <div class="mt-5 flex flex-wrap gap-2">
-          ${A.traits.map(tr=>`<span class="bg-cream-50/20 backdrop-blur border border-cream-50/30 text-[11px] sm:text-xs font-semibold px-3 py-1 rounded-full">${tr}</span>`).join('')}
+        <div class="mt-3 text-5xl sm:text-7xl leading-none">${arch.emoji}</div>
+        <div class="text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-2 opacity-80">${t('r.youAre')}</div>
+        <h3 class="font-display text-2xl sm:text-4xl font-bold leading-tight italic mt-0.5">${A.name}</h3>
+        <p class="mt-1.5 text-xs sm:text-sm opacity-90 max-w-md mx-auto leading-snug">${A.tag}</p>
+        <div class="mt-3 sm:mt-4 flex flex-wrap gap-1.5 justify-center">
+          ${A.traits.slice(0,4).map(tr=>`<span class="bg-cream-50/20 backdrop-blur border border-cream-50/30 text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full">${tr}</span>`).join('')}
         </div>
-        <div class="mt-5 p-4 bg-cream-50/10 backdrop-blur border border-cream-50/20 rounded-2xl text-sm">
-          <div class="text-[10px] uppercase tracking-[0.18em] opacity-80">${t('r.idealPet')}</div>
-          <div class="mt-1 font-display text-lg leading-snug">${A.ideal}</div>
+      </div>
+    </div>
+
+    <!-- BEST MATCHES (top 3) -->
+    <div class="bg-cream-50 border border-cream-200 rounded-3xl p-4 sm:p-5">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg">💚</span>
+          <h4 class="font-display text-base sm:text-xl font-semibold text-forest-700">${t('r.bestTitle')}</h4>
         </div>
-        <div class="absolute bottom-0 right-0 text-[10px] opacity-60 hidden sm:block">pawmatch.co</div>
+        <svg class="w-4 h-4 text-clay-400 opacity-70" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 5h5.3l-4.3 3.1L16 15l-4-3-4 3 1.3-4.9L5 7h5.3z"/></svg>
       </div>
-    </div>
-
-    <!-- PET TYPE COMPATIBILITY -->
-    <div class="mt-6 bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6">
-      <div class="text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">${t('r.typeMatch')}</div>
-      <div class="mt-3 grid sm:grid-cols-2 gap-3">
-        ${A.types.sort((a,b)=>b.v-a.v).map(x=>`
-          <div>
-            <div class="flex justify-between text-sm">
-              <div class="font-semibold text-forest-700">${typeIcons[x.k]} ${typeLabels[x.k]}</div>
-              <div class="text-ink-500">${x.v}%</div>
+      <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        ${A.breeds.slice(0,3).map((b,i)=>`
+          <div class="bg-cream-50 border border-cream-200 rounded-2xl overflow-hidden">
+            <div class="aspect-square bg-cream-200 overflow-hidden relative">
+              <img src="${b.i}" class="w-full h-full object-cover"/>
+              <div class="absolute top-1.5 left-1.5 bg-gold-500 text-forest-800 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-soft">${i+1}</div>
             </div>
-            <div class="mt-1 h-2 rounded-full bg-cream-200 overflow-hidden">
-              <div class="h-full bg-gradient-to-r ${arch.grad}" style="width:${x.v}%"></div>
+            <div class="p-2 sm:p-2.5">
+              <div class="font-display font-semibold text-[11px] sm:text-sm text-forest-700 leading-tight truncate">${b.n}</div>
+              <div class="text-[10px] text-ink-500 mt-0.5 leading-snug" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${b.d}</div>
             </div>
-          </div>`).join('')}
-      </div>
-    </div>
-
-    <!-- BREED RECOMMENDATIONS -->
-    <div class="mt-6">
-      <div class="text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">${t('r.dreamBreeds')}</div>
-      <h4 class="font-display text-xl sm:text-2xl font-semibold text-forest-700 mt-1">${t('r.breedTitle')}</h4>
-      <div class="mt-4 grid sm:grid-cols-3 gap-4">
-        ${A.breeds.map((b,i)=>`
-          <div class="group bg-cream-50 border border-cream-200 rounded-2xl overflow-hidden shadow-soft hover:shadow-lift transition">
-            <div class="relative aspect-[4/3] bg-cream-200 overflow-hidden">
-              <img src="${b.i}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700"/>
-              <div class="absolute top-2 left-2 bg-forest-700/85 text-cream-50 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">${t('r.rec')} #${i+1}</div>
-            </div>
-            <div class="p-4">
-              <div class="font-display font-semibold text-forest-700">${b.n}</div>
-              <div class="text-xs text-ink-700 mt-1">${b.d}</div>
-            </div>
-          </div>`).join('')}
-      </div>
-    </div>
-
-    <!-- AVAILABLE PETS -->
-    <div class="mt-6">
-      <div class="text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">${t('r.availTitle')}</div>
-      <h4 class="font-display text-xl sm:text-2xl font-semibold text-forest-700 mt-1">${t('r.availSub')}</h4>
-      <div class="mt-4 grid sm:grid-cols-3 gap-4">
-        ${scored.map((p,i)=>`
-          <button class="text-left group bg-cream-50 border border-cream-200 hover:border-forest-600 rounded-2xl overflow-hidden transition shadow-soft hover:shadow-lift" onclick="openPet(${p.id})">
-            <div class="relative aspect-[4/5] overflow-hidden bg-cream-200">
-              <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700"/>
-              ${i===0?`<div class="absolute top-3 left-3 bg-gold-500 text-forest-800 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">${t('r.best')}</div>`:''}
-              <div class="absolute top-3 right-3 bg-forest-700 text-cream-50 text-xs font-bold px-2.5 py-1 rounded-full">${p.score}%</div>
-            </div>
-            <div class="p-3">
-              <div class="font-display font-semibold text-forest-700">${p.name}</div>
-              <div class="text-xs text-ink-500">${p.breed[lang]} · ${ageStr(p.ageW)}</div>
-            </div>
-          </button>`).join('')}
-      </div>
-    </div>
-
-    <!-- SHARE -->
-    <div class="mt-8 bg-forest-700 text-cream-50 rounded-3xl p-5 sm:p-8 relative overflow-hidden">
-      <div class="absolute inset-0 grain opacity-100"></div>
-      <div class="relative grid md:grid-cols-2 gap-6 items-center">
-        <div>
-          <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-gold-400">${t('r.shareEyebrow')}</div>
-          <h4 class="font-display text-2xl sm:text-3xl font-semibold mt-2">${t('r.shareTitle')}</h4>
-          <p class="mt-2 text-cream-100/80 text-sm">${t('r.shareSub')}</p>
-          <div class="mt-5 grid grid-cols-2 gap-2">
-            <button data-share="ig" class="bg-gradient-to-tr from-clay-500 via-clay-400 to-gold-400 text-cream-50 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-              ${t('r.shareIG')}
-            </button>
-            <button data-share="tiktok" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
-              <span class="text-lg">🎵</span> ${t('r.shareTT')}
-            </button>
-            <button data-share="line" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
-              <span class="text-lg">💬</span> LINE
-            </button>
-            <button data-share="copy" class="bg-cream-50 text-forest-700 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-              <span id="copy-label">${t('r.shareCopy')}</span>
-            </button>
           </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- LEAST COMPATIBLE (playful, not negative) -->
+    <div class="bg-cream-50 border border-cream-200 rounded-3xl p-4 sm:p-5">
+      <div class="flex items-center justify-between mb-3 gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg">🙈</span>
+          <h4 class="font-display text-base sm:text-xl font-semibold text-forest-700">${t('r.leastTitle')}</h4>
         </div>
-        <div class="bg-forest-800/60 rounded-2xl p-4 backdrop-blur border border-forest-600/50">
-          <div class="text-[11px] uppercase tracking-[0.18em] text-gold-400">${t('r.invite')}</div>
-          <div class="mt-2 font-display text-lg">${t('r.inviteSub')}</div>
-          <div class="mt-3 flex items-center gap-2 bg-forest-700 rounded-xl p-2 border border-forest-600/60">
-            <code class="flex-1 px-2 text-sm font-mono">${inviteCode}</code>
-            <button data-share="invite" class="bg-gold-500 hover:bg-gold-400 text-forest-800 font-semibold text-xs px-3 py-1.5 rounded-lg">${t('r.copyCode')}</button>
+        <div class="text-[9px] sm:text-[10px] italic text-ink-500 text-right">${t('r.leastSub')}</div>
+      </div>
+      <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        ${leastList.map((b,i)=>`
+          <div class="bg-cream-50 border border-cream-200 rounded-2xl overflow-hidden">
+            <div class="aspect-square bg-cream-200 overflow-hidden relative">
+              <img src="${b.i}" class="w-full h-full object-cover opacity-90" style="filter:saturate(0.7)"/>
+              <div class="absolute inset-0 bg-cream-50/10"></div>
+              <div class="absolute top-1.5 right-1.5 text-base opacity-90">✗</div>
+            </div>
+            <div class="p-2 sm:p-2.5">
+              <div class="font-display font-semibold text-[11px] sm:text-sm text-forest-700 leading-tight truncate">${b.n}</div>
+              <div class="text-[10px] text-clay-600 mt-0.5 italic leading-snug" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${b.d}</div>
+            </div>
           </div>
-          <div class="mt-3 text-[11px] text-cream-100/70">${t('r.referReward')}</div>
-        </div>
+        `).join('')}
       </div>
     </div>
 
     <!-- ACTIONS -->
-    <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-      <button id="qrestart" class="bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold px-5 py-2.5 rounded-full text-sm">${t('r.retake')}</button>
-      <a href="#pets" class="bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold px-5 py-2.5 rounded-full text-sm text-center">${t('r.browse')}</a>
+    <div class="space-y-2.5 pt-1">
+      <button id="share-toggle" class="w-full bg-gradient-to-r ${arch.grad} text-cream-50 font-semibold py-3.5 rounded-full text-sm shadow-lift flex items-center justify-center gap-2 hover:opacity-95 transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+        ${t('r.shareBtn')}
+      </button>
+      <a href="pets.html" class="block w-full bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm text-center transition">
+        ${t('r.seeAvail')} →
+      </a>
+      <button id="qrestart" class="w-full bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold py-2.5 rounded-full text-xs">
+        ↻ ${t('r.retake')}
+      </button>
     </div>
 
+    <!-- SHARE PANEL (hidden until Share clicked) -->
+    <div id="share-panel" class="hidden bg-forest-700 text-cream-50 rounded-3xl p-5 sm:p-6 relative overflow-hidden">
+      <div class="absolute inset-0 grain opacity-100"></div>
+      <div class="relative">
+        <div class="flex items-center justify-between">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-gold-400 font-semibold">${t('r.shareMethods')}</div>
+          <button id="share-close" class="w-7 h-7 rounded-full bg-forest-600/60 hover:bg-forest-600 flex items-center justify-center" aria-label="Close">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="mt-3 grid grid-cols-2 gap-2">
+          <button data-share="ig" class="bg-gradient-to-tr from-clay-500 via-clay-400 to-gold-400 text-cream-50 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            ${t('r.shareIG')}
+          </button>
+          <button data-share="tiktok" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <span class="text-base">🎵</span> ${t('r.shareTT')}
+          </button>
+          <button data-share="line" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <span class="text-base">💬</span> LINE
+          </button>
+          <button data-share="copy" class="bg-cream-50 text-forest-700 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            ${t('r.shareCopy')}
+          </button>
+        </div>
+        <div class="mt-4 bg-forest-800/60 rounded-2xl p-3 backdrop-blur border border-forest-600/50">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-gold-400 font-semibold">${t('r.invite')}</div>
+          <div class="mt-1 text-xs leading-snug">${t('r.inviteSub')}</div>
+          <div class="mt-2 flex items-center gap-2 bg-forest-700 rounded-xl p-2 border border-forest-600/60">
+            <code class="flex-1 px-2 text-sm font-mono">${inviteCode}</code>
+            <button data-share="invite" class="bg-gold-500 hover:bg-gold-400 text-forest-800 font-semibold text-xs px-3 py-1.5 rounded-lg">${t('r.copyCode')}</button>
+          </div>
+          <div class="mt-2 text-[10px] text-cream-100/70 leading-snug">${t('r.referReward')}</div>
+        </div>
+      </div>
+    </div>
+
+    </div>
     <div id="share-toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] hidden bg-forest-800 text-cream-50 px-4 py-2 rounded-full text-sm shadow-lift"></div>
   `;
   qprev.disabled = false; qnext.disabled = true; qnext.classList.add('invisible');
+
+  // Share panel toggle
+  const sharePanel = document.getElementById('share-panel');
+  const shareToggle = document.getElementById('share-toggle');
+  if(shareToggle){
+    shareToggle.addEventListener('click', ()=>{
+      sharePanel.classList.toggle('hidden');
+      if(!sharePanel.classList.contains('hidden')){
+        sharePanel.scrollIntoView({ behavior:'smooth', block:'center' });
+      }
+    });
+  }
+  const shareClose = document.getElementById('share-close');
+  if(shareClose){
+    shareClose.addEventListener('click', ()=> sharePanel.classList.add('hidden'));
+  }
 
   document.getElementById('qrestart').addEventListener('click', ()=>{
     qi=0; for(const k in answers) delete answers[k];
