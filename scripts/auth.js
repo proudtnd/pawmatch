@@ -208,7 +208,7 @@
           <h3 style="font-family:'Fraunces',Georgia,serif" class="text-2xl font-semibold text-[#15291F]" data-tk="successTitle">Welcome to PawMatch!</h3>
           <p class="text-sm text-[#3B342D] mt-2" id="pm-success-msg">Your account is ready.</p>
           <div class="mt-6 grid gap-2">
-            <a href="index.html#match" class="bg-[#1F3A2C] hover:bg-[#15291F] text-[#FBF7F1] font-semibold py-3 rounded-full text-sm transition" data-tk="exploreCta" id="pm-explore-cta">Take the AI Quiz</a>
+            <a href="match.html" class="bg-[#1F3A2C] hover:bg-[#15291F] text-[#FBF7F1] font-semibold py-3 rounded-full text-sm transition" data-tk="exploreCta" id="pm-explore-cta">Take the AI Quiz</a>
             <button class="bg-[#F6EFE4] hover:bg-[#EFE3CE] text-[#15291F] font-semibold py-3 rounded-full text-sm transition" data-auth-close data-tk="done">Done</button>
           </div>
         </div>
@@ -271,7 +271,7 @@
       cta.setAttribute('href', '#');
     } else {
       cta.textContent = t('exploreCta');
-      cta.setAttribute('href', 'index.html#match');
+      cta.setAttribute('href', 'match.html');
     }
     goStep('success');
     // Persist

@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>AI Pet Matching — PawMatch</title>
+<meta name="description" content="Take the 12-question Pet Persona quiz and discover your ideal pet type, breed, and personality match." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/favicon.svg" />
+<meta property="og:title" content="AI Pet Matching — PawMatch" />
+<meta property="og:description" content="Take the Pet Persona quiz and find your ideal companion." />
+<meta property="og:image" content="assets/logos/logo-stacked.svg" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: {
+        serif: ['Fraunces','ui-serif','Georgia','serif'],
+        sans: ['Inter','IBM Plex Sans Thai','ui-sans-serif','system-ui'],
+      },
+      colors: {
+        cream:  { 50:'#FBF7F1', 100:'#F6EFE4', 200:'#EFE3CE', 300:'#E5D2B0' },
+        clay:   { 400:'#D88A6A', 500:'#C2674A', 600:'#A04E36', 700:'#7E3B28' },
+        forest: { 500:'#2E4A3B', 600:'#1F3A2C', 700:'#15291F', 800:'#0E1F18' },
+        gold:   { 400:'#D8B26E', 500:'#B8924C', 600:'#8E6F32' },
+        ink:    { 900:'#1A1714', 700:'#3B342D', 500:'#6B6157', 400:'#8E8479' },
+      },
+      boxShadow: {
+        soft:'0 8px 24px -10px rgba(30,20,10,.18), 0 2px 6px -2px rgba(30,20,10,.06)',
+        lift:'0 20px 40px -20px rgba(30,20,10,.25), 0 8px 16px -10px rgba(30,20,10,.08)',
+      },
+    } }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; background:#FBF7F1; color:#1A1714; -webkit-font-smoothing:antialiased; }
+  html[lang="th"] body { font-family:'IBM Plex Sans Thai','Sarabun',system-ui,sans-serif; }
+  .font-display { font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto; letter-spacing:-0.01em; }
+  html[lang="th"] .font-display { font-family:'IBM Plex Sans Thai','Sarabun',serif; letter-spacing:0; font-weight:700; }
+  html[lang="th"] .italic { font-style: normal; }
+  .brand-wordmark { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; font-weight:800; letter-spacing:-0.018em; }
+  .grain::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:multiply; background-image:radial-gradient(rgba(30,20,10,.6) 1px, transparent 1px); background-size:3px 3px; }
+  .quiz-opt[aria-pressed="true"] { border-color:#1F3A2C; background:#1F3A2C; color:#FBF7F1; }
+  .quiz-opt[aria-pressed="true"] .opt-emoji { transform: scale(1.1); }
+  .opt-emoji { transition: transform .2s ease; }
+  .progress-fill { transition: width .35s ease; }
+  .lang-btn[aria-pressed="true"] { background:#1F3A2C; color:#FBF7F1; }
+  .blob { position:absolute; border-radius:9999px; filter:blur(60px); opacity:.5; pointer-events:none; }
+  @keyframes pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(216,178,110,.5)} 50%{ box-shadow:0 0 0 14px rgba(216,178,110,0)} }
+  .ai-pulse { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
+  .floaty { animation: float 5s ease-in-out infinite; }
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  html, body { max-width: 100vw; overflow-x: hidden; }
+  @supports (padding: max(0px)) { body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); } }
+  @media (hover: none) and (pointer: coarse) { button, a[role="button"], .quiz-opt { min-height: 44px; } }
+  input, select, textarea { font-size: 16px; }
+  .step-fade { animation: fadeIn .35s ease-out; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+</style>
+</head>
+<body class="overflow-x-hidden">
+
+<!-- ============== NAV ============== -->
+<header class="sticky top-0 z-40 backdrop-blur-md bg-cream-50/85 border-b border-cream-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="inline-flex w-9 h-9 rounded-xl bg-cream-100 border border-cream-200 items-center justify-center shadow-soft">
+        <svg viewBox="0 0 64 64" class="w-6 h-6">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="leading-tight">
+        <div class="brand-wordmark text-lg text-forest-700">PawMatch</div>
+        <div class="text-[10px] uppercase tracking-[0.18em] text-ink-500 -mt-0.5" data-i18n="nav.country">Thailand</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink-700">
+      <a href="match.html" class="text-forest-700 font-semibold" data-i18n="nav.match">AI Matching</a>
+      <a href="breeders.html" class="hover:text-forest-700" data-i18n="nav.breeders">Breeders</a>
+      <a href="pets.html" class="hover:text-forest-700" data-i18n="nav.pets">Browse Pets</a>
+      <a href="index.html#how" class="hover:text-forest-700" data-i18n="nav.how">How it works</a>
+      <a href="index.html#faq" class="hover:text-forest-700" data-i18n="nav.faq">FAQ</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <div class="inline-flex items-center bg-cream-100 border border-cream-200 rounded-full p-0.5 text-xs font-semibold">
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="th" aria-pressed="false">ไทย</button>
+      </div>
+      <button id="mnav" class="md:hidden ml-1 p-2 rounded-lg hover:bg-cream-200" aria-label="Menu">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mnav-panel" class="hidden md:hidden border-t border-cream-200 bg-cream-50">
+    <div class="px-4 py-3 grid gap-1 text-sm">
+      <a href="index.html" class="py-2" data-i18n="nav.home">Home</a>
+      <a href="match.html" class="py-2 font-semibold" data-i18n="nav.match">AI Matching</a>
+      <a href="breeders.html" class="py-2" data-i18n="nav.breeders">Breeders</a>
+      <a href="pets.html" class="py-2" data-i18n="nav.pets">Browse Pets</a>
+      <a href="index.html#faq" class="py-2" data-i18n="nav.faq">FAQ</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============== START SCREEN ============== -->
+<section id="start-screen" class="relative overflow-hidden">
+  <div class="blob bg-clay-400 w-[420px] h-[420px] -top-24 -right-24"></div>
+  <div class="blob bg-gold-400 w-[340px] h-[340px] top-40 -left-20"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-12 sm:pb-16 relative">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-xs text-ink-500 mb-4">
+      <a href="index.html" class="hover:text-forest-700" data-i18n="bc.home">Home</a>
+      <span>/</span>
+      <span class="text-ink-700 font-medium" data-i18n="bc.match">AI Pet Matching</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <!-- LEFT — Intro + CTA -->
+      <div class="lg:col-span-7 relative">
+        <div class="inline-flex items-center gap-2 bg-cream-100 border border-cream-200 rounded-full pl-1 pr-3 py-1 text-xs font-medium text-forest-700">
+          <span class="bg-forest-600 text-cream-50 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider" data-i18n="s.badge">Free</span>
+          <span data-i18n="s.badgeText">90-second quiz · 12 questions · shareable result</span>
+        </div>
+
+        <h1 class="font-display font-semibold mt-5 text-[2.5rem] sm:text-5xl lg:text-6xl leading-[1.05] text-forest-700">
+          <span data-i18n="s.title1">Find your</span>
+          <span class="italic text-clay-600" data-i18n="s.title2">Pet Persona</span>
+          <span data-i18n="s.title3">in 90 seconds.</span>
+        </h1>
+        <p class="mt-5 text-base sm:text-lg text-ink-700 max-w-xl" data-i18n="s.sub">A playful personality quiz that uncovers your ideal pet type, dream breeds, and the kind of pet parent you'll be. Built with behavioural science, designed to share.</p>
+
+        <!-- BIG START BUTTON -->
+        <div class="mt-8">
+          <button id="start-btn" class="ai-pulse inline-flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 px-8 py-4 sm:px-10 sm:py-5 rounded-full font-semibold text-base sm:text-lg shadow-lift transition">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
+            <span data-i18n="s.cta">Start the quiz</span>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <div class="mt-3 text-xs text-ink-500" data-i18n="s.note">⏱️ Takes ~90 seconds · No sign-up required</div>
+        </div>
+
+        <!-- BULLETS -->
+        <ul class="mt-8 grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm text-ink-700">
+          <li class="flex gap-2"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="s.b1">Reveals your Pet Persona</span></li>
+          <li class="flex gap-2"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="s.b2">Top 3 dream breeds</span></li>
+          <li class="flex gap-2"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="s.b3">Verified breeders only</span></li>
+          <li class="flex gap-2"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="s.b4">Shareable IG card</span></li>
+        </ul>
+      </div>
+
+      <!-- RIGHT — Persona preview stack -->
+      <div class="lg:col-span-5 relative">
+        <div class="grid grid-cols-2 gap-3 max-w-md mx-auto">
+          <div class="bg-gradient-to-br from-clay-400 to-clay-600 text-cream-50 rounded-2xl p-4 shadow-lift floaty">
+            <div class="text-3xl">🫖</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="s.p1">The Cozy Curator</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="s.p1d">Soft soul · slow living</div>
+          </div>
+          <div class="bg-gradient-to-br from-forest-500 to-forest-700 text-cream-50 rounded-2xl p-4 shadow-lift floaty" style="animation-delay:.4s">
+            <div class="text-3xl">🏔️</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="s.p2">Adventure Seeker</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="s.p2d">High energy · outdoor heart</div>
+          </div>
+          <div class="bg-gradient-to-br from-gold-400 to-clay-500 text-cream-50 rounded-2xl p-4 shadow-lift floaty" style="animation-delay:.2s">
+            <div class="text-3xl">🎉</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="s.p3">Social Butterfly</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="s.p3d">People person · main character</div>
+          </div>
+          <div class="bg-gradient-to-br from-clay-500 to-gold-500 text-cream-50 rounded-2xl p-4 shadow-lift floaty" style="animation-delay:.6s">
+            <div class="text-3xl">🦜</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="s.p4">Free Spirit</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="s.p4d">Unconventional · rare beauty</div>
+          </div>
+          <div class="col-span-2 bg-cream-50 border border-cream-200 rounded-2xl p-3 text-center text-xs text-ink-500">
+            <span data-i18n="s.preview">+ 2 more personas waiting for you</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust row -->
+    <div class="mt-12 sm:mt-16 grid grid-cols-3 gap-4 max-w-2xl mx-auto text-center">
+      <div>
+        <div class="font-display text-2xl sm:text-3xl font-semibold text-forest-700">8,900</div>
+        <div class="text-[10px] sm:text-xs text-ink-500 uppercase tracking-wider" data-i18n="s.stat1">Quiz takers</div>
+      </div>
+      <div>
+        <div class="font-display text-2xl sm:text-3xl font-semibold text-forest-700">96%</div>
+        <div class="text-[10px] sm:text-xs text-ink-500 uppercase tracking-wider" data-i18n="s.stat2">Avg accuracy</div>
+      </div>
+      <div>
+        <div class="font-display text-2xl sm:text-3xl font-semibold text-forest-700">12</div>
+        <div class="text-[10px] sm:text-xs text-ink-500 uppercase tracking-wider" data-i18n="s.stat3">Questions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== QUIZ SCREEN (hidden until Start) ============== -->
+<section id="quiz-screen" class="hidden pb-20">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12">
+    <div id="quiz" class="bg-cream-50 border border-cream-200 rounded-3xl shadow-lift overflow-hidden">
+      <div class="px-4 sm:px-8 pt-5 sm:pt-6 pb-4 border-b border-cream-200 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-forest-600 text-cream-50 flex items-center justify-center">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
+          </div>
+          <div>
+            <div class="text-[11px] uppercase tracking-[0.18em] text-ink-500">PawMatch AI</div>
+            <div class="font-display font-semibold text-forest-700" id="qstep-title">Lifestyle profile</div>
+          </div>
+        </div>
+        <div class="text-xs text-ink-500"><span id="qstep">1</span> / <span id="qtotal">12</span></div>
+      </div>
+      <div class="h-1.5 bg-cream-200"><div id="qbar" class="h-full bg-gold-500 progress-fill" style="width:8%"></div></div>
+      <div class="p-4 sm:p-8">
+        <div id="qcontent" class="step-fade"></div>
+        <div class="mt-8 flex items-center justify-between">
+          <button id="qprev" class="text-sm font-semibold text-ink-500 hover:text-forest-700 disabled:opacity-30" disabled data-i18n="quiz.back">← Back</button>
+          <button id="qnext" class="inline-flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold text-sm px-5 py-2.5 rounded-full shadow-soft disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <span id="qnext-label" data-i18n="quiz.next">Next</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="bg-forest-800 text-cream-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="inline-flex w-8 h-8 rounded-lg bg-cream-50 items-center justify-center">
+        <svg viewBox="0 0 64 64" class="w-5 h-5">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="brand-wordmark text-lg">PawMatch</div>
+    </div>
+    <div class="flex gap-4 text-xs text-cream-100/70">
+      <a href="index.html" class="hover:text-gold-400" data-i18n="bc.home">Home</a>
+      <a href="pets.html" class="hover:text-gold-400" data-i18n="nav.pets">Browse Pets</a>
+      <a href="breeders.html" class="hover:text-gold-400" data-i18n="nav.breeders">Breeders</a>
+      <a href="index.html#faq" class="hover:text-gold-400" data-i18n="nav.faq">FAQ</a>
+    </div>
+    <div class="text-xs text-cream-100/60">© 2026 PawMatch Co., Ltd.</div>
+  </div>
+</footer>
+
+<script>
+/* ============= i18n ============= */
+const I18N = {
+  en: {
+    'nav.country':'Thailand','nav.home':'Home','nav.match':'AI Matching','nav.breeders':'Breeders','nav.pets':'Browse Pets','nav.how':'How it works','nav.faq':'FAQ',
+    'bc.home':'Home','bc.match':'AI Pet Matching',
+    's.badge':'Free','s.badgeText':'90-second quiz · 12 questions · shareable result',
+    's.title1':'Find your','s.title2':'Pet Persona','s.title3':'in 90 seconds.',
+    's.sub':"A playful personality quiz that uncovers your ideal pet type, dream breeds, and the kind of pet parent you'll be. Built with behavioural science, designed to share.",
+    's.cta':'Start the quiz','s.note':'⏱️ Takes ~90 seconds · No sign-up required',
+    's.b1':'Reveals your Pet Persona','s.b2':'Top 3 dream breeds','s.b3':'Verified breeders only','s.b4':'Shareable IG card',
+    's.p1':'The Cozy Curator','s.p1d':'Soft soul · slow living',
+    's.p2':'Adventure Seeker','s.p2d':'High energy · outdoor heart',
+    's.p3':'Social Butterfly','s.p3d':'People person · main character',
+    's.p4':'Free Spirit','s.p4d':'Unconventional · rare beauty',
+    's.preview':'+ 2 more personas waiting for you',
+    's.stat1':'Quiz takers','s.stat2':'Avg accuracy','s.stat3':'Questions',
+    'quiz.back':'← Back','quiz.next':'Next','quiz.see':'Reveal my Pet Persona ✨',
+    'r.persona':'Pet Persona','r.youAre':'You are the…','r.bestTitle':'Your dream breeds','r.leastTitle':'Not your vibe','r.leastSub':"just for fun · don't take it personally",
+    'r.shareBtn':'Share my Pet Persona','r.seeAvail':'See available pets','r.retake':'Retake quiz','r.shareMethods':'Share to',
+    'r.shareIG':'Save IG Story','r.shareTT':'Share TikTok','r.shareCopy':'Copy link','r.copyCode':'Copy',
+    'r.invite':'Invite friends','r.inviteSub':'Send your code & both get rewards.','r.referReward':'You get ฿200 credit · they get ฿200 off · for every friend who completes the quiz.',
+    'r.copied':'Copied! ✨','r.generating':'Generating your Top 3 story card… 🎨','r.igTip':'Image saved — open Instagram and upload to your Story 📸','r.ttTip':'Link copied — paste in TikTok 🎵',
+    'r.shareText1':"I just took the PawMatch quiz — I'm",'r.shareText2':'Take the quiz & find your Pet Persona →',
+  },
+  th: {
+    'nav.country':'ประเทศไทย','nav.home':'หน้าแรก','nav.match':'จับคู่ด้วย AI','nav.breeders':'ฟาร์มผู้เพาะ','nav.pets':'ดูสัตว์เลี้ยง','nav.how':'วิธีใช้งาน','nav.faq':'คำถามที่พบบ่อย',
+    'bc.home':'หน้าแรก','bc.match':'จับคู่สัตว์เลี้ยงด้วย AI',
+    's.badge':'ฟรี','s.badgeText':'แบบทดสอบ 90 วินาที · 12 คำถาม · แชร์ได้',
+    's.title1':'ค้นพบ','s.title2':'Pet Persona','s.title3':'ใน 90 วินาที',
+    's.sub':'แบบทดสอบบุคลิกสนุกๆ ที่จะเผยประเภทสัตว์เลี้ยงในฝัน สายพันธุ์ที่ใช่ และคุณเป็นเจ้าของสัตว์เลี้ยงแบบไหน',
+    's.cta':'เริ่มทำแบบทดสอบ','s.note':'⏱️ ใช้เวลา ~90 วินาที · ไม่ต้องสมัครสมาชิก',
+    's.b1':'เผยบุคลิก Pet Persona','s.b2':'แนะนำ 3 สายพันธุ์ในฝัน','s.b3':'ฟาร์มที่รับรองเท่านั้น','s.b4':'การ์ดผลลัพธ์แชร์ลง IG',
+    's.p1':'นักจัดบ้านสายอบอุ่น','s.p1d':'จิตใจอ่อนโยน · ชีวิตช้าๆ',
+    's.p2':'นักผจญภัย','s.p2d':'พลังงานเต็มเปี่ยม · ใจกลางแจ้ง',
+    's.p3':'ผีเสื้อสังคม','s.p3d':'คนรักคน · พลังตัวเอก',
+    's.p4':'จิตวิญญาณเสรี','s.p4d':'ไม่ตามขนบ · หายากและงาม',
+    's.preview':'+ อีก 2 personas รอคุณอยู่',
+    's.stat1':'ผู้ทำแบบทดสอบ','s.stat2':'ความแม่นยำเฉลี่ย','s.stat3':'คำถาม',
+    'quiz.back':'← ย้อนกลับ','quiz.next':'ถัดไป','quiz.see':'เผย Pet Persona ของฉัน ✨',
+    'r.persona':'Pet Persona','r.youAre':'คุณคือ…','r.bestTitle':'สายพันธุ์ในฝันของคุณ','r.leastTitle':'ไม่ใช่สายคุณ','r.leastSub':'แค่สนุกๆ · อย่าซีเรียส',
+    'r.shareBtn':'แชร์ Pet Persona ของฉัน','r.seeAvail':'ดูสัตว์เลี้ยงที่พร้อมรับเลี้ยง','r.retake':'ทำใหม่','r.shareMethods':'แชร์ไปยัง',
+    'r.shareIG':'บันทึก IG Story','r.shareTT':'แชร์ TikTok','r.shareCopy':'คัดลอกลิงก์','r.copyCode':'คัดลอก',
+    'r.invite':'ชวนเพื่อน','r.inviteSub':'ส่งโค้ดให้เพื่อน รับรางวัลทั้งคู่','r.referReward':'คุณได้เครดิต ฿200 · เพื่อนได้ส่วนลด ฿200 · ทุกครั้งที่เพื่อนทำแบบทดสอบครบ',
+    'r.copied':'คัดลอกแล้ว! ✨','r.generating':'กำลังสร้างการ์ด Top 3 ของคุณ… 🎨','r.igTip':'บันทึกรูปแล้ว — เปิด Instagram และอัพโหลดใน Story 📸','r.ttTip':'คัดลอกลิงก์แล้ว — วางใน TikTok 🎵',
+    'r.shareText1':'เพิ่งทำ PawMatch quiz มา ฉันคือ','r.shareText2':'มาหา Pet Persona ของคุณกัน →',
+  }
+};
+let lang = localStorage.getItem('pm-lang') || 'en';
+const t = (k) => (I18N[lang] && I18N[lang][k]) ?? (I18N.en[k] ?? k);
+function applyI18n(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang===lang ? 'true':'false'));
+  if(document.getElementById('quiz-screen') && !document.getElementById('quiz-screen').classList.contains('hidden')){
+    renderQ();
+  }
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', ()=>{
+  lang = b.dataset.lang; localStorage.setItem('pm-lang', lang); applyI18n();
+}));
+
+/* ============= Quiz data ============= */
+const QUESTIONS = {
+  en: [
+    { key:'home', title:'01 · Your space', q:'What does your home look like?', opts:[{v:'condo',l:'Condo / Apartment',e:'🏙️'},{v:'townhouse',l:'Townhouse',e:'🏘️'},{v:'house',l:'House with garden',e:'🏡'},{v:'farm',l:'Rural / Farm',e:'🌾'}]},
+    { key:'energy', title:'02 · Energy', q:'How active is your daily life?', opts:[{v:'low',l:'Indoors, chill mode',e:'🛋️'},{v:'medium',l:'Walks, weekend trips',e:'🚶'},{v:'high',l:'Runs, hikes, gym daily',e:'🏃'}]},
+    { key:'social', title:'03 · Social style', q:"How would friends describe you?", opts:[{v:'introvert',l:'Cozy introvert',e:'📚'},{v:'ambivert',l:'Selectively social',e:'🌗'},{v:'extrovert',l:'Life of the party',e:'🎉'}]},
+    { key:'weekend', title:'04 · Weekend vibes', q:'Your ideal Saturday looks like…', opts:[{v:'cafe',l:'Café + journaling',e:'☕'},{v:'mall',l:'Mall hopping with friends',e:'🛍️'},{v:'nature',l:'Beach, hike, or roadtrip',e:'🏖️'},{v:'home',l:'Movies, takeout, plants',e:'🎬'}]},
+    { key:'family', title:'05 · Household', q:'Who shares your home?', opts:[{v:'solo',l:'Just me',e:'🧑'},{v:'couple',l:'My partner & me',e:'💞'},{v:'kids',l:'With young children',e:'👨‍👩‍👧'},{v:'multi',l:'Multi-generational',e:'👵'}]},
+    { key:'time', title:'06 · Time', q:'Hours you can spend with a pet daily?', opts:[{v:'<1',l:'Less than 1 hour',e:'⏱️'},{v:'1-3',l:'1–3 hours',e:'🕒'},{v:'3+',l:'3+ hours, all in',e:'🕘'}]},
+    { key:'noise', title:'07 · Noise tolerance', q:'Could your home handle some barking, meowing, or chirping?', opts:[{v:'quiet',l:'Please keep it quiet',e:'🤫'},{v:'mild',l:'A little is fine',e:'🙂'},{v:'loud',l:"Bring on the chaos",e:'📢'}]},
+    { key:'mess', title:'08 · The mess factor', q:'How do you feel about fur, paws, and the occasional accident?', opts:[{v:'spotless',l:'I need spotless',e:'✨'},{v:'okay',l:"I can handle it",e:'🧹'},{v:'love',l:"Mess = personality",e:'🌪️'}]},
+    { key:'budget', title:'09 · Budget', q:'Monthly pet budget you\'re comfy with?', opts:[{v:'low',l:'฿1k – 3k',e:'🪙'},{v:'mid',l:'฿3k – 8k',e:'💵'},{v:'high',l:'฿8k+ — premium care',e:'💎'}]},
+    { key:'exp', title:'10 · Experience', q:'How experienced are you with pets?', opts:[{v:'first',l:'First-time owner',e:'🌱'},{v:'some',l:'Had pets before',e:'🪴'},{v:'pro',l:'Basically a pet whisperer',e:'🌳'}]},
+    { key:'pref', title:'11 · Vibe check', q:'What kind of bond do you want?', opts:[{v:'calm',l:'Calm, quiet companion',e:'🌿'},{v:'play',l:'Goofy, playful sidekick',e:'🎾'},{v:'loyal',l:'Loyal protector',e:'🛡️'},{v:'unique',l:'Something rare & unique',e:'✨'}]},
+    { key:'goal', title:'12 · The dream', q:'What do you hope a pet brings to your life?', opts:[{v:'comfort',l:'Comfort & emotional support',e:'🫶'},{v:'adventure',l:"An adventure partner",e:'🧭'},{v:'family',l:'A family member',e:'🏡'},{v:'aesthetic',l:'Pure cute aesthetic',e:'📸'}]},
+  ],
+  th: [
+    { key:'home', title:'01 · พื้นที่ของคุณ', q:'บ้านของคุณเป็นแบบไหน?', opts:[{v:'condo',l:'คอนโด / อพาร์ตเมนต์',e:'🏙️'},{v:'townhouse',l:'ทาวน์เฮาส์',e:'🏘️'},{v:'house',l:'บ้านมีสวน',e:'🏡'},{v:'farm',l:'ชนบท / ฟาร์ม',e:'🌾'}]},
+    { key:'energy', title:'02 · พลังงาน', q:'ชีวิตประจำวันคุณกระฉับกระเฉงแค่ไหน?', opts:[{v:'low',l:'อยู่บ้าน ชิลๆ',e:'🛋️'},{v:'medium',l:'เดินเล่น เที่ยวสุดสัปดาห์',e:'🚶'},{v:'high',l:'วิ่ง เดินป่า ฟิตทุกวัน',e:'🏃'}]},
+    { key:'social', title:'03 · สไตล์การเข้าสังคม', q:'เพื่อนๆ จะบรรยายคุณว่าอย่างไร?', opts:[{v:'introvert',l:'อินโทรเวิร์ตขี้อาย',e:'📚'},{v:'ambivert',l:'เลือกเข้าสังคม',e:'🌗'},{v:'extrovert',l:'ชีวิตของปาร์ตี้',e:'🎉'}]},
+    { key:'weekend', title:'04 · วันหยุดในฝัน', q:'วันเสาร์ในอุดมคติของคุณคือ…', opts:[{v:'cafe',l:'คาเฟ่ + เขียนไดอารี่',e:'☕'},{v:'mall',l:'เดินห้างกับเพื่อน',e:'🛍️'},{v:'nature',l:'ทะเล ป่า โร้ดทริป',e:'🏖️'},{v:'home',l:'หนัง อาหาร ต้นไม้',e:'🎬'}]},
+    { key:'family', title:'05 · ครอบครัว', q:'ใครอาศัยอยู่กับคุณ?', opts:[{v:'solo',l:'อยู่คนเดียว',e:'🧑'},{v:'couple',l:'อยู่กับคู่รัก',e:'💞'},{v:'kids',l:'มีเด็กเล็ก',e:'👨‍👩‍👧'},{v:'multi',l:'หลายช่วงวัย',e:'👵'}]},
+    { key:'time', title:'06 · เวลา', q:'มีเวลาให้สัตว์เลี้ยงต่อวันกี่ชั่วโมง?', opts:[{v:'<1',l:'น้อยกว่า 1 ชั่วโมง',e:'⏱️'},{v:'1-3',l:'1–3 ชั่วโมง',e:'🕒'},{v:'3+',l:'มากกว่า 3 ชั่วโมง',e:'🕘'}]},
+    { key:'noise', title:'07 · ทนเสียงได้แค่ไหน', q:'รับเสียงเห่า เหมียว หรือนกร้องได้ไหม?', opts:[{v:'quiet',l:'ขอเงียบๆ',e:'🤫'},{v:'mild',l:'นิดหน่อยพอไหว',e:'🙂'},{v:'loud',l:'สนุกไปกับความวุ่นวาย',e:'📢'}]},
+    { key:'mess', title:'08 · เรื่องความรก', q:'รู้สึกยังไงกับขน เท้า และความเลอะเทอะ?', opts:[{v:'spotless',l:'ต้องสะอาดเอี่ยม',e:'✨'},{v:'okay',l:'พอรับได้',e:'🧹'},{v:'love',l:'รกคือเสน่ห์',e:'🌪️'}]},
+    { key:'budget', title:'09 · งบประมาณ', q:'งบดูแลสัตว์เลี้ยงต่อเดือนที่สบายใจ?', opts:[{v:'low',l:'฿1,000 – 3,000',e:'🪙'},{v:'mid',l:'฿3,000 – 8,000',e:'💵'},{v:'high',l:'฿8,000+ ดูแลแบบพรีเมียม',e:'💎'}]},
+    { key:'exp', title:'10 · ประสบการณ์', q:'เลี้ยงสัตว์มาแค่ไหนแล้ว?', opts:[{v:'first',l:'มือใหม่หัดเลี้ยง',e:'🌱'},{v:'some',l:'เคยเลี้ยงมาบ้าง',e:'🪴'},{v:'pro',l:'นักดูแลสัตว์เลี้ยงตัวยง',e:'🌳'}]},
+    { key:'pref', title:'11 · เช็คไวบ์', q:'อยากได้ความสัมพันธ์แบบไหน?', opts:[{v:'calm',l:'เพื่อนสงบ เงียบๆ',e:'🌿'},{v:'play',l:'คู่หูขี้เล่นเฮฮา',e:'🎾'},{v:'loyal',l:'ผู้พิทักษ์ผู้ซื่อสัตย์',e:'🛡️'},{v:'unique',l:'แปลกและพิเศษ',e:'✨'}]},
+    { key:'goal', title:'12 · ความฝัน', q:'อยากให้สัตว์เลี้ยงนำอะไรเข้ามาในชีวิต?', opts:[{v:'comfort',l:'ความอบอุ่น กำลังใจ',e:'🫶'},{v:'adventure',l:'คู่หูผจญภัย',e:'🧭'},{v:'family',l:'สมาชิกครอบครัว',e:'🏡'},{v:'aesthetic',l:'ความน่ารักสไตล์ฟีด',e:'📸'}]},
+  ]
+};
+
+const ARCHETYPES = {
+  cozy:        { emoji:'🫖', grad:'from-clay-400 via-clay-500 to-clay-600',
+                 en:{name:'The Cozy Curator', tag:'Soft soul · slow living · indoor magic', traits:['Empathetic','Patient','Aesthetic-driven','Gentle'],
+                     breeds:[{n:'Ragdoll',d:'Cuddly, docile, follows you everywhere',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'British Shorthair',d:'Plush, quiet, low-maintenance royalty',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Holland Lop',d:'Tiny, gentle, café-aesthetic bunny',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'นักจัดบ้านสายอบอุ่น', tag:'จิตใจอ่อนโยน · ชีวิตช้าๆ · เวทมนตร์ในบ้าน', traits:['เห็นอกเห็นใจ','อดทน','รักความสวยงาม','อ่อนโยน'],
+                     breeds:[{n:'แร็กดอลล์',d:'ขี้กอด ว่าง่าย ตามคุณทุกที่',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'บริติช ชอร์ตแฮร์',d:'นุ่ม สงบ ดูแลง่ายสไตล์ราชา',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ฮอลแลนด์ลอป',d:'กระต่ายตัวจิ๋ว สายคาเฟ่',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}]} },
+  adventurer:  { emoji:'🏔️', grad:'from-forest-500 via-forest-600 to-forest-700',
+                 en:{name:'The Adventure Seeker', tag:'High energy · outdoor heart · roadtrip ready', traits:['Energetic','Spontaneous','Athletic','Curious'],
+                     breeds:[{n:'Labrador',d:'Endless energy, beach-loving best friend',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Golden Retriever',d:'Sunshine personality, family-ready',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Thai Ridgeback',d:'Athletic, native Thai breed, loyal explorer',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'นักผจญภัย', tag:'พลังงานเต็มเปี่ยม · ใจกลางแจ้ง · พร้อมโร้ดทริป', traits:['กระตือรือร้น','สปอนเทเนียส','แข็งแรง','อยากรู้อยากเห็น'],
+                     breeds:[{n:'ลาบราดอร์',d:'พลังงานล้น เพื่อนสายชายหาด',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+                             {n:'โกลเด้น รีทรีฟเวอร์',d:'บุคลิกแสงแดด เหมาะกับครอบครัว',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ไทยหลังอาน',d:'แข็งแรง สายพันธุ์ไทยแท้ นักสำรวจที่ซื่อสัตย์',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'}]} },
+  social:      { emoji:'🎉', grad:'from-gold-400 via-clay-400 to-clay-500',
+                 en:{name:'The Social Butterfly', tag:'People person · pet that posts well · main character energy', traits:['Outgoing','Playful','Confident','Trend-aware'],
+                     breeds:[{n:'Pomeranian',d:"Fluffy main character, instagram-ready",i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Shiba Inu',d:'Iconic, internet-famous, surprisingly chill',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Sun Conure',d:'Vibrant exotic that loves to chat',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'ผีเสื้อสังคม', tag:'คนรักคน · สัตว์เลี้ยงโพสต์สวย · พลังตัวเอก', traits:['ชอบเข้าสังคม','ขี้เล่น','มั่นใจ','ตามเทรนด์'],
+                     breeds:[{n:'ปอมเมอเรเนียน',d:'ฟูฟ่อง ตัวเอกของฟีด',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ชิบะ อินุ',d:'ดังในอินเทอร์เน็ต ชิลเกินคาด',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+                             {n:'นกซันคอนัวร์',d:'สีสันสด ชอบคุย',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]} },
+  guardian:    { emoji:'🛡️', grad:'from-forest-600 via-forest-700 to-forest-800',
+                 en:{name:'The Loyal Guardian', tag:'Disciplined · protective · ride-or-die', traits:['Loyal','Reliable','Calm under pressure','Devoted'],
+                     breeds:[{n:'Bangkaew',d:'Loyal native Thai breed, athletic & smart',i:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Thai Ridgeback',d:'Watchful, alert, ancient lineage',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Labrador',d:'Trainable, gentle giant, family-protective',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'ผู้พิทักษ์ผู้ซื่อสัตย์', tag:'มีวินัย · ปกป้อง · เพื่อนตาย', traits:['ซื่อสัตย์','พึ่งพาได้','สงบในยามคับขัน','ทุ่มเท'],
+                     breeds:[{n:'บางแก้ว',d:'สายพันธุ์ไทย แข็งแรงและฉลาด',i:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ไทยหลังอาน',d:'ตื่นตัว สายเลือดโบราณ',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ลาบราดอร์',d:'ฝึกง่าย ยักษ์ใจดี ปกป้องครอบครัว',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'}]} },
+  freespirit:  { emoji:'🦜', grad:'from-clay-500 via-gold-500 to-gold-400',
+                 en:{name:'The Free Spirit', tag:'Unconventional · curious · collector of rare beauty', traits:['Creative','Curious','Independent','Open-minded'],
+                     breeds:[{n:'Sun Conure',d:'Vibrant, vocal, charismatic exotic',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Scottish Fold',d:'Quirky ears, sweet personality',i:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Sugar Glider',d:'Tiny, nocturnal, deeply bonding',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'จิตวิญญาณเสรี', tag:'ไม่ตามขนบ · ช่างสงสัย · นักสะสมความงามหายาก', traits:['สร้างสรรค์','อยากรู้อยากเห็น','อิสระ','เปิดกว้าง'],
+                     breeds:[{n:'นกซันคอนัวร์',d:'สีสด ช่างพูด มีเสน่ห์',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+                             {n:'สก็อตติช โฟลด์',d:'หูพับน่ารัก นิสัยหวาน',i:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ชูการ์ไกลเดอร์',d:'ตัวจิ๋ว ออกหากินกลางคืน ผูกพันลึก',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]} },
+  nurturer:    { emoji:'🌸', grad:'from-clay-400 via-clay-500 to-forest-500',
+                 en:{name:'The Heartfelt Nurturer', tag:'Family-first · warm · the human everyone calls when sad', traits:['Caring','Patient','Family-oriented','Empathetic'],
+                     breeds:[{n:'Golden Retriever',d:'Patient, gentle, classic family dog',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Maine Coon',d:'Gentle giant cat, sociable, kid-friendly',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Cavalier King Charles',d:'Cuddly, affectionate, loves everyone',i:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'ผู้ดูแลใจอบอุ่น', tag:'ครอบครัวมาก่อน · อบอุ่น · คนที่ทุกคนเรียกหา', traits:['ใส่ใจ','อดทน','รักครอบครัว','เห็นอกเห็นใจ'],
+                     breeds:[{n:'โกลเด้น รีทรีฟเวอร์',d:'อดทน อ่อนโยน สุนัขครอบครัวคลาสสิก',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'เมนคูน',d:'แมวยักษ์ใจดี เข้ากับเด็กได้',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'คาวาเลียร์',d:'ขี้กอด อ่อนโยน รักทุกคน',i:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80'}]} },
+};
+
+const LEAST_COMPAT = {
+  cozy: {
+    en:[{n:'Labrador',d:'24/7 energy = zero nap zone 🥲',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'Thai Ridgeback',d:'Built for hikes, not couches 🏃',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'Sun Conure',d:"6 am alarm you can't turn off ⏰",i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ลาบราดอร์',d:'พลังงาน 24 ชม. ไม่มีเวลานอนเลย 🥲',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'ไทยหลังอาน',d:'เกิดมาเดินป่า ไม่ใช่นอนโซฟา 🏃',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'นกซันคอนัวร์',d:'นาฬิกาปลุกตี 6 ที่ปิดไม่ได้ ⏰',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+  },
+  adventurer: {
+    en:[{n:'Ragdoll',d:'Naps through your adventures 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'British Shorthair',d:'Beach trip? Hard pass 🏖️',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+        {n:'Holland Lop',d:'Too tiny for the trail 🥲',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'แร็กดอลล์',d:'หลับตลอดการผจญภัยของคุณ 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'บริติช ชอร์ตแฮร์',d:'เที่ยวทะเล? ขอผ่าน 🏖️',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+        {n:'ฮอลแลนด์ลอป',d:'ตัวเล็กไป เดินป่าไม่ไหว 🥲',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}],
+  },
+  social: {
+    en:[{n:'Sugar Glider',d:'Nocturnal vibes vs. your party schedule 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'Thai Ridgeback',d:'Side-eyes your friend group 👀',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'British Shorthair',d:"Won't pose for your feed 📵",i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ชูการ์ไกลเดอร์',d:'สายดึก ไม่ชอบปาร์ตี้ของคุณ 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'ไทยหลังอาน',d:'มองเพื่อนคุณแบบไม่ไว้ใจ 👀',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+        {n:'บริติช ชอร์ตแฮร์',d:'ไม่ยอมโพสต์ท่าให้ฟีด 📵',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'}],
+  },
+  guardian: {
+    en:[{n:'Golden Retriever',d:'Welcomes burglars with kisses 💋',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'Ragdoll',d:'Naps through any emergency 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'Pomeranian',d:'Cute bark, zero scare factor 🐾',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'โกลเด้น รีทรีฟเวอร์',d:'ต้อนรับขโมยด้วยจูบ 💋',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'แร็กดอลล์',d:'นอนหลับท่ามกลางทุกเหตุการณ์ 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+        {n:'ปอมเมอเรเนียน',d:'น่ารักเกิน ขู่ใครก็ไม่ขึ้น 🐾',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+  },
+  freespirit: {
+    en:[{n:'Labrador',d:'Too mainstream-coded for your aesthetic 📌',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'Golden Retriever',d:'Vanilla energy, no edge 🥱',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'Pomeranian',d:'Already all over your TikTok FYP 😴',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ลาบราดอร์',d:'โหลโคจรเกินไปสำหรับสายอินดี้ 📌',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+        {n:'โกลเด้น รีทรีฟเวอร์',d:'ธรรมดาเกินสำหรับสายแปลก 🥱',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+        {n:'ปอมเมอเรเนียน',d:'เห็นทั่ว TikTok แล้ว 😴',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+  },
+  nurturer: {
+    en:[{n:'Shiba Inu',d:'Strong "don\'t touch me" energy 🙅',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+        {n:'Sugar Glider',d:'Nocturnal = no family time 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'Sun Conure',d:'Loud screams during dinner ⚠️',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+    th:[{n:'ชิบะ อินุ',d:'พลัง "อย่ามาแตะ" รัวๆ 🙅',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+        {n:'ชูการ์ไกลเดอร์',d:'หากินกลางคืน ไม่มีเวลาให้ครอบครัว 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+        {n:'นกซันคอนัวร์',d:'เสียงดังตอนทานข้าวครอบครัว ⚠️',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+  },
+};
+
+function calcArchetype(a){
+  const s = { cozy:0, adventurer:0, social:0, guardian:0, freespirit:0, nurturer:0 };
+  if(a.home==='condo') { s.cozy+=3; s.social+=2; s.freespirit+=1; }
+  if(a.home==='townhouse') { s.nurturer+=2; s.cozy+=1; }
+  if(a.home==='house') { s.nurturer+=3; s.adventurer+=2; s.guardian+=2; }
+  if(a.home==='farm') { s.adventurer+=3; s.guardian+=3; s.freespirit+=2; }
+  if(a.energy==='low') { s.cozy+=3; s.freespirit+=1; }
+  if(a.energy==='medium') { s.nurturer+=2; s.social+=2; s.guardian+=1; }
+  if(a.energy==='high') { s.adventurer+=4; s.social+=2; }
+  if(a.social==='introvert') { s.cozy+=3; s.freespirit+=2; s.guardian+=1; }
+  if(a.social==='ambivert') { s.nurturer+=2; s.guardian+=1; }
+  if(a.social==='extrovert') { s.social+=4; s.adventurer+=1; }
+  if(a.weekend==='cafe') { s.cozy+=2; s.social+=1; }
+  if(a.weekend==='mall') { s.social+=3; }
+  if(a.weekend==='nature') { s.adventurer+=4; s.freespirit+=1; }
+  if(a.weekend==='home') { s.cozy+=3; s.nurturer+=1; }
+  if(a.family==='solo') { s.freespirit+=2; s.cozy+=1; }
+  if(a.family==='couple') { s.social+=1; s.adventurer+=1; }
+  if(a.family==='kids') { s.nurturer+=4; }
+  if(a.family==='multi') { s.nurturer+=3; s.guardian+=2; }
+  if(a.time==='<1') { s.cozy+=1; s.freespirit+=1; }
+  if(a.time==='1-3') { s.nurturer+=1; s.social+=1; }
+  if(a.time==='3+') { s.adventurer+=2; s.nurturer+=2; s.guardian+=2; }
+  if(a.noise==='quiet') { s.cozy+=2; }
+  if(a.noise==='mild') { s.nurturer+=1; s.guardian+=1; }
+  if(a.noise==='loud') { s.social+=2; s.adventurer+=1; s.freespirit+=2; }
+  if(a.mess==='spotless') { s.cozy+=2; }
+  if(a.mess==='okay') { s.nurturer+=1; s.guardian+=1; }
+  if(a.mess==='love') { s.adventurer+=2; s.freespirit+=2; }
+  if(a.budget==='high') { s.cozy+=1; s.social+=1; s.freespirit+=1; }
+  if(a.budget==='mid') { s.nurturer+=1; }
+  if(a.budget==='low') { s.guardian+=1; }
+  if(a.exp==='first') { s.cozy+=1; s.nurturer+=1; }
+  if(a.exp==='pro') { s.adventurer+=1; s.guardian+=2; s.freespirit+=2; }
+  if(a.pref==='calm') { s.cozy+=3; }
+  if(a.pref==='play') { s.social+=3; s.adventurer+=1; }
+  if(a.pref==='loyal') { s.guardian+=4; }
+  if(a.pref==='unique') { s.freespirit+=4; }
+  if(a.goal==='comfort') { s.cozy+=2; s.nurturer+=2; }
+  if(a.goal==='adventure') { s.adventurer+=3; }
+  if(a.goal==='family') { s.nurturer+=3; s.guardian+=1; }
+  if(a.goal==='aesthetic') { s.social+=2; s.freespirit+=2; }
+  let top = 'cozy', max=-1;
+  for(const k in s){ if(s[k]>max){ max=s[k]; top=k; } }
+  return { key: top, scores: s };
+}
+
+/* ============= Quiz state + render ============= */
+let qi = 0; const answers = {};
+const qcontent = document.getElementById('qcontent');
+const qbar = document.getElementById('qbar');
+const qstep = document.getElementById('qstep');
+const qtitle = document.getElementById('qstep-title');
+const qprev = document.getElementById('qprev');
+const qnext = document.getElementById('qnext');
+const qnextLabel = document.getElementById('qnext-label');
+
+function renderQ(){
+  const list = QUESTIONS[lang];
+  document.getElementById('qtotal').textContent = list.length;
+  if(qi >= list.length){ return renderResults(); }
+  const q = list[qi];
+  qtitle.textContent = q.title;
+  qstep.textContent = qi+1;
+  qbar.style.width = ((qi+1)/(list.length+1)*100) + '%';
+  qcontent.classList.remove('step-fade'); void qcontent.offsetWidth; qcontent.classList.add('step-fade');
+  qcontent.innerHTML = `
+    <div class="font-display text-2xl sm:text-3xl font-semibold text-forest-700">${q.q}</div>
+    <div class="mt-6 grid sm:grid-cols-2 gap-3">
+      ${q.opts.map(o=>`
+        <button class="quiz-opt text-left bg-cream-50 border-2 border-cream-200 hover:border-forest-600 rounded-2xl p-4 flex items-center gap-3 transition" data-v="${o.v}" aria-pressed="${answers[q.key]===o.v}">
+          <span class="opt-emoji text-2xl">${o.e}</span>
+          <span class="font-semibold">${o.l}</span>
+        </button>`).join('')}
+    </div>`;
+  qprev.disabled = qi===0;
+  qnext.disabled = !answers[q.key];
+  qnextLabel.textContent = qi===list.length-1 ? t('quiz.see') : t('quiz.next');
+  qprev.textContent = t('quiz.back');
+  qcontent.querySelectorAll('.quiz-opt').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      answers[q.key] = b.dataset.v;
+      qcontent.querySelectorAll('.quiz-opt').forEach(x=>x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      qnext.disabled = false;
+    });
+  });
+}
+
+function renderResults(){
+  const { key:archKey } = calcArchetype(answers);
+  const arch = ARCHETYPES[archKey];
+  const A = arch[lang];
+  const leastList = (LEAST_COMPAT[archKey] && LEAST_COMPAT[archKey][lang]) || [];
+
+  qstep.textContent = '✓';
+  qtitle.textContent = t('r.persona');
+  qbar.style.width = '100%';
+
+  const inviteCode = 'PAW' + Math.random().toString(36).slice(2,7).toUpperCase();
+  const shareUrl = `${window.location.origin}/match.html?ref=${inviteCode}`;
+
+  qcontent.innerHTML = `
+    <div class="space-y-4 sm:space-y-5">
+
+    <div id="result-card" class="relative rounded-3xl overflow-hidden bg-gradient-to-br ${arch.grad} text-cream-50 p-5 sm:p-8 shadow-lift">
+      <div class="absolute inset-0 grain opacity-100"></div>
+      <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-cream-50/15 blur-3xl"></div>
+      <svg class="absolute top-3 left-3 w-5 h-5 opacity-60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 5h5.3l-4.3 3.1L16 15l-4-3-4 3 1.3-4.9L5 7h5.3z"/></svg>
+      <svg class="absolute bottom-3 right-4 w-5 h-5 opacity-60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.35-7-10a4 4 0 017-2.65A4 4 0 0119 11c0 5.65-7 10-7 10z"/></svg>
+      <div class="relative text-center">
+        <div class="inline-flex items-center gap-1.5 bg-cream-50/20 backdrop-blur border border-cream-50/30 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-[0.22em] font-semibold">
+          🐾 ${t('r.persona')}
+        </div>
+        <div class="mt-3 text-5xl sm:text-7xl leading-none">${arch.emoji}</div>
+        <div class="text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-2 opacity-80">${t('r.youAre')}</div>
+        <h3 class="font-display text-2xl sm:text-4xl font-bold leading-tight italic mt-0.5">${A.name}</h3>
+        <p class="mt-1.5 text-xs sm:text-sm opacity-90 max-w-md mx-auto leading-snug">${A.tag}</p>
+        <div class="mt-3 sm:mt-4 flex flex-wrap gap-1.5 justify-center">
+          ${A.traits.slice(0,4).map(tr=>`<span class="bg-cream-50/20 backdrop-blur border border-cream-50/30 text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full">${tr}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-cream-50 border border-cream-200 rounded-3xl p-4 sm:p-5">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg">💚</span>
+          <h4 class="font-display text-base sm:text-xl font-semibold text-forest-700">${t('r.bestTitle')}</h4>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        ${A.breeds.slice(0,3).map((b,i)=>`
+          <div class="bg-cream-50 border border-cream-200 rounded-2xl overflow-hidden">
+            <div class="aspect-square bg-cream-200 overflow-hidden relative">
+              <img src="${b.i}" class="w-full h-full object-cover"/>
+              <div class="absolute top-1.5 left-1.5 bg-gold-500 text-forest-800 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-soft">${i+1}</div>
+            </div>
+            <div class="p-2 sm:p-2.5">
+              <div class="font-display font-semibold text-[11px] sm:text-sm text-forest-700 leading-tight truncate">${b.n}</div>
+              <div class="text-[10px] text-ink-500 mt-0.5 leading-snug" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${b.d}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="bg-cream-50 border border-cream-200 rounded-3xl p-4 sm:p-5">
+      <div class="flex items-center justify-between mb-3 gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg">🙈</span>
+          <h4 class="font-display text-base sm:text-xl font-semibold text-forest-700">${t('r.leastTitle')}</h4>
+        </div>
+        <div class="text-[9px] sm:text-[10px] italic text-ink-500 text-right">${t('r.leastSub')}</div>
+      </div>
+      <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        ${leastList.map((b,i)=>`
+          <div class="bg-cream-50 border border-cream-200 rounded-2xl overflow-hidden">
+            <div class="aspect-square bg-cream-200 overflow-hidden relative">
+              <img src="${b.i}" class="w-full h-full object-cover opacity-90" style="filter:saturate(0.7)"/>
+              <div class="absolute inset-0 bg-cream-50/10"></div>
+              <div class="absolute top-1.5 right-1.5 text-base opacity-90">✗</div>
+            </div>
+            <div class="p-2 sm:p-2.5">
+              <div class="font-display font-semibold text-[11px] sm:text-sm text-forest-700 leading-tight truncate">${b.n}</div>
+              <div class="text-[10px] text-clay-600 mt-0.5 italic leading-snug" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${b.d}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="space-y-2.5 pt-1">
+      <button id="share-toggle" class="w-full bg-gradient-to-r ${arch.grad} text-cream-50 font-semibold py-3.5 rounded-full text-sm shadow-lift flex items-center justify-center gap-2 hover:opacity-95 transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+        ${t('r.shareBtn')}
+      </button>
+      <a href="pets.html" class="block w-full bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm text-center transition">
+        ${t('r.seeAvail')} →
+      </a>
+      <button id="qrestart" class="w-full bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold py-2.5 rounded-full text-xs">
+        ↻ ${t('r.retake')}
+      </button>
+    </div>
+
+    <div id="share-panel" class="hidden bg-forest-700 text-cream-50 rounded-3xl p-5 sm:p-6 relative overflow-hidden">
+      <div class="absolute inset-0 grain opacity-100"></div>
+      <div class="relative">
+        <div class="flex items-center justify-between">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-gold-400 font-semibold">${t('r.shareMethods')}</div>
+          <button id="share-close" class="w-7 h-7 rounded-full bg-forest-600/60 hover:bg-forest-600 flex items-center justify-center" aria-label="Close">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="mt-3 grid grid-cols-2 gap-2">
+          <button data-share="ig" class="bg-gradient-to-tr from-clay-500 via-clay-400 to-gold-400 text-cream-50 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            ${t('r.shareIG')}
+          </button>
+          <button data-share="tiktok" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <span class="text-base">🎵</span> ${t('r.shareTT')}
+          </button>
+          <button data-share="line" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <span class="text-base">💬</span> LINE
+          </button>
+          <button data-share="copy" class="bg-cream-50 text-forest-700 font-semibold text-sm px-3 py-3 rounded-2xl flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            ${t('r.shareCopy')}
+          </button>
+        </div>
+        <div class="mt-4 bg-forest-800/60 rounded-2xl p-3 backdrop-blur border border-forest-600/50">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-gold-400 font-semibold">${t('r.invite')}</div>
+          <div class="mt-1 text-xs leading-snug">${t('r.inviteSub')}</div>
+          <div class="mt-2 flex items-center gap-2 bg-forest-700 rounded-xl p-2 border border-forest-600/60">
+            <code class="flex-1 px-2 text-sm font-mono">${inviteCode}</code>
+            <button data-share="invite" class="bg-gold-500 hover:bg-gold-400 text-forest-800 font-semibold text-xs px-3 py-1.5 rounded-lg">${t('r.copyCode')}</button>
+          </div>
+          <div class="mt-2 text-[10px] text-cream-100/70 leading-snug">${t('r.referReward')}</div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    <div id="share-toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] hidden bg-forest-800 text-cream-50 px-4 py-2 rounded-full text-sm shadow-lift"></div>
+  `;
+  qprev.disabled = false; qnext.disabled = true; qnext.classList.add('invisible');
+
+  const sharePanel = document.getElementById('share-panel');
+  const shareToggle = document.getElementById('share-toggle');
+  if(shareToggle){
+    shareToggle.addEventListener('click', ()=>{
+      sharePanel.classList.toggle('hidden');
+      if(!sharePanel.classList.contains('hidden')) sharePanel.scrollIntoView({ behavior:'smooth', block:'center' });
+    });
+  }
+  document.getElementById('share-close')?.addEventListener('click', ()=> sharePanel.classList.add('hidden'));
+
+  document.getElementById('qrestart').addEventListener('click', ()=>{
+    qi=0; for(const k in answers) delete answers[k];
+    qnext.classList.remove('invisible'); renderQ();
+  });
+
+  const toast = (msg)=>{
+    const el = document.getElementById('share-toast');
+    el.textContent = msg; el.classList.remove('hidden');
+    clearTimeout(window._toastT); window._toastT = setTimeout(()=>el.classList.add('hidden'), 2200);
+  };
+  const shareText = `${t('r.shareText1')} ${A.name} ${arch.emoji}\n${A.tag}\n${t('r.shareText2')}`;
+  document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', async ()=>{
+    const kind = b.dataset.share;
+    if(kind==='copy' || kind==='invite'){
+      const text = kind==='copy' ? `${shareText}\n${shareUrl}` : `${inviteCode} — ${shareUrl}`;
+      try { await navigator.clipboard.writeText(text); toast(t('r.copied')); } catch { toast('Copy failed'); }
+      return;
+    }
+    if(kind==='ig'){
+      toast(t('r.generating'));
+      try { await downloadResultCard(archKey, arch, A, inviteCode); toast(t('r.igTip')); }
+      catch(e){ toast('Image generation failed'); }
+      return;
+    }
+    if(kind==='tiktok'){
+      if(navigator.share){
+        try { await navigator.share({ title:'My Pet Persona', text: shareText, url: shareUrl }); } catch {}
+      } else {
+        await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
+        toast(t('r.ttTip'));
+      }
+      return;
+    }
+    if(kind==='line'){
+      window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText+'\n'+shareUrl)}`, '_blank');
+    }
+  }));
+}
+
+qnext.addEventListener('click', ()=>{ qi++; renderQ(); });
+qprev.addEventListener('click', ()=>{ qi=Math.max(0,qi-1); qnext.classList.remove('invisible'); renderQ(); });
+
+/* ============= Start button ============= */
+document.getElementById('start-btn').addEventListener('click', ()=>{
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  renderQ();
+  window.scrollTo({ top: 0, behavior:'smooth' });
+});
+
+/* mobile nav */
+document.getElementById('mnav').addEventListener('click', ()=> document.getElementById('mnav-panel').classList.toggle('hidden'));
+document.querySelectorAll('#mnav-panel a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('mnav-panel').classList.add('hidden')));
+
+/* ============= Canvas — IG Story export (simplified — reuses brand assets) ============= */
+const ARCH_GRAD_CSS = {
+  cozy:['#D88A6A','#C2674A','#A04E36'], adventurer:['#2E4A3B','#1F3A2C','#15291F'],
+  social:['#D8B26E','#D88A6A','#C2674A'], guardian:['#1F3A2C','#15291F','#0E1F18'],
+  freespirit:['#C2674A','#B8924C','#D8B26E'], nurturer:['#D88A6A','#C2674A','#2E4A3B'],
+};
+function loadImage(src){ return new Promise(res => { const im = new Image(); im.crossOrigin='anonymous'; im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
+function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function wrapText(ctx,text,x,y,maxW,lineH,maxLines){
+  const words=(text||'').split(' '); let line='', yy=y, lines=0;
+  for(const w of words){ const test=line+w+' '; if(ctx.measureText(test).width>maxW&&line){ ctx.fillText(line,x,yy); line=w+' '; yy+=lineH; lines++; if(maxLines&&lines>=maxLines-1){ let rest=line; for(const w2 of words.slice(words.indexOf(w)+1)) rest+=w2+' '; while(ctx.measureText(rest+'…').width>maxW&&rest.length>1) rest=rest.slice(0,-1); ctx.fillText(rest+'…',x,yy); return; } } else line=test; }
+  ctx.fillText(line,x,yy);
+}
+async function downloadResultCard(archKey, arch, A, code){
+  const W=1080, H=1920;
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
+  const ctx=c.getContext('2d');
+  if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch{} }
+  const colors = ARCH_GRAD_CSS[archKey] || ['#C2674A','#A04E36','#7E3B28'];
+  const g = ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,colors[0]); g.addColorStop(0.55,colors[1]); g.addColorStop(1,colors[2]);
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,0.04)'; for(let i=0;i<900;i++) ctx.fillRect(Math.random()*W,Math.random()*H,3,3);
+  ctx.fillStyle='#FBF7F1'; ctx.textAlign='left';
+  ctx.font='700 38px Inter, "IBM Plex Sans Thai", sans-serif'; ctx.fillText('🐾 PawMatch', 70, 110);
+  ctx.font='600 18px Inter, sans-serif'; ctx.fillStyle='rgba(251,247,241,0.7)'; ctx.fillText('PET PERSONA QUIZ', 70, 144);
+  ctx.fillStyle='rgba(251,247,241,0.75)'; ctx.font='600 24px Inter, sans-serif'; ctx.fillText('MY TOP 3 PET MATCHES', 70, 230);
+  ctx.fillStyle='#FBF7F1'; ctx.font='800 92px Georgia, serif'; wrapText(ctx, A.name, 70, 320, W-140, 100, 2);
+  ctx.font='500 32px Inter, "IBM Plex Sans Thai", sans-serif'; ctx.fillStyle='rgba(251,247,241,0.92)'; wrapText(ctx, A.tag, 70, 510, W-140, 44, 2);
+  const topImgs = await Promise.all(A.breeds.slice(0,3).map(b => loadImage(b.i)));
+  const scores=[96,91,87];
+  let y=680; const cardW=W-140, cardH=300, photo=252;
+  for(let i=0;i<3;i++){
+    const b=A.breeds[i]; const im=topImgs[i];
+    roundRect(ctx,70,y,cardW,cardH,32); ctx.fillStyle='rgba(251,247,241,0.14)'; ctx.fill();
+    ctx.strokeStyle='rgba(251,247,241,0.22)'; ctx.lineWidth=2; ctx.stroke();
+    ctx.save(); roundRect(ctx,94,y+24,photo,photo,24); ctx.clip();
+    if(im){ const ar=im.width/im.height; let sw=im.width, sh=im.height, sx=0, sy=0; if(ar>1){ sw=im.height; sx=(im.width-sw)/2; } else { sh=im.width; sy=(im.height-sh)/2; } ctx.drawImage(im,sx,sy,sw,sh,94,y+24,photo,photo); }
+    ctx.restore();
+    const tx=94+photo+32, tw=cardW-photo-56-32;
+    ctx.fillStyle='#FBF7F1'; ctx.font='800 50px Georgia, serif'; ctx.fillText(b.n, tx, y+82);
+    ctx.font='500 26px Inter, "IBM Plex Sans Thai", sans-serif'; ctx.fillStyle='rgba(251,247,241,0.88)'; wrapText(ctx,b.d,tx,y+128,tw,36,2);
+    ctx.font='800 78px Inter, sans-serif'; ctx.fillStyle='#FBF7F1';
+    const sTxt = scores[i]+'%'; ctx.fillText(sTxt, tx, y+248);
+    const sW=ctx.measureText(sTxt).width; ctx.font='600 22px Inter, sans-serif'; ctx.fillStyle='rgba(251,247,241,0.75)';
+    ctx.fillText('match', tx+sW+12, y+248);
+    y += cardH + 28;
+  }
+  ctx.strokeStyle='rgba(251,247,241,0.25)'; ctx.beginPath(); ctx.moveTo(70,H-220); ctx.lineTo(W-70,H-220); ctx.stroke();
+  ctx.fillStyle='rgba(251,247,241,0.75)'; ctx.font='600 22px Inter, sans-serif'; ctx.fillText('FIND YOUR PET PERSONA', 70, H-160);
+  ctx.fillStyle='#FBF7F1'; ctx.font='800 56px Georgia, serif'; ctx.fillText('pawmatch.co', 70, H-95);
+  ctx.font='600 24px Inter, sans-serif';
+  const codeTxt='Invite · '+code; const cw=ctx.measureText(codeTxt).width+48;
+  roundRect(ctx, W-70-cw, H-130, cw, 56, 28); ctx.fillStyle='rgba(14,31,24,0.45)'; ctx.fill();
+  ctx.fillStyle='#FBF7F1'; ctx.fillText(codeTxt, W-70-cw+24, H-95);
+  const url=c.toDataURL('image/png');
+  const a=document.createElement('a'); a.href=url; a.download=`pawmatch-top3-${archKey}.png`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* Boot */
+applyI18n();
+</script>
+<script type="module" src="scripts/supabase.js"></script>
+<script src="scripts/auth.js"></script>
+</body>
+</html>

@@ -125,7 +125,7 @@
         <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="th" aria-pressed="false">ไทย</button>
       </div>
       <button class="hidden sm:inline-flex text-sm font-medium text-ink-700 hover:text-forest-700 px-3 py-2" data-i18n="nav.signin">Sign in</button>
-      <a href="#match" class="inline-flex items-center gap-1.5 bg-forest-600 hover:bg-forest-700 text-cream-50 text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-soft">
+      <a href="match.html" class="inline-flex items-center gap-1.5 bg-forest-600 hover:bg-forest-700 text-cream-50 text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-soft">
         <span class="hidden sm:inline" data-i18n="nav.cta">Find my match</span>
         <span class="sm:hidden">✨</span>
         <svg class="w-4 h-4 hidden sm:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -163,7 +163,7 @@
       </h1>
       <p class="mt-5 text-base sm:text-lg text-ink-700 max-w-xl" data-i18n="hero.sub">Thailand's premium platform to discover verified breeders, browse pedigreed pets, and use AI to find the companion that truly fits your personality and lifestyle.</p>
       <div class="mt-7 flex flex-col sm:flex-row gap-3">
-        <a href="#match" class="ai-pulse inline-flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 px-6 py-3.5 rounded-full font-semibold shadow-lift">
+        <a href="match.html" class="ai-pulse inline-flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 px-6 py-3.5 rounded-full font-semibold shadow-lift">
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
           <span data-i18n="hero.startCta">Start AI Pet Matching</span>
         </a>
@@ -245,47 +245,58 @@
 </section>
 
 <!-- ============== AI MATCHING ============== -->
-<section id="match" class="relative py-16 sm:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid lg:grid-cols-12 gap-10">
-      <div class="lg:col-span-4">
+<section id="match" class="relative py-16 sm:py-24 overflow-hidden">
+  <div class="absolute -top-12 -right-20 w-72 h-72 rounded-full bg-clay-400/30 blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 -left-20 w-72 h-72 rounded-full bg-gold-400/30 blur-3xl pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+      <div>
         <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
           <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="match.eyebrow">AI Pet Matching</span>
         </div>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700 leading-tight" data-i18n="match.title">Five questions.<br/>One perfect companion.</h2>
-        <p class="mt-4 text-ink-700" data-i18n="match.sub">Our matching engine blends behavioural science, breed traits, and lifestyle data to recommend the pets most likely to thrive in your home — not just the cutest one on the page.</p>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold mt-3 text-forest-700 leading-tight" data-i18n="match.title">12 questions.<br/>Your <em class="not-italic text-clay-600">Pet Persona</em>.</h2>
+        <p class="mt-4 text-ink-700 max-w-lg" data-i18n="match.sub">A playful personality quiz that uncovers your ideal pet type, dream breeds, and the kind of pet parent you'll be. Built with behavioural science, designed to share.</p>
         <ul class="mt-6 space-y-3 text-sm text-ink-700">
-          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b1">Personality + lifestyle profiling</span></li>
-          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b2">Cross-checked with breeder data & health records</span></li>
-          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b3">100% verified breeders only</span></li>
-          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b4">Private — your answers stay yours</span></li>
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b1">Reveals your Pet Persona archetype</span></li>
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b2">Recommends ideal pet types & dream breeds</span></li>
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b3">Matches you to verified, available pets</span></li>
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b4">Shareable card for IG, TikTok & more</span></li>
         </ul>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="match.html" class="ai-pulse inline-flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 px-7 py-4 rounded-full font-semibold shadow-lift transition">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
+            <span data-i18n="match.start">Start the quiz</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <div class="text-xs text-ink-500 self-center sm:ml-2" data-i18n="match.note">⏱️ ~90 seconds · No sign-up</div>
+        </div>
       </div>
 
-      <div class="lg:col-span-8">
-        <div id="quiz" class="bg-cream-50 border border-cream-200 rounded-3xl shadow-lift overflow-hidden">
-          <div class="px-4 sm:px-8 pt-5 sm:pt-6 pb-4 border-b border-cream-200 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-forest-600 text-cream-50 flex items-center justify-center">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
-              </div>
-              <div>
-                <div class="text-[11px] uppercase tracking-[0.18em] text-ink-500">PawMatch AI</div>
-                <div class="font-display font-semibold text-forest-700" id="qstep-title">Lifestyle profile</div>
-              </div>
-            </div>
-            <div class="text-xs text-ink-500"><span id="qstep">1</span> / <span id="qtotal">12</span></div>
+      <!-- Persona preview cards -->
+      <div class="relative">
+        <div class="grid grid-cols-2 gap-3 max-w-md mx-auto">
+          <div class="bg-gradient-to-br from-clay-400 to-clay-600 text-cream-50 rounded-2xl p-4 shadow-lift floaty">
+            <div class="text-3xl">🫖</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="match.p1">The Cozy Curator</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="match.p1d">Soft soul · slow living</div>
           </div>
-          <div class="h-1.5 bg-cream-200"><div id="qbar" class="h-full bg-gold-500 progress-fill" style="width:20%"></div></div>
-          <div class="p-4 sm:p-8">
-            <div id="qcontent"></div>
-            <div class="mt-8 flex items-center justify-between">
-              <button id="qprev" class="text-sm font-semibold text-ink-500 hover:text-forest-700 disabled:opacity-30" disabled data-i18n="quiz.back">← Back</button>
-              <button id="qnext" class="inline-flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold text-sm px-5 py-2.5 rounded-full shadow-soft disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                <span id="qnext-label" data-i18n="quiz.next">Next</span>
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </button>
-            </div>
+          <div class="bg-gradient-to-br from-forest-500 to-forest-700 text-cream-50 rounded-2xl p-4 shadow-lift floaty" style="animation-delay:.4s">
+            <div class="text-3xl">🏔️</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="match.p2">Adventure Seeker</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="match.p2d">High energy · outdoor heart</div>
+          </div>
+          <div class="bg-gradient-to-br from-gold-400 to-clay-500 text-cream-50 rounded-2xl p-4 shadow-lift floaty" style="animation-delay:.2s">
+            <div class="text-3xl">🎉</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="match.p3">Social Butterfly</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="match.p3d">People person · main character</div>
+          </div>
+          <div class="bg-gradient-to-br from-clay-500 to-gold-500 text-cream-50 rounded-2xl p-4 shadow-lift floaty" style="animation-delay:.6s">
+            <div class="text-3xl">🦜</div>
+            <div class="font-display text-sm font-semibold mt-2 leading-tight" data-i18n="match.p4">Free Spirit</div>
+            <div class="text-[10px] opacity-80 mt-1" data-i18n="match.p4d">Unconventional · rare beauty</div>
+          </div>
+          <div class="col-span-2 bg-cream-50 border border-cream-200 rounded-2xl p-3 text-center text-xs text-ink-500">
+            <span data-i18n="match.preview">+ 2 more personas waiting for you</span>
           </div>
         </div>
       </div>
@@ -543,7 +554,7 @@
           <p class="mt-3 text-cream-100/90 max-w-md" data-i18n="cta.sub">Take the 90-second quiz and meet your top three companions — handpicked by AI, verified by humans.</p>
         </div>
         <div class="flex md:justify-end">
-          <a href="#match" class="inline-flex items-center gap-2 bg-cream-50 text-clay-600 hover:bg-cream-100 px-6 py-3.5 rounded-full font-semibold shadow-soft">
+          <a href="match.html" class="inline-flex items-center gap-2 bg-cream-50 text-clay-600 hover:bg-cream-100 px-6 py-3.5 rounded-full font-semibold shadow-soft">
             <span data-i18n="cta.btn">Start AI Pet Matching</span>
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -628,6 +639,12 @@ const I18N = {
     'hero.matchScore':'Match score','hero.verified':'Verified breeder','hero.topMatch':'Top match','hero.featuredMeta':'Golden Retriever · 9 wks','hero.meet':'Meet','hero.featuredTraits':'Calm · Affectionate · Loves families','hero.partners':'Trusted partners',
     'match.eyebrow':'AI Pet Matching','match.title':'12 questions.<br/>Your <em class="not-italic text-clay-600">Pet Persona</em>.','match.sub':"A playful personality quiz that uncovers your ideal pet type, dream breeds, and the kind of pet parent you'll be. Built with behavioural science, designed to share.",
     'match.b1':'Reveals your Pet Persona archetype','match.b2':'Recommends ideal pet types & dream breeds','match.b3':'Matches you to verified, available pets','match.b4':'Shareable card for IG, TikTok & more',
+    'match.start':'Start the quiz','match.note':'⏱️ ~90 seconds · No sign-up',
+    'match.p1':'The Cozy Curator','match.p1d':'Soft soul · slow living',
+    'match.p2':'Adventure Seeker','match.p2d':'High energy · outdoor heart',
+    'match.p3':'Social Butterfly','match.p3d':'People person · main character',
+    'match.p4':'Free Spirit','match.p4d':'Unconventional · rare beauty',
+    'match.preview':'+ 2 more personas waiting for you',
     'quiz.back':'← Back','quiz.next':'Next','quiz.see':'Reveal my Pet Persona ✨',
     'how.eyebrow':'How it works','how.title':'From profile to paw — in 4 steps.','how.link':'Try the matching engine →',
     'how.s1t':'Tell us about you','how.s1d':'12 quick questions about your lifestyle, home, and personality.',
@@ -675,6 +692,12 @@ const I18N = {
     'hero.matchScore':'คะแนนความเข้ากัน','hero.verified':'ฟาร์มที่รับรอง','hero.topMatch':'คู่ที่ใช่ที่สุด','hero.featuredMeta':'โกลเด้น รีทรีฟเวอร์ · 9 สัปดาห์','hero.meet':'พบกับ','hero.featuredTraits':'สงบ · อ่อนโยน · รักครอบครัว','hero.partners':'พันธมิตรที่ไว้วางใจ',
     'match.eyebrow':'จับคู่สัตว์เลี้ยงด้วย AI','match.title':'12 คำถาม<br/>ค้นพบ <em class="not-italic text-clay-600">Pet Persona</em> ของคุณ','match.sub':'แบบทดสอบบุคลิกสนุกๆ ที่จะเผยประเภทสัตว์เลี้ยงในฝัน สายพันธุ์ที่ใช่ และคุณเป็นเจ้าของสัตว์เลี้ยงแบบไหน — สร้างจากหลักจิตวิทยา ออกแบบมาเพื่อแชร์',
     'match.b1':'เผยบุคลิก Pet Persona ของคุณ','match.b2':'แนะนำประเภทและสายพันธุ์ในฝัน','match.b3':'จับคู่กับสัตว์เลี้ยงที่พร้อมรับเลี้ยง','match.b4':'การ์ดผลลัพธ์แชร์ลง IG TikTok ได้ทันที',
+    'match.start':'เริ่มทำแบบทดสอบ','match.note':'⏱️ ใช้เวลา ~90 วินาที · ไม่ต้องสมัครสมาชิก',
+    'match.p1':'นักจัดบ้านสายอบอุ่น','match.p1d':'จิตใจอ่อนโยน · ชีวิตช้าๆ',
+    'match.p2':'นักผจญภัย','match.p2d':'พลังงานเต็มเปี่ยม · ใจกลางแจ้ง',
+    'match.p3':'ผีเสื้อสังคม','match.p3d':'คนรักคน · พลังตัวเอก',
+    'match.p4':'จิตวิญญาณเสรี','match.p4d':'ไม่ตามขนบ · หายากและงาม',
+    'match.preview':'+ อีก 2 personas รอคุณอยู่',
     'quiz.back':'← ย้อนกลับ','quiz.next':'ถัดไป','quiz.see':'เผย Pet Persona ของฉัน ✨',
     'how.eyebrow':'วิธีใช้งาน','how.title':'จากโปรไฟล์สู่อ้อมกอด — ใน 4 ขั้นตอน','how.link':'ลองระบบจับคู่ →',
     'how.s1t':'บอกเราเกี่ยวกับตัวคุณ','how.s1d':'12 คำถามสั้นๆ เกี่ยวกับไลฟ์สไตล์ บ้าน และบุคลิกของคุณ',
@@ -1158,6 +1181,7 @@ const qnext = document.getElementById('qnext');
 const qnextLabel = document.getElementById('qnext-label');
 
 function renderQ(){
+  if(!document.getElementById('qcontent')) return; // quiz lives on match.html now
   const list = QUESTIONS[lang];
   document.getElementById('qtotal').textContent = list.length;
   if(qi >= list.length){ return renderResults(); }
@@ -1791,8 +1815,8 @@ async function downloadResultCard(archKey, arch, A, code){
   a.href = url; a.download = `pawmatch-top3-${archKey}.png`;
   document.body.appendChild(a); a.click(); a.remove();
 }
-qnext.addEventListener('click', ()=>{ qi++; renderQ(); });
-qprev.addEventListener('click', ()=>{ qi=Math.max(0,qi-1); qnext.classList.remove('invisible'); renderQ(); });
+if(qnext) qnext.addEventListener('click', ()=>{ qi++; renderQ(); });
+if(qprev) qprev.addEventListener('click', ()=>{ qi=Math.max(0,qi-1); qnext.classList.remove('invisible'); renderQ(); });
 
 /* mobile nav */
 document.getElementById('mnav').addEventListener('click', ()=> document.getElementById('mnav-panel').classList.toggle('hidden'));
