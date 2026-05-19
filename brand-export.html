@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PawMatch — Brand Asset Export</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', system-ui, sans-serif; background:#FBF7F1; color:#1A1714; }
+  .preview-frame { background: repeating-conic-gradient(#EFE3CE 0% 25%, #F6EFE4 0% 50%) 50% / 24px 24px; }
+  .fb-circle { border-radius: 9999px; overflow: hidden; }
+  canvas { display: block; max-width: 100%; height: auto; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="border-b border-cream-200 bg-[#FBF7F1]/90 backdrop-blur sticky top-0 z-20">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="inline-flex w-9 h-9 rounded-xl bg-[#F6EFE4] border border-[#E5D2B0] items-center justify-center">
+        <svg viewBox="0 0 64 64" class="w-6 h-6">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="leading-tight">
+        <div style="font-family:'Inter';font-weight:800;letter-spacing:-0.018em" class="text-lg text-[#15291F]">PawMatch</div>
+        <div class="text-[10px] uppercase tracking-[0.18em] text-[#6B6157] -mt-0.5">Brand Export</div>
+      </div>
+    </a>
+    <a href="index.html" class="text-sm font-medium text-[#3B342D] hover:text-[#15291F]">← Back to site</a>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-12">
+  <div>
+    <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#7E3B28]">
+      <span class="w-6 h-px bg-[#C2674A]"></span> Facebook brand assets
+    </div>
+    <h1 style="font-family:'Fraunces',Georgia,serif" class="text-3xl sm:text-5xl font-semibold mt-3 text-[#15291F] leading-tight">Profile picture & cover photo</h1>
+    <p class="text-[#3B342D] mt-3 max-w-2xl">Two ready-to-upload images for your PawMatch Facebook page. Click <strong>Download PNG</strong> to save each at the exact Facebook-recommended resolution. Wait a moment after opening this page so the brand fonts finish loading before downloading.</p>
+  </div>
+
+  <!-- PROFILE PICTURE -->
+  <section class="bg-white rounded-3xl border border-[#EFE3CE] shadow-sm overflow-hidden">
+    <div class="p-5 sm:p-8 grid lg:grid-cols-[1fr_320px] gap-8 items-start">
+      <div>
+        <div class="text-xs font-semibold uppercase tracking-[0.18em] text-[#7E3B28]">01 · Profile picture</div>
+        <h2 style="font-family:'Fraunces',Georgia,serif" class="text-2xl sm:text-3xl font-semibold mt-2 text-[#15291F]">Square 1080×1080 (crops to circle on FB)</h2>
+        <p class="text-sm text-[#3B342D] mt-2">Heartpaw on warm cream with subtle gold + clay washes. Stays readable at the 40px feed thumbnail size.</p>
+
+        <div class="mt-5 preview-frame p-6 rounded-2xl">
+          <canvas id="profile-canvas" width="1080" height="1080" class="rounded-2xl shadow-md"></canvas>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-wider text-[#6B6157] mb-2">FB circle crop preview</div>
+          <div class="preview-frame p-4 rounded-2xl">
+            <div class="fb-circle bg-white" style="width:200px;height:200px;margin:0 auto">
+              <canvas id="profile-preview" width="200" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+        <button id="dl-profile" class="w-full bg-[#1F3A2C] hover:bg-[#15291F] text-[#FBF7F1] font-semibold py-3 rounded-full text-sm transition flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m-5-5l5 5 5-5M4 20h16"/></svg>
+          Download PNG (1080×1080)
+        </button>
+        <div class="text-[11px] text-[#8E8479] leading-relaxed">
+          <strong>Tip:</strong> Upload to FB → Page → Update profile picture. FB resizes to 170×170 display.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COVER PHOTO -->
+  <section class="bg-white rounded-3xl border border-[#EFE3CE] shadow-sm overflow-hidden">
+    <div class="p-5 sm:p-8 space-y-6">
+      <div>
+        <div class="text-xs font-semibold uppercase tracking-[0.18em] text-[#7E3B28]">02 · Cover photo</div>
+        <h2 style="font-family:'Fraunces',Georgia,serif" class="text-2xl sm:text-3xl font-semibold mt-2 text-[#15291F]">Banner 1640×624 (desktop) · mobile-safe center</h2>
+        <p class="text-sm text-[#3B342D] mt-2">Warm watercolor banner with brand statement. Key content stays in the centered safe area so it survives mobile cropping.</p>
+      </div>
+
+      <div class="preview-frame p-4 sm:p-6 rounded-2xl">
+        <canvas id="cover-canvas" width="1640" height="624" class="rounded-2xl shadow-md"></canvas>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+        <button id="dl-cover" class="bg-[#1F3A2C] hover:bg-[#15291F] text-[#FBF7F1] font-semibold py-3 px-6 rounded-full text-sm transition flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m-5-5l5 5 5-5M4 20h16"/></svg>
+          Download PNG (1640×624)
+        </button>
+        <div class="text-[11px] text-[#8E8479] leading-relaxed">
+          <strong>Tip:</strong> FB displays cover at 820×312 on desktop, crops center for mobile. Avoid putting text in corners — they may be hidden by profile picture overlap.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tagline language toggle -->
+  <section class="bg-[#F6EFE4] border border-[#E5D2B0] rounded-2xl p-5 sm:p-6">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-[#6B6157]">Cover tagline language</div>
+        <div class="text-sm text-[#3B342D] mt-1">Switch the cover-photo tagline between English and Thai, then re-download.</div>
+      </div>
+      <div class="inline-flex items-center bg-white border border-[#E5D2B0] rounded-full p-0.5 text-xs font-semibold">
+        <button class="lang-btn rounded-full px-3 py-1.5 bg-[#1F3A2C] text-[#FBF7F1]" data-lang="en">EN</button>
+        <button class="lang-btn rounded-full px-3 py-1.5 text-[#3B342D]" data-lang="th">ไทย</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="border-t border-[#EFE3CE] mt-16 py-8 text-center text-xs text-[#8E8479]">
+  PawMatch © 2026 · Brand export tool
+</footer>
+
+<script>
+/* ============= Brand palette ============= */
+const COL = {
+  cream:'#FBF7F1', cream100:'#F6EFE4', cream200:'#EFE3CE', cream300:'#E5D2B0',
+  clay400:'#D88A6A', clay500:'#C2674A', clay600:'#A04E36', clay700:'#7E3B28',
+  forest500:'#2E4A3B', forest600:'#1F3A2C', forest700:'#15291F', forest800:'#0E1F18',
+  gold400:'#D8B26E', gold500:'#B8924C',
+  ink900:'#1A1714', ink700:'#3B342D', ink500:'#6B6157', ink400:'#8E8479',
+};
+
+let lang = 'en';
+
+/* ============= Shared drawing helpers ============= */
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y, x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r);
+  ctx.arcTo(x, y, x+w, y, r);
+  ctx.closePath();
+}
+function drawSparkle(ctx, x, y, s, color){
+  ctx.save(); ctx.translate(x,y); ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(0,-s); ctx.bezierCurveTo(s*0.15,-s*0.15,s*0.15,s*0.15,0,s);
+  ctx.bezierCurveTo(-s*0.15,s*0.15,-s*0.15,-s*0.15,0,-s); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(-s,0); ctx.bezierCurveTo(-s*0.15,-s*0.15,s*0.15,-s*0.15,s,0);
+  ctx.bezierCurveTo(s*0.15,s*0.15,-s*0.15,s*0.15,-s,0); ctx.fill();
+  ctx.beginPath(); ctx.arc(s*1.5,-s*0.5,2.5*s/16,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(-s*1.4,s*0.6,2*s/16,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+function drawHeart(ctx, x, y, s, color){
+  ctx.save(); ctx.translate(x,y); ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(0, s*0.25);
+  ctx.bezierCurveTo(-s*0.6,-s*0.3,-s*1.05,s*0.15, 0, s*0.95);
+  ctx.bezierCurveTo(s*1.05, s*0.15, s*0.6,-s*0.3, 0, s*0.25);
+  ctx.fill(); ctx.restore();
+}
+function drawSquiggle(ctx, x, y, w, color, lw){
+  ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=lw||4; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(x,y);
+  const segs=6, sw=w/segs;
+  for(let i=0;i<segs;i++){
+    const sx=x+i*sw, ex=sx+sw, cy=y+(i%2===0?-9*(lw||4)/4:9*(lw||4)/4);
+    ctx.quadraticCurveTo(sx+sw/2, cy, ex, y);
+  }
+  ctx.stroke(); ctx.restore();
+}
+function drawHeartpaw(ctx, x, y, size, toeColor, padColor){
+  const s = size / 64;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillStyle = toeColor;
+  const drawToe = (cx, cy, rx, ry, rot) => {
+    ctx.save();
+    ctx.translate(cx*s, cy*s);
+    ctx.rotate(rot * Math.PI / 180);
+    ctx.beginPath();
+    ctx.ellipse(0, 0, rx*s, ry*s, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  };
+  drawToe(11, 26, 5, 7, -22);
+  drawToe(23, 16, 5.5, 8, -8);
+  drawToe(41, 16, 5.5, 8, 8);
+  drawToe(53, 26, 5, 7, 22);
+  ctx.fillStyle = padColor;
+  ctx.beginPath();
+  ctx.moveTo(32*s, 38*s);
+  ctx.bezierCurveTo(28*s, 30*s, 13*s, 30*s, 13*s, 41*s);
+  ctx.bezierCurveTo(13*s, 50*s, 26*s, 56*s, 32*s, 60*s);
+  ctx.bezierCurveTo(38*s, 56*s, 51*s, 50*s, 51*s, 41*s);
+  ctx.bezierCurveTo(51*s, 30*s, 36*s, 30*s, 32*s, 38*s);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+function paperGrain(ctx, W, H, op){
+  ctx.fillStyle = `rgba(60,40,20,${op||0.025})`;
+  for(let i=0;i<W*H/700;i++){ ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2); }
+}
+function radialWash(ctx, cx, cy, r, color){
+  const g = ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+  g.addColorStop(0,color); g.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=g; ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height);
+}
+
+/* ============= PROFILE PICTURE 1080×1080 ============= */
+function drawProfile(canvas){
+  const ctx = canvas.getContext('2d');
+  const W=1080, H=1080;
+
+  // Background — warm cream
+  ctx.fillStyle = COL.cream;
+  ctx.fillRect(0,0,W,H);
+
+  // Soft gold + clay washes
+  radialWash(ctx, 220, 220, 600, 'rgba(216,178,110,0.40)');
+  radialWash(ctx, 880, 920, 700, 'rgba(216,138,138,0.32)');
+  radialWash(ctx, 540, 540, 540, 'rgba(255,255,255,0.50)');
+
+  // Paper grain
+  paperGrain(ctx, W, H, 0.03);
+
+  // Decorative corner sparkles (most cut by FB circle crop, that's fine)
+  drawSparkle(ctx, 130, 130, 26, COL.gold400);
+  drawSparkle(ctx, 950, 150, 22, COL.gold400);
+  drawSparkle(ctx, 110, 940, 24, COL.clay400);
+  drawSparkle(ctx, 940, 950, 20, COL.clay400);
+
+  // Heart accents inside circle
+  drawHeart(ctx, 300, 760, 22, 'rgba(216,138,138,0.55)');
+  drawHeart(ctx, 800, 320, 18, 'rgba(216,138,138,0.55)');
+
+  // Big heartpaw centered (sized for circle safety)
+  drawHeartpaw(ctx, 270, 240, 540, COL.forest600, COL.clay500);
+
+  // Wordmark
+  ctx.fillStyle = COL.forest700;
+  ctx.font = '800 110px Inter, system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PawMatch', W/2, 880);
+
+  // Squiggle under wordmark in clay
+  drawSquiggle(ctx, W/2 - 180, 920, 360, COL.clay400, 6);
+
+  // Microcopy
+  ctx.fillStyle = COL.ink500;
+  ctx.font = '600 28px Inter, system-ui, sans-serif';
+  ctx.fillText('🇹🇭  AI-POWERED PET MATCHING', W/2, 980);
+
+  ctx.textAlign = 'left';
+}
+
+/* ============= COVER PHOTO 1640×624 ============= */
+function drawCover(canvas){
+  const ctx = canvas.getContext('2d');
+  const W=1640, H=624;
+
+  // Background cream
+  ctx.fillStyle = COL.cream;
+  ctx.fillRect(0,0,W,H);
+
+  // Warm washes
+  radialWash(ctx, 180, 120, 500, 'rgba(216,178,110,0.35)');
+  radialWash(ctx, 1500, 540, 580, 'rgba(216,138,138,0.32)');
+  radialWash(ctx, 820, 320, 380, 'rgba(255,255,255,0.40)');
+
+  // Paper grain
+  paperGrain(ctx, W, H, 0.025);
+
+  // Decorative LEFT side (desktop only — cropped on mobile)
+  drawSparkle(ctx, 120, 140, 24, COL.gold400);
+  drawSparkle(ctx, 240, 80, 18, COL.gold400);
+  drawSparkle(ctx, 80, 380, 20, COL.gold400);
+  drawSparkle(ctx, 280, 480, 16, COL.clay400);
+  drawHeart(ctx, 200, 240, 22, 'rgba(216,138,138,0.65)');
+  drawHeart(ctx, 360, 380, 18, 'rgba(216,138,138,0.55)');
+  // Watercolor blob upper-left
+  radialWash(ctx, 250, 250, 280, 'rgba(216,138,138,0.18)');
+
+  // Decorative RIGHT side
+  drawSparkle(ctx, 1520, 120, 22, COL.gold400);
+  drawSparkle(ctx, 1380, 80, 16, COL.gold400);
+  drawSparkle(ctx, 1560, 380, 20, COL.clay400);
+  drawSparkle(ctx, 1400, 540, 18, COL.gold400);
+  drawHeart(ctx, 1440, 280, 22, 'rgba(216,138,138,0.60)');
+  drawHeart(ctx, 1280, 480, 16, 'rgba(216,138,138,0.50)');
+  radialWash(ctx, 1380, 380, 300, 'rgba(216,178,110,0.18)');
+
+  // ===== CENTER (mobile safe area) =====
+  // Heartpaw icon top-center
+  drawHeartpaw(ctx, W/2 - 65, 80, 130, COL.forest600, COL.clay500);
+
+  // Wordmark
+  ctx.fillStyle = COL.forest700;
+  ctx.font = '800 110px Inter, system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PawMatch', W/2, 340);
+
+  // Squiggle under wordmark
+  drawSquiggle(ctx, W/2 - 200, 380, 400, COL.clay400, 6);
+
+  // Tagline (bilingual)
+  ctx.fillStyle = COL.ink700;
+  const tagline = lang==='th' ? 'AI จับคู่สัตว์เลี้ยง · ฟาร์มที่รับรอง · ประเทศไทย' : 'AI-powered pet matching · Verified breeders · Thailand';
+  ctx.font = `italic 500 ${lang==='th'?34:36}px ${lang==='th'?'IBM Plex Sans Thai':'Fraunces'}, Georgia, serif`;
+  ctx.fillText(tagline, W/2, 470);
+
+  ctx.textAlign = 'left';
+}
+
+/* ============= Preview helpers ============= */
+function copyToPreview(){
+  const big = document.getElementById('profile-canvas');
+  const small = document.getElementById('profile-preview');
+  const sctx = small.getContext('2d');
+  sctx.drawImage(big, 0, 0, 200, 200);
+}
+
+/* ============= Render & wire ============= */
+async function render(){
+  // Wait for fonts to load (important for canvas text)
+  if(document.fonts && document.fonts.ready){
+    try { await document.fonts.ready; } catch{}
+  }
+  drawProfile(document.getElementById('profile-canvas'));
+  drawCover(document.getElementById('cover-canvas'));
+  copyToPreview();
+}
+
+function downloadCanvas(canvasId, filename){
+  const canvas = document.getElementById(canvasId);
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }, 'image/png');
+}
+
+document.getElementById('dl-profile').addEventListener('click', ()=> downloadCanvas('profile-canvas', 'pawmatch-fb-profile-1080.png'));
+document.getElementById('dl-cover').addEventListener('click', ()=> downloadCanvas('cover-canvas', 'pawmatch-fb-cover-1640x624.png'));
+
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', ()=>{
+  lang = b.dataset.lang;
+  document.querySelectorAll('.lang-btn').forEach(x => {
+    if(x.dataset.lang === lang){
+      x.classList.add('bg-[#1F3A2C]','text-[#FBF7F1]'); x.classList.remove('text-[#3B342D]');
+    } else {
+      x.classList.remove('bg-[#1F3A2C]','text-[#FBF7F1]'); x.classList.add('text-[#3B342D]');
+    }
+  });
+  render();
+}));
+
+render();
+</script>
+</body>
+</html>

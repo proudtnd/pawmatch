@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Verified Breeders — PawMatch</title>
+<meta name="description" content="Discover Thailand's verified, audited pet breeders and farms. Filter by species, region, and certification level." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/favicon.svg" />
+<meta property="og:title" content="Verified Breeders — PawMatch" />
+<meta property="og:description" content="Discover Thailand's verified, audited pet breeders and farms." />
+<meta property="og:image" content="assets/logos/logo-stacked.svg" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: {
+        serif: ['Fraunces','ui-serif','Georgia','serif'],
+        sans: ['Inter','IBM Plex Sans Thai','ui-sans-serif','system-ui'],
+      },
+      colors: {
+        cream:  { 50:'#FBF7F1', 100:'#F6EFE4', 200:'#EFE3CE', 300:'#E5D2B0' },
+        clay:   { 400:'#D88A6A', 500:'#C2674A', 600:'#A04E36', 700:'#7E3B28' },
+        forest: { 500:'#2E4A3B', 600:'#1F3A2C', 700:'#15291F', 800:'#0E1F18' },
+        gold:   { 400:'#D8B26E', 500:'#B8924C', 600:'#8E6F32' },
+        ink:    { 900:'#1A1714', 700:'#3B342D', 500:'#6B6157', 400:'#8E8479' },
+      },
+      boxShadow: {
+        soft:'0 8px 24px -10px rgba(30,20,10,.18), 0 2px 6px -2px rgba(30,20,10,.06)',
+        lift:'0 20px 40px -20px rgba(30,20,10,.25), 0 8px 16px -10px rgba(30,20,10,.08)',
+      },
+    } }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; background:#FBF7F1; color:#1A1714; -webkit-font-smoothing:antialiased; }
+  html[lang="th"] body { font-family:'IBM Plex Sans Thai','Sarabun',system-ui,sans-serif; }
+  .font-display { font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto; letter-spacing:-0.01em; }
+  html[lang="th"] .font-display { font-family:'IBM Plex Sans Thai','Sarabun',serif; letter-spacing:0; font-weight:700; }
+  .brand-wordmark { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; font-weight:800; letter-spacing:-0.018em; }
+  html[lang="th"] .italic { font-style: normal; }
+  .b-card:hover .b-img { transform: scale(1.04); }
+  .b-img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .chip { transition: all .15s ease; }
+  .chip:hover { transform: translateY(-1px); }
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  .lang-btn[aria-pressed="true"] { background:#1F3A2C; color:#FBF7F1; }
+  .filter-pill[aria-pressed="true"]{ background:#1F3A2C; color:#FBF7F1; border-color:#1F3A2C; }
+  html, body { max-width: 100vw; overflow-x: hidden; }
+  @supports (padding: max(0px)) { body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); } }
+  @media (hover: none) and (pointer: coarse) { button, a[role="button"], .chip, .filter-pill { min-height: 44px; } }
+  input, select, textarea { font-size: 16px; }
+  @media (max-width: 640px) { #modal-body { max-height: 92dvh; overflow-y: auto; } }
+</style>
+</head>
+<body class="overflow-x-hidden">
+
+<!-- ============== NAV ============== -->
+<header class="sticky top-0 z-40 backdrop-blur-md bg-cream-50/85 border-b border-cream-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="inline-flex w-9 h-9 rounded-xl bg-cream-100 border border-cream-200 items-center justify-center shadow-soft">
+        <svg viewBox="0 0 64 64" class="w-6 h-6">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="leading-tight">
+        <div class="brand-wordmark text-lg text-forest-700">PawMatch</div>
+        <div class="text-[10px] uppercase tracking-[0.18em] text-ink-500 -mt-0.5" data-i18n="nav.country">Thailand</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink-700">
+      <a href="index.html#match" class="hover:text-forest-700" data-i18n="nav.match">AI Matching</a>
+      <a href="breeders.html" class="text-forest-700 font-semibold" data-i18n="nav.breeders">Breeders</a>
+      <a href="pets.html" class="hover:text-forest-700" data-i18n="nav.pets">Browse Pets</a>
+      <a href="index.html#how" class="hover:text-forest-700" data-i18n="nav.how">How it works</a>
+      <a href="index.html#faq" class="hover:text-forest-700" data-i18n="nav.faq">FAQ</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <div class="inline-flex items-center bg-cream-100 border border-cream-200 rounded-full p-0.5 text-xs font-semibold">
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="th" aria-pressed="false">ไทย</button>
+      </div>
+      <a href="index.html#match" class="inline-flex items-center gap-1.5 bg-forest-600 hover:bg-forest-700 text-cream-50 text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-soft">
+        <span class="hidden sm:inline" data-i18n="nav.cta">Find my match</span>
+        <span class="sm:hidden">✨</span>
+      </a>
+      <button id="mnav" class="md:hidden ml-1 p-2 rounded-lg hover:bg-cream-200" aria-label="Menu">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mnav-panel" class="hidden md:hidden border-t border-cream-200 bg-cream-50">
+    <div class="px-4 py-3 grid gap-1 text-sm">
+      <a href="index.html" class="py-2" data-i18n="bc.home">Home</a>
+      <a href="index.html#match" class="py-2" data-i18n="nav.match">AI Matching</a>
+      <a href="breeders.html" class="py-2 font-semibold" data-i18n="nav.breeders">Breeders</a>
+      <a href="pets.html" class="py-2" data-i18n="nav.pets">Browse Pets</a>
+      <a href="index.html#faq" class="py-2" data-i18n="nav.faq">FAQ</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============== PAGE HEADER ============== -->
+<section class="relative overflow-hidden">
+  <div class="absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-gold-400 opacity-30 blur-3xl pointer-events-none"></div>
+  <div class="absolute top-40 -left-20 w-[340px] h-[340px] rounded-full bg-clay-400 opacity-30 blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-6 relative">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-xs text-ink-500 mb-4">
+      <a href="index.html" class="hover:text-forest-700" data-i18n="bc.home">Home</a>
+      <span>/</span>
+      <span class="text-ink-700 font-medium" data-i18n="bc.breeders">Verified breeders</span>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6 items-end">
+      <div class="lg:col-span-2">
+        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="page.eyebrow">Verified breeders</span>
+        </div>
+        <h1 class="font-display text-3xl sm:text-5xl font-semibold mt-3 text-forest-700 leading-tight">
+          <span data-i18n="page.title1">Thailand's most</span>
+          <span class="italic text-clay-600" data-i18n="page.title2">trusted</span>
+          <span data-i18n="page.title3">farms.</span>
+        </h1>
+        <p class="mt-3 text-ink-700 max-w-xl text-sm sm:text-base" data-i18n="page.sub">Every breeder on PawMatch passes a 38-point audit: facilities, lineage, vet records, parent welfare, and ethics. Re-audited annually.</p>
+      </div>
+
+      <!-- Search -->
+      <div class="lg:justify-self-end w-full lg:max-w-md">
+        <label class="block">
+          <div class="relative">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input id="search" type="search" placeholder="Search breeder, breed, region…" class="w-full pl-11 pr-4 py-3 rounded-full bg-cream-50 border border-cream-300 focus:outline-none focus:border-forest-600 text-sm shadow-soft"/>
+          </div>
+        </label>
+        <div class="mt-2 grid grid-cols-3 gap-2 text-center">
+          <div class="bg-cream-50 border border-cream-200 rounded-xl p-2">
+            <div class="font-display font-semibold text-forest-700">1,240</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500" data-i18n="page.statTotal">Verified</div>
+          </div>
+          <div class="bg-cream-50 border border-cream-200 rounded-xl p-2">
+            <div class="font-display font-semibold text-forest-700">38</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500" data-i18n="page.statAudit">Audit points</div>
+          </div>
+          <div class="bg-cream-50 border border-cream-200 rounded-xl p-2">
+            <div class="font-display font-semibold text-forest-700">77</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500" data-i18n="page.statProv">Provinces</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MAIN ============== -->
+<section class="pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-8">
+
+      <!-- Sidebar -->
+      <aside class="lg:sticky lg:top-20 self-start bg-cream-50 border border-cream-200 rounded-2xl p-5 shadow-soft">
+        <div class="flex items-center justify-between">
+          <div class="font-display font-semibold text-forest-700" data-i18n="f.title">Filters</div>
+          <button id="reset" class="text-xs text-clay-600 hover:underline" data-i18n="f.reset">Reset</button>
+        </div>
+
+        <!-- Species -->
+        <div class="mt-5">
+          <div class="text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2" data-i18n="f.species">Specialty</div>
+          <div class="grid grid-cols-2 gap-2" id="species-filters">
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium col-span-2" data-species="all" aria-pressed="true" data-i18n="f.s.all">All breeders</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-species="dog" data-i18n="f.s.dog">🐕 Dogs</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-species="cat" data-i18n="f.s.cat">🐈 Cats</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-species="small" data-i18n="f.s.small">🐰 Small</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-species="exotic" data-i18n="f.s.exotic">🦜 Exotic</button>
+          </div>
+        </div>
+
+        <!-- Region -->
+        <div class="mt-5">
+          <div class="text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2" data-i18n="f.region">Region</div>
+          <select id="region" class="w-full bg-cream-50 border border-cream-300 rounded-xl px-3 py-2 text-sm">
+            <option value="all" data-i18n="f.r.all">All Thailand</option>
+            <option value="bkk" data-i18n="f.r.bkk">Bangkok & Vicinity</option>
+            <option value="north" data-i18n="f.r.north">Northern</option>
+            <option value="south" data-i18n="f.r.south">Southern</option>
+            <option value="central" data-i18n="f.r.central">Central</option>
+          </select>
+        </div>
+
+        <!-- Min rating -->
+        <div class="mt-5">
+          <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2">
+            <span data-i18n="f.rating">Min rating</span>
+            <span class="text-forest-700"><span id="rating-val">4.5</span> ★</span>
+          </div>
+          <input id="rating-range" type="range" min="0" max="50" step="1" value="45" class="w-full"/>
+        </div>
+
+        <!-- Badges -->
+        <div class="mt-5">
+          <div class="text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2" data-i18n="f.cert">Certification</div>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="badge-cb accent-forest-600" data-badge="top"/>
+            <span data-i18n="f.b.top">Top 1%</span>
+          </label>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="badge-cb accent-forest-600" data-badge="tkc"/>
+            <span data-i18n="f.b.tkc">TKC Verified</span>
+          </label>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="badge-cb accent-forest-600" data-badge="dna"/>
+            <span data-i18n="f.b.dna">DNA Certified</span>
+          </label>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="badge-cb accent-forest-600" data-badge="welfare"/>
+            <span data-i18n="f.b.welfare">Welfare First</span>
+          </label>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="badge-cb accent-forest-600" data-badge="heritage"/>
+            <span data-i18n="f.b.heritage">Heritage Breeder</span>
+          </label>
+        </div>
+
+        <a href="index.html#match" class="mt-6 block text-center bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm">
+          ✨ <span data-i18n="f.cta">Try AI Matching</span>
+        </a>
+      </aside>
+
+      <!-- Results column -->
+      <div>
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <div class="text-sm text-ink-700">
+            <span class="font-semibold text-forest-700" id="result-count">12</span>
+            <span data-i18n="page.results"> breeders match your filters</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm">
+            <span class="text-ink-500" data-i18n="page.sort">Sort</span>
+            <select id="sort" class="bg-cream-50 border border-cream-300 rounded-full text-sm px-3 py-2">
+              <option value="rating" data-i18n="page.sort1">Top rated</option>
+              <option value="reviews" data-i18n="page.sort2">Most reviews</option>
+              <option value="years" data-i18n="page.sort3">Most experienced</option>
+              <option value="new" data-i18n="page.sort4">Newest</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="active-chips" class="flex flex-wrap gap-2 mb-4 empty:hidden"></div>
+
+        <div id="breeders-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+
+        <div id="empty" class="hidden text-center py-16">
+          <div class="text-6xl">🔍</div>
+          <div class="font-display text-xl font-semibold text-forest-700 mt-3" data-i18n="page.empty">No breeders match your filters</div>
+          <p class="text-ink-500 text-sm mt-2" data-i18n="page.emptySub">Try widening the region or lowering the minimum rating.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="bg-forest-800 text-cream-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="inline-flex w-8 h-8 rounded-lg bg-cream-50 items-center justify-center">
+        <svg viewBox="0 0 64 64" class="w-5 h-5">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="brand-wordmark text-lg">PawMatch</div>
+    </div>
+    <div class="flex gap-4 text-xs text-cream-100/70">
+      <a href="index.html" class="hover:text-gold-400" data-i18n="bc.home">Home</a>
+      <a href="pets.html" class="hover:text-gold-400" data-i18n="nav.pets">Browse Pets</a>
+      <a href="index.html#faq" class="hover:text-gold-400" data-i18n="nav.faq">FAQ</a>
+    </div>
+    <div class="text-xs text-cream-100/60">© 2026 PawMatch Co., Ltd.</div>
+  </div>
+</footer>
+
+<!-- ============== MODAL ============== -->
+<div id="modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-forest-800/70 backdrop-blur-sm" data-close></div>
+  <div class="relative h-full overflow-y-auto">
+    <div class="min-h-full flex items-end sm:items-center justify-center p-0 sm:p-6">
+      <div class="bg-cream-50 w-full max-w-3xl rounded-t-3xl sm:rounded-3xl shadow-lift overflow-hidden" id="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== i18n ===== */
+const I18N = {
+  en: {
+    'nav.country':'Thailand','nav.match':'AI Matching','nav.breeders':'Breeders','nav.pets':'Browse Pets','nav.how':'How it works','nav.faq':'FAQ','nav.cta':'Find my match',
+    'bc.home':'Home','bc.breeders':'Verified breeders',
+    'page.eyebrow':'Verified breeders','page.title1':"Thailand's most",'page.title2':'trusted','page.title3':'farms.','page.sub':'Every breeder on PawMatch passes a 38-point audit: facilities, lineage, vet records, parent welfare, and ethics. Re-audited annually.',
+    'page.statTotal':'Verified','page.statAudit':'Audit points','page.statProv':'Provinces',
+    'page.results':' breeders match your filters','page.sort':'Sort','page.sort1':'Top rated','page.sort2':'Most reviews','page.sort3':'Most experienced','page.sort4':'Newest',
+    'page.empty':'No breeders match your filters','page.emptySub':'Try widening the region or lowering the minimum rating.',
+    'f.title':'Filters','f.reset':'Reset','f.species':'Specialty','f.s.all':'All breeders','f.s.dog':'🐕 Dogs','f.s.cat':'🐈 Cats','f.s.small':'🐰 Small','f.s.exotic':'🦜 Exotic',
+    'f.region':'Region','f.r.all':'All Thailand','f.r.bkk':'Bangkok & Vicinity','f.r.north':'Northern','f.r.south':'Southern','f.r.central':'Central',
+    'f.rating':'Min rating','f.cert':'Certification',
+    'f.b.top':'Top 1%','f.b.tkc':'TKC Verified','f.b.dna':'DNA Certified','f.b.welfare':'Welfare First','f.b.heritage':'Heritage Breeder',
+    'f.cta':'Try AI Matching',
+    'card.years':'yrs','card.reviews':'reviews','card.visit':'Visit farm','card.pets':'available pets',
+    'm.contact':'Contact breeder','m.visit':'Schedule visit','m.about':'About the farm','m.specialty':'Specialty','m.location':'Location','m.estab':'Established','m.audit':'Last audit',
+    'search.placeholder':'Search breeder, breed, region…',
+  },
+  th: {
+    'nav.country':'ประเทศไทย','nav.match':'จับคู่ด้วย AI','nav.breeders':'ฟาร์มผู้เพาะ','nav.pets':'ดูสัตว์เลี้ยง','nav.how':'วิธีใช้งาน','nav.faq':'คำถามที่พบบ่อย','nav.cta':'หาคู่ของฉัน',
+    'bc.home':'หน้าแรก','bc.breeders':'ฟาร์มที่รับรอง',
+    'page.eyebrow':'ฟาร์มที่รับรอง','page.title1':'ฟาร์มที่','page.title2':'ไว้ใจ','page.title3':'ได้ที่สุดในไทย','page.sub':'ทุกฟาร์มบน PawMatch ผ่านการตรวจสอบ 38 หัวข้อ: สถานที่ สายพันธุ์ ประวัติสัตวแพทย์ สวัสดิภาพพ่อแม่พันธุ์ และจริยธรรม ตรวจสอบใหม่ทุกปี',
+    'page.statTotal':'ฟาร์มที่รับรอง','page.statAudit':'หัวข้อตรวจสอบ','page.statProv':'จังหวัด',
+    'page.results':' ฟาร์มตรงเงื่อนไขคุณ','page.sort':'เรียง','page.sort1':'คะแนนสูงสุด','page.sort2':'รีวิวมากที่สุด','page.sort3':'ประสบการณ์มากที่สุด','page.sort4':'ใหม่ล่าสุด',
+    'page.empty':'ไม่พบฟาร์มตรงเงื่อนไข','page.emptySub':'ลองเปลี่ยนภูมิภาคหรือลดคะแนนขั้นต่ำ',
+    'f.title':'ตัวกรอง','f.reset':'ล้าง','f.species':'ความเชี่ยวชาญ','f.s.all':'ทั้งหมด','f.s.dog':'🐕 สุนัข','f.s.cat':'🐈 แมว','f.s.small':'🐰 สัตว์เล็ก','f.s.exotic':'🦜 สัตว์พิเศษ',
+    'f.region':'ภูมิภาค','f.r.all':'ทั่วประเทศ','f.r.bkk':'กรุงเทพและปริมณฑล','f.r.north':'ภาคเหนือ','f.r.south':'ภาคใต้','f.r.central':'ภาคกลาง',
+    'f.rating':'คะแนนขั้นต่ำ','f.cert':'การรับรอง',
+    'f.b.top':'Top 1%','f.b.tkc':'TKC รับรอง','f.b.dna':'รับรอง DNA','f.b.welfare':'สวัสดิภาพมาก่อน','f.b.heritage':'ฟาร์มมรดก',
+    'f.cta':'ลองจับคู่ด้วย AI',
+    'card.years':'ปี','card.reviews':'รีวิว','card.visit':'เยี่ยมฟาร์ม','card.pets':'สัตว์พร้อมรับเลี้ยง',
+    'm.contact':'ติดต่อฟาร์ม','m.visit':'นัดเยี่ยม','m.about':'เกี่ยวกับฟาร์ม','m.specialty':'ความเชี่ยวชาญ','m.location':'ที่ตั้ง','m.estab':'ก่อตั้ง','m.audit':'ตรวจล่าสุด',
+    'search.placeholder':'ค้นหาฟาร์ม สายพันธุ์ ภูมิภาค…',
+  }
+};
+
+/* ===== Breeders data ===== */
+const BREEDERS = [
+  { id:1, name:'Bangkok Pedigree Co.', species:'dog', region:'bkk', loc:{en:'Sukhumvit, Bangkok',th:'สุขุมวิท กรุงเทพฯ'}, years:12, rating:4.9, reviews:312, pets:14, badges:['top','tkc'], img:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80', specialty:{en:'Golden Retriever · Labrador',th:'โกลเด้น รีทรีฟเวอร์ · ลาบราดอร์'}, about:{en:'Premier kennel known for show-quality Goldens and Labs. Award-winning Champion bloodlines, on-site vet.',th:'ฟาร์มชั้นนำที่มีชื่อเสียงด้านโกลเด้นและลาบราดอร์คุณภาพประกวด สายเลือดแชมป์ที่ได้รับรางวัล มีสัตวแพทย์ประจำ'} },
+  { id:2, name:'Chiang Mai Highland Cattery', species:'cat', region:'north', loc:{en:'Mae Rim, Chiang Mai',th:'แม่ริม เชียงใหม่'}, years:8, rating:4.8, reviews:184, pets:9, badges:['tkc','welfare'], img:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80', specialty:{en:'British Shorthair · Maine Coon',th:'บริติช ชอร์ตแฮร์ · เมนคูน'}, about:{en:'Cattery of the Year 2025. Specialises in plush British Shorthairs and gentle Maine Coons.',th:'ฟาร์มแมวยอดเยี่ยมปี 2025 เชี่ยวชาญบริติช ชอร์ตแฮร์ และเมนคูนอ่อนโยน'} },
+  { id:3, name:'Royal Siam Kennels', species:'dog', region:'central', loc:{en:'Hua Hin',th:'หัวหิน'}, years:18, rating:5.0, reviews:421, pets:11, badges:['heritage','tkc','top'], img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80', specialty:{en:'Thai Ridgeback · Bangkaew',th:'ไทยหลังอาน · บางแก้ว'}, about:{en:'Heritage breeder preserving Thai native breeds for three generations. Strong emphasis on temperament and lineage.',th:'ฟาร์มมรดกที่อนุรักษ์สายพันธุ์ไทยมาสามชั่วอายุคน เน้นนิสัยและสายเลือด'} },
+  { id:4, name:'Sunny Paws Phuket', species:'dog', region:'south', loc:{en:'Kathu, Phuket',th:'กะทู้ ภูเก็ต'}, years:6, rating:4.7, reviews:96, pets:7, badges:['welfare'], img:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=900&q=80', specialty:{en:'Shiba Inu · Pomeranian',th:'ชิบะ อินุ · ปอมเมอเรเนียน'}, about:{en:'Small-batch breeder focused on welfare-first practices. Each puppy is socialised in our family home.',th:'ฟาร์มขนาดเล็กที่เน้นสวัสดิภาพเป็นอันดับแรก ลูกสุนัขทุกตัวเข้าสังคมในบ้านครอบครัวของเรา'} },
+  { id:5, name:'Northern Bloom Farm', species:'cat', region:'north', loc:{en:'Lampang',th:'ลำปาง'}, years:10, rating:4.9, reviews:208, pets:13, badges:['dna','tkc'], img:'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=900&q=80', specialty:{en:'Ragdoll · Scottish Fold',th:'แร็กดอลล์ · สก็อตติช โฟลด์'}, about:{en:'DNA-certified cattery using 23-marker testing for every kitten. Mountain-side facility with outdoor catio.',th:'ฟาร์มแมวรับรอง DNA ด้วยการทดสอบ 23 จุดสำหรับลูกแมวทุกตัว มีพื้นที่กลางแจ้งสำหรับแมว'} },
+  { id:6, name:'BKK Exotic House', species:'exotic', region:'bkk', loc:{en:'Thonglor, Bangkok',th:'ทองหล่อ กรุงเทพฯ'}, years:5, rating:4.8, reviews:74, pets:8, badges:['welfare'], img:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80', specialty:{en:'Macaws · Sugar Glider',th:'นกมาคอว์ · ชูการ์ ไกลเดอร์'}, about:{en:'CITES-licensed exotic breeder. Vibrant aviary and small-mammal nursery with expert handling.',th:'ฟาร์มสัตว์พิเศษที่ได้รับใบอนุญาต CITES มีนกและสัตว์เลี้ยงลูกด้วยนมขนาดเล็ก'} },
+  { id:7, name:'Nakhon Country Kennels', species:'dog', region:'central', loc:{en:'Nakhon Pathom',th:'นครปฐม'}, years:15, rating:4.9, reviews:267, pets:10, badges:['top','tkc','heritage'], img:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=900&q=80', specialty:{en:'Labrador · German Shepherd',th:'ลาบราดอร์ · เยอรมัน เชพเพิร์ด'}, about:{en:'Family farm with 4 hectares of training grounds. Specialises in working-line and family companions.',th:'ฟาร์มครอบครัวมีสนามฝึก 4 เฮกตาร์ เชี่ยวชาญสายเลือดทำงานและเพื่อนคู่ครอบครัว'} },
+  { id:8, name:'Pattaya Coastal Cattery', species:'cat', region:'central', loc:{en:'Pattaya, Chonburi',th:'พัทยา ชลบุรี'}, years:7, rating:4.6, reviews:122, pets:6, badges:['welfare','dna'], img:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80', specialty:{en:'Persian · Exotic Shorthair',th:'เปอร์เซีย · เอ็กโซติก ชอร์ตแฮร์'}, about:{en:'Specialises in flat-faced breeds with rigorous health screening for breathing and eye conditions.',th:'เชี่ยวชาญสายพันธุ์หน้าแบน มีการตรวจสุขภาพระบบทางเดินหายใจและตาอย่างเข้มงวด'} },
+  { id:9, name:'Isaan Highland Rabbits', species:'small', region:'north', loc:{en:'Khon Kaen',th:'ขอนแก่น'}, years:4, rating:4.7, reviews:58, pets:21, badges:['welfare'], img:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=900&q=80', specialty:{en:'Holland Lop · Netherland Dwarf',th:'ฮอลแลนด์ลอป · เนเธอร์แลนด์ ดวอร์ฟ'}, about:{en:'Small rabbitry focused on dwarf and lop breeds. Each bunny is hand-socialised from 3 weeks.',th:'ฟาร์มกระต่ายขนาดเล็ก เน้นสายพันธุ์ดวอร์ฟและลอป กระต่ายทุกตัวเข้าสังคมตั้งแต่ 3 สัปดาห์'} },
+  { id:10, name:'Krabi Sunshine Aviary', species:'exotic', region:'south', loc:{en:'Krabi',th:'กระบี่'}, years:9, rating:4.8, reviews:103, pets:15, badges:['welfare','tkc'], img:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80', specialty:{en:'Conures · Cockatiels · Lovebirds',th:'คอนัวร์ · ค็อกคาเทล · เลิฟเบิร์ด'}, about:{en:'Tropical aviary with 30+ species. Hand-fed babies for the strongest human bond.',th:'อาเวียรีในเขตร้อนกว่า 30 สายพันธุ์ ป้อนนมด้วยมือเพื่อความผูกพันที่แน่นแฟ้น'} },
+  { id:11, name:'Sukhothai Heritage Kennels', species:'dog', region:'north', loc:{en:'Sukhothai',th:'สุโขทัย'}, years:22, rating:5.0, reviews:534, pets:9, badges:['heritage','tkc','top','dna'], img:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=900&q=80', specialty:{en:'Bangkaew · Thai Ridgeback',th:'บางแก้ว · ไทยหลังอาน'}, about:{en:'Oldest registered Bangkaew breeder in Thailand. Preserving the Thai national breed since 2003.',th:'ฟาร์มบางแก้วที่ขึ้นทะเบียนเก่าแก่ที่สุดในไทย อนุรักษ์สายพันธุ์แห่งชาติตั้งแต่ปี 2546'} },
+  { id:12, name:'Bangkok Tiny Paws', species:'small', region:'bkk', loc:{en:'Bang Rak, Bangkok',th:'บางรัก กรุงเทพฯ'}, years:3, rating:4.5, reviews:42, pets:18, badges:['welfare'], img:'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=900&q=80', specialty:{en:'Guinea Pigs · Hamsters · Ferrets',th:'หนูตะเภา · หนูแฮมสเตอร์ · เฟอร์เร็ต'}, about:{en:'Urban small-pet specialist. Climate-controlled facility ideal for sensitive species.',th:'ผู้เชี่ยวชาญสัตว์เล็กในเมือง พื้นที่ควบคุมอุณหภูมิเหมาะกับสัตว์ที่อ่อนไหว'} },
+];
+
+const BADGE_LABELS = { en:{top:'Top 1%', tkc:'TKC Verified', dna:'DNA Certified', welfare:'Welfare First', heritage:'Heritage Breeder'}, th:{top:'Top 1%', tkc:'TKC รับรอง', dna:'รับรอง DNA', welfare:'สวัสดิภาพมาก่อน', heritage:'ฟาร์มมรดก'} };
+
+/* ===== State ===== */
+let lang = localStorage.getItem('pm-lang') || 'en';
+const state = { species:'all', region:'all', minRating:4.5, badges:new Set(), search:'', sort:'rating' };
+
+const t = (k) => (I18N[lang] && I18N[lang][k]) ?? (I18N.en[k] ?? k);
+function applyI18n(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(I18N[lang][k] !== undefined) el.textContent = I18N[lang][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang===lang ? 'true':'false'));
+  document.getElementById('search').placeholder = t('search.placeholder');
+  render();
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', ()=>{
+  lang = b.dataset.lang; localStorage.setItem('pm-lang', lang); applyI18n();
+}));
+
+/* ===== Filtering ===== */
+function filtered(){
+  let list = BREEDERS.filter(b => {
+    if(state.species !== 'all' && b.species !== state.species) return false;
+    if(state.region !== 'all' && b.region !== state.region) return false;
+    if(b.rating < state.minRating) return false;
+    if(state.badges.size > 0){
+      for(const bd of state.badges){ if(!b.badges.includes(bd)) return false; }
+    }
+    if(state.search){
+      const q = state.search.toLowerCase();
+      const hay = (b.name + ' ' + b.specialty.en + ' ' + b.specialty.th + ' ' + b.loc.en + ' ' + b.loc.th).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if(state.sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+  else if(state.sort==='reviews') list.sort((a,b)=>b.reviews-a.reviews);
+  else if(state.sort==='years') list.sort((a,b)=>b.years-a.years);
+  else list.sort((a,b)=>b.id-a.id);
+  return list;
+}
+
+function render(){
+  const list = filtered();
+  document.getElementById('result-count').textContent = list.length;
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+
+  const bg = document.getElementById('breeders-grid');
+  bg.innerHTML = list.map(b => `
+    <article class="b-card group bg-cream-50 rounded-2xl border border-cream-200 overflow-hidden shadow-soft hover:shadow-lift transition cursor-pointer" data-id="${b.id}">
+      <div class="aspect-[5/3] overflow-hidden bg-cream-200 relative">
+        <img src="${b.img}" alt="${b.name}" class="b-img w-full h-full object-cover"/>
+        <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 max-w-[80%]">
+          ${b.badges.slice(0,2).map(bd=>`<span class="bg-cream-50/95 text-forest-700 text-[10px] uppercase tracking-wider font-semibold px-2 py-1 rounded-full">${BADGE_LABELS[lang][bd]}</span>`).join('')}
+        </div>
+        <div class="absolute top-3 right-3 bg-forest-700 text-cream-50 rounded-full p-1.5" title="Verified">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+      </div>
+      <div class="p-5">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h3 class="font-display text-lg font-semibold text-forest-700 truncate">${b.name}</h3>
+            <div class="text-xs text-ink-500 mt-0.5 truncate">${b.loc[lang]} · ${b.years} ${t('card.years')}</div>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="text-sm font-semibold text-forest-700">★ ${b.rating.toFixed(1)}</div>
+            <div class="text-[11px] text-ink-500">${b.reviews} ${t('card.reviews')}</div>
+          </div>
+        </div>
+        <div class="mt-3 text-xs text-ink-700 italic truncate">${b.specialty[lang]}</div>
+        <div class="mt-3 flex items-center justify-between gap-2">
+          <div class="text-xs text-ink-500"><span class="font-semibold text-forest-700">${b.pets}</span> ${t('card.pets')}</div>
+          <button class="text-xs font-semibold bg-cream-100 hover:bg-cream-200 text-forest-700 px-3 py-1.5 rounded-full">${t('card.visit')}</button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  bg.querySelectorAll('[data-id]').forEach(el => el.addEventListener('click', ()=>openBreeder(parseInt(el.dataset.id))));
+
+  // Active chips
+  const chips = document.getElementById('active-chips');
+  const tags = [];
+  if(state.species!=='all') tags.push({k:'species', v:t('f.s.'+state.species)});
+  if(state.region!=='all') tags.push({k:'region', v:t('f.r.'+state.region)});
+  if(state.minRating>0) tags.push({k:'rating', v:'★ ≥ '+state.minRating.toFixed(1)});
+  state.badges.forEach(bd => tags.push({k:'badge:'+bd, v:BADGE_LABELS[lang][bd]}));
+  if(state.search) tags.push({k:'search', v:'"'+state.search+'"'});
+  chips.innerHTML = tags.map(x=>`<button class="bg-cream-100 hover:bg-cream-200 border border-cream-300 text-xs font-medium text-forest-700 rounded-full px-3 py-1.5 flex items-center gap-1.5" data-clear="${x.k}">${x.v} <span class="text-ink-500">×</span></button>`).join('');
+  chips.querySelectorAll('[data-clear]').forEach(b => b.addEventListener('click', ()=>{
+    const k = b.dataset.clear;
+    if(k==='species'){ state.species='all'; document.querySelectorAll('[data-species]').forEach(p => p.setAttribute('aria-pressed', p.dataset.species==='all' ? 'true':'false')); }
+    else if(k==='region'){ state.region='all'; document.getElementById('region').value='all'; }
+    else if(k==='rating'){ state.minRating=0; document.getElementById('rating-range').value=0; document.getElementById('rating-val').textContent='0.0'; }
+    else if(k==='search'){ state.search=''; document.getElementById('search').value=''; }
+    else if(k.startsWith('badge:')){ state.badges.delete(k.slice(6)); document.querySelectorAll('.badge-cb').forEach(cb => { if(cb.dataset.badge===k.slice(6)) cb.checked=false; }); }
+    render();
+  }));
+}
+
+/* ===== Wire up ===== */
+document.getElementById('species-filters').addEventListener('click', e=>{
+  const b = e.target.closest('[data-species]'); if(!b) return;
+  state.species = b.dataset.species;
+  document.querySelectorAll('#species-filters [data-species]').forEach(p => p.setAttribute('aria-pressed', p===b ? 'true':'false'));
+  render();
+});
+document.getElementById('region').addEventListener('change', e=>{ state.region = e.target.value; render(); });
+document.getElementById('rating-range').addEventListener('input', e=>{
+  state.minRating = (+e.target.value)/10;
+  document.getElementById('rating-val').textContent = state.minRating.toFixed(1);
+  render();
+});
+document.querySelectorAll('.badge-cb').forEach(cb => cb.addEventListener('change', ()=>{
+  cb.checked ? state.badges.add(cb.dataset.badge) : state.badges.delete(cb.dataset.badge);
+  render();
+}));
+document.getElementById('search').addEventListener('input', e=>{ state.search = e.target.value.trim(); render(); });
+document.getElementById('sort').addEventListener('change', e=>{ state.sort = e.target.value; render(); });
+document.getElementById('reset').addEventListener('click', ()=>{
+  state.species='all'; state.region='all'; state.minRating=0; state.badges.clear(); state.search=''; state.sort='rating';
+  document.getElementById('search').value=''; document.getElementById('region').value='all';
+  document.getElementById('rating-range').value=0; document.getElementById('rating-val').textContent='0.0';
+  document.getElementById('sort').value='rating';
+  document.querySelectorAll('.badge-cb').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('[data-species]').forEach(p => p.setAttribute('aria-pressed', p.dataset.species==='all' ? 'true':'false'));
+  render();
+});
+
+/* ===== Modal ===== */
+function openBreeder(id){
+  const b = BREEDERS.find(x=>x.id===id); if(!b) return;
+  document.getElementById('modal-body').innerHTML = `
+    <div class="relative">
+      <img src="${b.img}" alt="${b.name}" class="w-full h-64 sm:h-80 object-cover"/>
+      <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-cream-50/90 hover:bg-cream-50 flex items-center justify-center" data-close>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="absolute bottom-3 left-3 flex flex-wrap gap-1.5">
+        ${b.badges.map(bd=>`<span class="bg-cream-50/95 text-forest-700 text-[10px] uppercase tracking-wider font-semibold px-2 py-1 rounded-full">${BADGE_LABELS[lang][bd]}</span>`).join('')}
+      </div>
+    </div>
+    <div class="p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div class="min-w-0">
+          <h3 class="font-display text-3xl font-semibold text-forest-700">${b.name}</h3>
+          <div class="text-ink-500 text-sm">${b.loc[lang]}</div>
+        </div>
+        <div class="text-right">
+          <div class="text-2xl font-semibold text-forest-700">★ ${b.rating.toFixed(1)}</div>
+          <div class="text-xs text-ink-500">${b.reviews} ${t('card.reviews')}</div>
+        </div>
+      </div>
+
+      <div class="mt-5 grid sm:grid-cols-3 gap-3">
+        <div class="p-4 bg-cream-100 rounded-xl">
+          <div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.specialty')}</div>
+          <div class="mt-1 font-semibold text-forest-700 text-sm">${b.specialty[lang]}</div>
+        </div>
+        <div class="p-4 bg-cream-100 rounded-xl">
+          <div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.estab')}</div>
+          <div class="mt-1 font-semibold text-forest-700 text-sm">${2026 - b.years}</div>
+        </div>
+        <div class="p-4 bg-cream-100 rounded-xl">
+          <div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.audit')}</div>
+          <div class="mt-1 font-semibold text-forest-700 text-sm">2026-04 ✓</div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <div class="text-sm font-semibold text-forest-700">${t('m.about')}</div>
+        <p class="text-sm text-ink-700 mt-1">${b.about[lang]}</p>
+      </div>
+
+      <div class="mt-6 p-4 bg-forest-700 text-cream-50 rounded-2xl flex items-center justify-between">
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-gold-400">${t('card.pets')}</div>
+          <div class="font-display text-2xl font-semibold mt-0.5">${b.pets}</div>
+        </div>
+        <a href="pets.html" class="text-xs font-semibold bg-gold-500 hover:bg-gold-400 text-forest-800 px-4 py-2 rounded-full">${t('card.visit')} →</a>
+      </div>
+
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <button class="flex-1 bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full">${t('m.visit')}</button>
+        <button class="flex-1 bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold py-3 rounded-full">${t('m.contact')}</button>
+      </div>
+    </div>`;
+  document.getElementById('modal').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+document.addEventListener('click', e=>{
+  if(e.target.closest('[data-close]')){
+    document.getElementById('modal').classList.add('hidden');
+    document.body.style.overflow='';
+  }
+});
+
+/* Mobile nav */
+document.getElementById('mnav').addEventListener('click', ()=> document.getElementById('mnav-panel').classList.toggle('hidden'));
+document.querySelectorAll('#mnav-panel a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('mnav-panel').classList.add('hidden')));
+
+/* Boot */
+state.minRating = 4.5;
+document.getElementById('rating-range').value = 45;
+applyI18n();
+</script>
+<script type="module" src="scripts/supabase.js"></script>
+<script src="scripts/auth.js"></script>
+</body>
+</html>

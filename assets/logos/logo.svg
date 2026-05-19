@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
+  <!-- Heartpaw icon, sized 64x64, positioned at (8, 8) -->
+  <g transform="translate(8 8)">
+    <g fill="#1F3A2C">
+      <ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/>
+      <ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/>
+      <ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/>
+      <ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/>
+    </g>
+    <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+  </g>
+  <!-- Wordmark "PawMatch" Inter 800, tracking -1.5% -->
+  <text x="92" y="52" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="38" letter-spacing="-0.6" fill="#15291F">PawMatch</text>
+</svg>

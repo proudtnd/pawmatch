@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Browse Pets — PawMatch</title>
+<meta name="description" content="Browse verified, pedigreed pets available in Thailand. Filter by type, breed, age, and lifestyle fit." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/favicon.svg" />
+<meta property="og:title" content="Browse Pets — PawMatch" />
+<meta property="og:description" content="Browse verified, pedigreed pets available in Thailand." />
+<meta property="og:image" content="assets/logos/logo-stacked.svg" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: {
+        serif: ['Fraunces','ui-serif','Georgia','serif'],
+        sans: ['Inter','IBM Plex Sans Thai','ui-sans-serif','system-ui'],
+      },
+      colors: {
+        cream:  { 50:'#FBF7F1', 100:'#F6EFE4', 200:'#EFE3CE', 300:'#E5D2B0' },
+        clay:   { 400:'#D88A6A', 500:'#C2674A', 600:'#A04E36', 700:'#7E3B28' },
+        forest: { 500:'#2E4A3B', 600:'#1F3A2C', 700:'#15291F', 800:'#0E1F18' },
+        gold:   { 400:'#D8B26E', 500:'#B8924C', 600:'#8E6F32' },
+        ink:    { 900:'#1A1714', 700:'#3B342D', 500:'#6B6157', 400:'#8E8479' },
+      },
+      boxShadow: {
+        soft:'0 8px 24px -10px rgba(30,20,10,.18), 0 2px 6px -2px rgba(30,20,10,.06)',
+        lift:'0 20px 40px -20px rgba(30,20,10,.25), 0 8px 16px -10px rgba(30,20,10,.08)',
+      },
+    } }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; background:#FBF7F1; color:#1A1714; -webkit-font-smoothing:antialiased; }
+  html[lang="th"] body { font-family:'IBM Plex Sans Thai','Sarabun',system-ui,sans-serif; }
+  .font-display { font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto; letter-spacing:-0.01em; }
+  html[lang="th"] .font-display { font-family:'IBM Plex Sans Thai','Sarabun',serif; letter-spacing:0; font-weight:700; }
+  .brand-wordmark { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; font-weight:800; letter-spacing:-0.018em; }
+  html[lang="th"] .italic { font-style: normal; }
+  .pet-card:hover .pet-img { transform: scale(1.04); }
+  .pet-img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .chip { transition: all .15s ease; }
+  .chip:hover { transform: translateY(-1px); }
+  .step-active { background:#1F3A2C; color:#FBF7F1; }
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  .lang-btn[aria-pressed="true"] { background:#1F3A2C; color:#FBF7F1; }
+  .filter-pill[aria-pressed="true"]{ background:#1F3A2C; color:#FBF7F1; border-color:#1F3A2C; }
+  input[type="range"] { -webkit-appearance:none; height:4px; background:#EFE3CE; border-radius:2px; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:#1F3A2C; cursor:pointer; }
+
+  html, body { max-width: 100vw; overflow-x: hidden; }
+  @supports (padding: max(0px)) { body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); } }
+  @media (hover: none) and (pointer: coarse) { button, a[role="button"], .chip, .filter-pill { min-height: 44px; } }
+  input, select, textarea { font-size: 16px; }
+  @media (max-width: 640px) { #modal-body { max-height: 92dvh; overflow-y: auto; } }
+</style>
+</head>
+<body class="overflow-x-hidden">
+
+<!-- ============== NAV ============== -->
+<header class="sticky top-0 z-40 backdrop-blur-md bg-cream-50/85 border-b border-cream-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="inline-flex w-9 h-9 rounded-xl bg-cream-100 border border-cream-200 items-center justify-center shadow-soft">
+        <svg viewBox="0 0 64 64" class="w-6 h-6">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="leading-tight">
+        <div class="brand-wordmark text-lg text-forest-700">PawMatch</div>
+        <div class="text-[10px] uppercase tracking-[0.18em] text-ink-500 -mt-0.5" data-i18n="nav.country">Thailand</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink-700">
+      <a href="index.html#match" class="hover:text-forest-700" data-i18n="nav.match">AI Matching</a>
+      <a href="index.html#breeders" class="hover:text-forest-700" data-i18n="nav.breeders">Breeders</a>
+      <a href="pets.html" class="text-forest-700 font-semibold" data-i18n="nav.pets">Browse Pets</a>
+      <a href="index.html#how" class="hover:text-forest-700" data-i18n="nav.how">How it works</a>
+      <a href="index.html#faq" class="hover:text-forest-700" data-i18n="nav.faq">FAQ</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <div class="inline-flex items-center bg-cream-100 border border-cream-200 rounded-full p-0.5 text-xs font-semibold">
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="th" aria-pressed="false">ไทย</button>
+      </div>
+      <a href="index.html#match" class="inline-flex items-center gap-1.5 bg-forest-600 hover:bg-forest-700 text-cream-50 text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-soft">
+        <span class="hidden sm:inline" data-i18n="nav.cta">Find my match</span>
+        <span class="sm:hidden">✨</span>
+      </a>
+      <button id="mnav" class="md:hidden ml-1 p-2 rounded-lg hover:bg-cream-200" aria-label="Menu">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mnav-panel" class="hidden md:hidden border-t border-cream-200 bg-cream-50">
+    <div class="px-4 py-3 grid gap-1 text-sm">
+      <a href="index.html" class="py-2" data-i18n="nav.home">Home</a>
+      <a href="index.html#match" class="py-2" data-i18n="nav.match">AI Matching</a>
+      <a href="index.html#breeders" class="py-2" data-i18n="nav.breeders">Breeders</a>
+      <a href="pets.html" class="py-2 font-semibold" data-i18n="nav.pets">Browse Pets</a>
+      <a href="index.html#faq" class="py-2" data-i18n="nav.faq">FAQ</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============== PAGE HEADER ============== -->
+<section class="relative overflow-hidden">
+  <div class="absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-clay-400 opacity-40 blur-3xl pointer-events-none"></div>
+  <div class="absolute top-40 -left-20 w-[340px] h-[340px] rounded-full bg-gold-400 opacity-30 blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-6 relative">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-xs text-ink-500 mb-4">
+      <a href="index.html" class="hover:text-forest-700" data-i18n="bc.home">Home</a>
+      <span>/</span>
+      <span class="text-ink-700 font-medium" data-i18n="bc.pets">Browse pets</span>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6 items-end">
+      <div class="lg:col-span-2">
+        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="page.eyebrow">Marketplace</span>
+        </div>
+        <h1 class="font-display text-3xl sm:text-5xl font-semibold mt-3 text-forest-700 leading-tight">
+          <span data-i18n="page.title1">Find your</span>
+          <span class="italic text-clay-600" data-i18n="page.title2">perfect</span>
+          <span data-i18n="page.title3">companion.</span>
+        </h1>
+        <p class="mt-3 text-ink-700 max-w-xl text-sm sm:text-base" data-i18n="page.sub">Every pet here is health-checked, pedigree-verified, and listed by audited breeders. Browse, filter, and book a meet.</p>
+      </div>
+
+      <!-- Search -->
+      <div class="lg:justify-self-end w-full lg:max-w-md">
+        <label class="block">
+          <div class="relative">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input id="search" type="search" placeholder="Search breed, trait, breeder…" class="w-full pl-11 pr-4 py-3 rounded-full bg-cream-50 border border-cream-300 focus:outline-none focus:border-forest-600 text-sm shadow-soft"/>
+          </div>
+        </label>
+        <div class="mt-2 grid grid-cols-3 gap-2 text-center">
+          <div class="bg-cream-50 border border-cream-200 rounded-xl p-2">
+            <div class="font-display font-semibold text-forest-700" id="stat-total">12</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500" data-i18n="page.statTotal">Available</div>
+          </div>
+          <div class="bg-cream-50 border border-cream-200 rounded-xl p-2">
+            <div class="font-display font-semibold text-forest-700">120+</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500" data-i18n="page.statVet">Vet partners</div>
+          </div>
+          <div class="bg-cream-50 border border-cream-200 rounded-xl p-2">
+            <div class="font-display font-semibold text-forest-700">4.9★</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500" data-i18n="page.statRating">Owner rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MAIN ============== -->
+<section class="pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-8">
+
+      <!-- Sidebar filters -->
+      <aside class="lg:sticky lg:top-20 self-start bg-cream-50 border border-cream-200 rounded-2xl p-5 shadow-soft">
+        <div class="flex items-center justify-between">
+          <div class="font-display font-semibold text-forest-700" data-i18n="f.title">Filters</div>
+          <button id="reset" class="text-xs text-clay-600 hover:underline" data-i18n="f.reset">Reset</button>
+        </div>
+
+        <!-- Type -->
+        <div class="mt-5">
+          <div class="text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2" data-i18n="f.type">Pet type</div>
+          <div class="grid grid-cols-2 gap-2" id="type-filters">
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-type="all" aria-pressed="true" data-i18n="f.t.all">All</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-type="dog" data-i18n="f.t.dog">🐕 Dogs</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-type="cat" data-i18n="f.t.cat">🐈 Cats</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-type="small" data-i18n="f.t.small">🐰 Small</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium col-span-2" data-type="exotic" data-i18n="f.t.exotic">🦜 Exotic</button>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="mt-5">
+          <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2">
+            <span data-i18n="f.price">Max price</span>
+            <span class="text-forest-700">฿<span id="price-val">100,000</span></span>
+          </div>
+          <input id="price-range" type="range" min="5000" max="100000" step="1000" value="100000" class="w-full"/>
+        </div>
+
+        <!-- Lifestyle -->
+        <div class="mt-5">
+          <div class="text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2" data-i18n="f.life">Lifestyle</div>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="lifestyle accent-forest-600" data-tag="apt"/>
+            <span data-i18n="f.apt">Apartment friendly</span>
+          </label>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="lifestyle accent-forest-600" data-tag="kids"/>
+            <span data-i18n="f.kids">Good with kids</span>
+          </label>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="lifestyle accent-forest-600" data-tag="hypo"/>
+            <span data-i18n="f.hypo">Hypoallergenic</span>
+          </label>
+          <label class="flex items-center gap-2 py-1.5 text-sm cursor-pointer">
+            <input type="checkbox" class="lifestyle accent-forest-600" data-tag="low"/>
+            <span data-i18n="f.low">Low energy</span>
+          </label>
+        </div>
+
+        <!-- Sex -->
+        <div class="mt-5">
+          <div class="text-xs font-semibold uppercase tracking-wider text-ink-500 mb-2" data-i18n="f.sex">Sex</div>
+          <div class="grid grid-cols-3 gap-2" id="sex-filters">
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-sex="all" aria-pressed="true" data-i18n="f.s.all">All</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-sex="male" data-i18n="f.s.male">Male</button>
+            <button class="filter-pill bg-cream-50 border border-cream-300 rounded-xl py-2 text-sm font-medium" data-sex="female" data-i18n="f.s.female">Female</button>
+          </div>
+        </div>
+
+        <a href="index.html#match" class="mt-6 block text-center bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm">
+          ✨ <span data-i18n="f.cta">Try AI Matching</span>
+        </a>
+      </aside>
+
+      <!-- Results column -->
+      <div>
+        <!-- Top bar -->
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <div class="text-sm text-ink-700">
+            <span class="font-semibold text-forest-700" id="result-count">12</span>
+            <span data-i18n="page.results"> pets matching your filters</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm">
+            <span class="text-ink-500" data-i18n="page.sort">Sort</span>
+            <select id="sort" class="bg-cream-50 border border-cream-300 rounded-full text-sm px-3 py-2">
+              <option value="match" data-i18n="page.sort1">Top matches</option>
+              <option value="new" data-i18n="page.sort2">Newest</option>
+              <option value="lo" data-i18n="page.sort3">Price: low → high</option>
+              <option value="hi" data-i18n="page.sort4">Price: high → low</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Active chips -->
+        <div id="active-chips" class="flex flex-wrap gap-2 mb-4 empty:hidden"></div>
+
+        <div id="pets-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"></div>
+
+        <div id="empty" class="hidden text-center py-16">
+          <div class="text-6xl">🔍</div>
+          <div class="font-display text-xl font-semibold text-forest-700 mt-3" data-i18n="page.empty">No pets match your filters</div>
+          <p class="text-ink-500 text-sm mt-2" data-i18n="page.emptySub">Try removing a filter or expanding your price range.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="bg-forest-800 text-cream-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="inline-flex w-8 h-8 rounded-lg bg-cream-50 items-center justify-center">
+        <svg viewBox="0 0 64 64" class="w-5 h-5">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="brand-wordmark text-lg">PawMatch</div>
+    </div>
+    <div class="flex gap-4 text-xs text-cream-100/70">
+      <a href="index.html" class="hover:text-gold-400" data-i18n="bc.home">Home</a>
+      <a href="index.html#breeders" class="hover:text-gold-400" data-i18n="nav.breeders">Breeders</a>
+      <a href="index.html#faq" class="hover:text-gold-400" data-i18n="nav.faq">FAQ</a>
+    </div>
+    <div class="text-xs text-cream-100/60">© 2026 PawMatch Co., Ltd.</div>
+  </div>
+</footer>
+
+<!-- ============== MODAL ============== -->
+<div id="modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-forest-800/70 backdrop-blur-sm" data-close></div>
+  <div class="relative h-full overflow-y-auto">
+    <div class="min-h-full flex items-end sm:items-center justify-center p-0 sm:p-6">
+      <div class="bg-cream-50 w-full max-w-3xl rounded-t-3xl sm:rounded-3xl shadow-lift overflow-hidden" id="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== i18n (subset) ===== */
+const I18N = {
+  en: {
+    'nav.home':'Home','nav.country':'Thailand','nav.match':'AI Matching','nav.breeders':'Breeders','nav.pets':'Browse Pets','nav.how':'How it works','nav.faq':'FAQ','nav.cta':'Find my match',
+    'bc.home':'Home','bc.pets':'Browse pets',
+    'page.eyebrow':'Marketplace','page.title1':'Find your','page.title2':'perfect','page.title3':'companion.','page.sub':'Every pet here is health-checked, pedigree-verified, and listed by audited breeders. Browse, filter, and book a meet.',
+    'page.statTotal':'Available','page.statVet':'Vet partners','page.statRating':'Owner rating',
+    'page.results':' pets matching your filters','page.sort':'Sort','page.sort1':'Top matches','page.sort2':'Newest','page.sort3':'Price: low → high','page.sort4':'Price: high → low',
+    'page.empty':'No pets match your filters','page.emptySub':'Try removing a filter or expanding your price range.',
+    'f.title':'Filters','f.reset':'Reset','f.type':'Pet type','f.t.all':'All','f.t.dog':'🐕 Dogs','f.t.cat':'🐈 Cats','f.t.small':'🐰 Small','f.t.exotic':'🦜 Exotic',
+    'f.price':'Max price','f.life':'Lifestyle','f.apt':'Apartment friendly','f.kids':'Good with kids','f.hypo':'Hypoallergenic','f.low':'Low energy',
+    'f.sex':'Sex','f.s.all':'All','f.s.male':'Male','f.s.female':'Female','f.cta':'Try AI Matching',
+    'pets.from':'From','pets.breeder':'Breeder','pets.match':'% match',
+    'm.request':'Request a meet','m.chat':'Chat breeder','m.health':'Health','m.healthV':'Vacc · Vet checked · DNA ✓','m.ped':'Pedigree','m.pedV':'4 gens · TKC certified','m.brd':'Breeder',
+    'search.placeholder':'Search breed, trait, breeder…',
+    'weeks':'wks','months':'mo',
+  },
+  th: {
+    'nav.home':'หน้าแรก','nav.country':'ประเทศไทย','nav.match':'จับคู่ด้วย AI','nav.breeders':'ฟาร์มผู้เพาะ','nav.pets':'ดูสัตว์เลี้ยง','nav.how':'วิธีใช้งาน','nav.faq':'คำถามที่พบบ่อย','nav.cta':'หาคู่ของฉัน',
+    'bc.home':'หน้าแรก','bc.pets':'ดูสัตว์เลี้ยง',
+    'page.eyebrow':'มาร์เก็ตเพลส','page.title1':'ค้นหาเพื่อน','page.title2':'คู่ใจที่ใช่','page.title3':'ของคุณ','page.sub':'สัตว์เลี้ยงทุกตัวผ่านการตรวจสุขภาพ รับรองสายพันธุ์ และลงทะเบียนจากฟาร์มที่ผ่านการตรวจสอบ ค้นหา กรอง และนัดพบได้ทันที',
+    'page.statTotal':'พร้อมรับเลี้ยง','page.statVet':'สัตวแพทย์พันธมิตร','page.statRating':'คะแนนผู้เลี้ยง',
+    'page.results':' ตัวที่ตรงกับเงื่อนไขคุณ','page.sort':'เรียง','page.sort1':'คู่ที่ใช่ที่สุด','page.sort2':'ใหม่ล่าสุด','page.sort3':'ราคา: น้อย → มาก','page.sort4':'ราคา: มาก → น้อย',
+    'page.empty':'ไม่มีสัตว์เลี้ยงตรงเงื่อนไข','page.emptySub':'ลองลดตัวกรองหรือขยายช่วงราคา',
+    'f.title':'ตัวกรอง','f.reset':'ล้าง','f.type':'ประเภทสัตว์เลี้ยง','f.t.all':'ทั้งหมด','f.t.dog':'🐕 สุนัข','f.t.cat':'🐈 แมว','f.t.small':'🐰 สัตว์เล็ก','f.t.exotic':'🦜 สัตว์พิเศษ',
+    'f.price':'ราคาสูงสุด','f.life':'ไลฟ์สไตล์','f.apt':'เหมาะกับคอนโด','f.kids':'เข้ากับเด็ก','f.hypo':'ไม่ก่อภูมิแพ้','f.low':'พลังงานน้อย',
+    'f.sex':'เพศ','f.s.all':'ทั้งหมด','f.s.male':'เพศผู้','f.s.female':'เพศเมีย','f.cta':'ลองจับคู่ด้วย AI',
+    'pets.from':'เริ่มต้น','pets.breeder':'ฟาร์ม','pets.match':'% เข้ากัน',
+    'm.request':'ขอนัดพบ','m.chat':'แชทกับฟาร์ม','m.health':'สุขภาพ','m.healthV':'วัคซีน · ตรวจโดยสัตวแพทย์ · DNA ✓','m.ped':'พันธุ์ประวัติ','m.pedV':'4 รุ่น · รับรอง TKC','m.brd':'ฟาร์ม',
+    'search.placeholder':'ค้นหาสายพันธุ์ ลักษณะ ฟาร์ม…',
+    'weeks':'สัปดาห์','months':'เดือน',
+  }
+};
+
+/* ===== Pets data (same as homepage) ===== */
+const PETS = [
+  { id:1, name:'Khao Niao', breed:{en:'Golden Retriever',th:'โกลเด้น รีทรีฟเวอร์'}, type:'dog', ageW:9, sex:'female', sexT:{en:'Female',th:'เพศเมีย'}, price:45000, energy:3, kids:1, apt:0, hypo:0, traits:{en:['Calm','Affectionate','Family'],th:['สงบ','อ่อนโยน','รักครอบครัว']}, match:96, img:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80', breeder:'Bangkok Pedigree Co.' },
+  { id:2, name:'Mochi', breed:{en:'Shiba Inu',th:'ชิบะ อินุ'}, type:'dog', ageW:11, sex:'male', sexT:{en:'Male',th:'เพศผู้'}, price:62000, energy:3, kids:1, apt:1, hypo:0, traits:{en:['Bold','Smart','Independent'],th:['กล้า','ฉลาด','อิสระ']}, match:92, img:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80', breeder:'Sunny Paws Phuket' },
+  { id:3, name:'Pudding', breed:{en:'British Shorthair',th:'บริติช ชอร์ตแฮร์'}, type:'cat', ageW:12, sex:'female', sexT:{en:'Female',th:'เพศเมีย'}, price:38000, energy:1, kids:1, apt:1, hypo:0, traits:{en:['Quiet','Affectionate','Apartment'],th:['สงบ','อ่อนโยน','คอนโด']}, match:94, img:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80', breeder:'Chiang Mai Highland Cattery' },
+  { id:4, name:'Ginger', breed:{en:'Maine Coon',th:'เมนคูน'}, type:'cat', ageW:14, sex:'male', sexT:{en:'Male',th:'เพศผู้'}, price:55000, energy:2, kids:1, apt:1, hypo:0, traits:{en:['Gentle','Sociable','Large'],th:['อ่อนโยน','เข้าสังคม','ตัวใหญ่']}, match:89, img:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80', breeder:'Northern Bloom Farm' },
+  { id:5, name:'Som Tam', breed:{en:'Thai Ridgeback',th:'ไทยหลังอาน'}, type:'dog', ageW:10, sex:'male', sexT:{en:'Male',th:'เพศผู้'}, price:35000, energy:3, kids:0, apt:0, hypo:0, traits:{en:['Loyal','Active','Protective'],th:['ซื่อสัตย์','กระฉับกระเฉง','คุ้มกัน']}, match:88, img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80', breeder:'Royal Siam Kennels' },
+  { id:6, name:'Mali', breed:{en:'Pomeranian',th:'ปอมเมอเรเนียน'}, type:'dog', ageW:9, sex:'female', sexT:{en:'Female',th:'เพศเมีย'}, price:42000, energy:2, kids:1, apt:1, hypo:0, traits:{en:['Playful','Compact','Vocal'],th:['ขี้เล่น','ตัวเล็ก','ช่างพูด']}, match:90, img:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80', breeder:'Sunny Paws Phuket' },
+  { id:7, name:'Latte', breed:{en:'Ragdoll',th:'แร็กดอลล์'}, type:'cat', ageW:13, sex:'female', sexT:{en:'Female',th:'เพศเมีย'}, price:48000, energy:1, kids:1, apt:1, hypo:0, traits:{en:['Cuddly','Docile','Quiet'],th:['ขี้กอด','ว่านอนสอนง่าย','สงบ']}, match:95, img:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80', breeder:'Northern Bloom Farm' },
+  { id:8, name:'Bua', breed:{en:'Holland Lop',th:'ฮอลแลนด์ลอป'}, type:'small', ageW:8, sex:'female', sexT:{en:'Female',th:'เพศเมีย'}, price:6500, energy:2, kids:1, apt:1, hypo:1, traits:{en:['Tiny','Gentle','Quiet'],th:['ตัวจิ๋ว','อ่อนโยน','สงบ']}, match:86, img:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=900&q=80', breeder:'Northern Bloom Farm' },
+  { id:9, name:'Kiwi', breed:{en:'Sun Conure',th:'นกซันคอนัวร์'}, type:'exotic', ageW:16, sex:'male', sexT:{en:'Male',th:'เพศผู้'}, price:18000, energy:3, kids:1, apt:1, hypo:1, traits:{en:['Vibrant','Social','Vocal'],th:['สีสด','เข้าสังคม','ช่างพูด']}, match:81, img:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80', breeder:'BKK Exotic House' },
+  { id:10, name:'Thong', breed:{en:'Bangkaew',th:'บางแก้ว'}, type:'dog', ageW:12, sex:'male', sexT:{en:'Male',th:'เพศผู้'}, price:28000, energy:3, kids:1, apt:0, hypo:0, traits:{en:['Loyal','Athletic','Smart'],th:['ซื่อสัตย์','แข็งแรง','ฉลาด']}, match:84, img:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=900&q=80', breeder:'Royal Siam Kennels' },
+  { id:11, name:'Yuki', breed:{en:'Scottish Fold',th:'สก็อตติช โฟลด์'}, type:'cat', ageW:10, sex:'female', sexT:{en:'Female',th:'เพศเมีย'}, price:52000, energy:2, kids:1, apt:1, hypo:0, traits:{en:['Sweet','Curious','Quiet'],th:['น่ารัก','อยากรู้','สงบ']}, match:91, img:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80', breeder:'Chiang Mai Highland Cattery' },
+  { id:12, name:'Pang', breed:{en:'Labrador',th:'ลาบราดอร์'}, type:'dog', ageW:11, sex:'male', sexT:{en:'Male',th:'เพศผู้'}, price:38000, energy:3, kids:1, apt:0, hypo:0, traits:{en:['Playful','Friendly','Energetic'],th:['ขี้เล่น','เป็นมิตร','กระตือรือร้น']}, match:93, img:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=900&q=80', breeder:'Bangkok Pedigree Co.' },
+];
+
+/* ===== State ===== */
+let lang = localStorage.getItem('pm-lang') || 'en';
+const state = { type:'all', sex:'all', maxPrice:100000, lifestyle:new Set(), search:'', sort:'match' };
+
+const t = (k) => (I18N[lang] && I18N[lang][k]) ?? (I18N.en[k] ?? k);
+function applyI18n(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(I18N[lang][k] !== undefined) el.textContent = I18N[lang][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang===lang ? 'true':'false'));
+  document.getElementById('search').placeholder = t('search.placeholder');
+  render();
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', ()=>{
+  lang = b.dataset.lang; localStorage.setItem('pm-lang', lang); applyI18n();
+}));
+
+/* ===== Filtering + rendering ===== */
+function ageStr(w){ return w >= 16 ? Math.round(w/4) + ' ' + t('months') : w + ' ' + t('weeks'); }
+
+function filtered(){
+  let list = PETS.filter(p => {
+    if(state.type !== 'all' && p.type !== state.type) return false;
+    if(state.sex !== 'all' && p.sex !== state.sex) return false;
+    if(p.price > state.maxPrice) return false;
+    if(state.lifestyle.has('apt') && !p.apt) return false;
+    if(state.lifestyle.has('kids') && !p.kids) return false;
+    if(state.lifestyle.has('hypo') && !p.hypo) return false;
+    if(state.lifestyle.has('low') && p.energy > 1) return false;
+    if(state.search){
+      const q = state.search.toLowerCase();
+      const hay = (p.name + ' ' + p.breed.en + ' ' + p.breed.th + ' ' + p.breeder + ' ' + p.traits.en.join(' ') + ' ' + p.traits.th.join(' ')).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if(state.sort==='lo') list.sort((a,b)=>a.price-b.price);
+  else if(state.sort==='hi') list.sort((a,b)=>b.price-a.price);
+  else if(state.sort==='new') list.sort((a,b)=>b.id-a.id);
+  else list.sort((a,b)=>b.match-a.match);
+  return list;
+}
+
+function render(){
+  const list = filtered();
+  document.getElementById('result-count').textContent = list.length;
+  document.getElementById('stat-total').textContent = PETS.length;
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+
+  const pg = document.getElementById('pets-grid');
+  pg.innerHTML = list.map(p => `
+    <article class="pet-card group bg-cream-50 rounded-2xl border border-cream-200 overflow-hidden shadow-soft hover:shadow-lift transition cursor-pointer" data-id="${p.id}">
+      <div class="aspect-[4/5] bg-cream-200 overflow-hidden relative">
+        <img src="${p.img}" alt="${p.name}" class="pet-img w-full h-full object-cover"/>
+        <div class="absolute top-3 left-3 bg-forest-700/90 backdrop-blur text-cream-50 text-[11px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+          <svg class="w-3 h-3 text-gold-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.9L22 9.3l-5.6 4.8L18 22l-6-3.7L6 22l1.6-7.9L2 9.3l7.6-.4z"/></svg>
+          ${p.match}${t('pets.match')}
+        </div>
+        <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-cream-50/90 hover:bg-cream-50 text-clay-500 flex items-center justify-center" onclick="event.stopPropagation(); this.classList.toggle('text-clay-600')">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.35-7-10a4 4 0 017-2.65A4 4 0 0119 11c0 5.65-7 10-7 10z"/></svg>
+        </button>
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-800/85 to-transparent p-2.5 sm:p-3 text-cream-50">
+          <div class="font-display font-semibold text-base sm:text-lg leading-tight">${p.name}</div>
+          <div class="text-[10px] sm:text-[11px] opacity-90 truncate">${p.breed[lang]} · ${ageStr(p.ageW)}</div>
+        </div>
+      </div>
+      <div class="p-3 sm:p-4">
+        <div class="hidden sm:flex items-center gap-1.5 flex-wrap">
+          ${p.traits[lang].map(tr=>`<span class="text-[10px] uppercase tracking-wider font-semibold text-forest-700 bg-cream-100 px-2 py-0.5 rounded-full">${tr}</span>`).join('')}
+        </div>
+        <div class="flex sm:hidden gap-1">
+          ${p.traits[lang].slice(0,2).map(tr=>`<span class="text-[9px] uppercase tracking-wider font-semibold text-forest-700 bg-cream-100 px-1.5 py-0.5 rounded-full truncate max-w-[80px]">${tr}</span>`).join('')}
+        </div>
+        <div class="mt-2 sm:mt-3 flex items-center justify-between gap-2">
+          <div class="min-w-0">
+            <div class="text-[10px] sm:text-[11px] text-ink-500">${t('pets.from')}</div>
+            <div class="font-display font-semibold text-forest-700 text-sm sm:text-base">฿${p.price.toLocaleString()}</div>
+          </div>
+          <div class="text-right min-w-0">
+            <div class="text-[10px] sm:text-[11px] text-ink-500">${t('pets.breeder')}</div>
+            <div class="text-[11px] sm:text-xs font-medium text-ink-700 truncate max-w-[90px] sm:max-w-[140px]">${p.breeder}</div>
+          </div>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  pg.querySelectorAll('[data-id]').forEach(el => el.addEventListener('click', ()=>openPet(parseInt(el.dataset.id))));
+
+  // Active chips
+  const chips = document.getElementById('active-chips');
+  const tags = [];
+  if(state.type!=='all') tags.push({k:'type', v:t('f.t.'+state.type)});
+  if(state.sex!=='all') tags.push({k:'sex', v:t('f.s.'+state.sex)});
+  if(state.maxPrice<100000) tags.push({k:'price', v:'≤ ฿'+state.maxPrice.toLocaleString()});
+  state.lifestyle.forEach(tag => tags.push({k:'life:'+tag, v:t('f.'+tag)}));
+  if(state.search) tags.push({k:'search', v:'"'+state.search+'"'});
+  chips.innerHTML = tags.map(x=>`<button class="bg-cream-100 hover:bg-cream-200 border border-cream-300 text-xs font-medium text-forest-700 rounded-full px-3 py-1.5 flex items-center gap-1.5" data-clear="${x.k}">${x.v} <span class="text-ink-500">×</span></button>`).join('');
+  chips.querySelectorAll('[data-clear]').forEach(b => b.addEventListener('click', ()=>{
+    const k = b.dataset.clear;
+    if(k==='type') state.type='all';
+    else if(k==='sex') state.sex='all';
+    else if(k==='price'){ state.maxPrice=100000; document.getElementById('price-range').value=100000; document.getElementById('price-val').textContent='100,000'; }
+    else if(k==='search'){ state.search=''; document.getElementById('search').value=''; }
+    else if(k.startsWith('life:')){ state.lifestyle.delete(k.slice(5)); document.querySelectorAll('.lifestyle').forEach(cb=>{ if(cb.dataset.tag===k.slice(5)) cb.checked=false; }); }
+    // refresh pill aria-pressed states
+    document.querySelectorAll('[data-type]').forEach(p => p.setAttribute('aria-pressed', p.dataset.type===state.type ? 'true':'false'));
+    document.querySelectorAll('[data-sex]').forEach(p => p.setAttribute('aria-pressed', p.dataset.sex===state.sex ? 'true':'false'));
+    render();
+  }));
+}
+
+/* ===== Wire up filters ===== */
+document.getElementById('type-filters').addEventListener('click', e=>{
+  const b = e.target.closest('[data-type]'); if(!b) return;
+  state.type = b.dataset.type;
+  document.querySelectorAll('#type-filters [data-type]').forEach(p => p.setAttribute('aria-pressed', p===b ? 'true':'false'));
+  render();
+});
+document.getElementById('sex-filters').addEventListener('click', e=>{
+  const b = e.target.closest('[data-sex]'); if(!b) return;
+  state.sex = b.dataset.sex;
+  document.querySelectorAll('#sex-filters [data-sex]').forEach(p => p.setAttribute('aria-pressed', p===b ? 'true':'false'));
+  render();
+});
+document.getElementById('price-range').addEventListener('input', e=>{
+  state.maxPrice = +e.target.value;
+  document.getElementById('price-val').textContent = state.maxPrice.toLocaleString();
+  render();
+});
+document.querySelectorAll('.lifestyle').forEach(cb => cb.addEventListener('change', ()=>{
+  cb.checked ? state.lifestyle.add(cb.dataset.tag) : state.lifestyle.delete(cb.dataset.tag);
+  render();
+}));
+document.getElementById('search').addEventListener('input', e=>{ state.search = e.target.value.trim(); render(); });
+document.getElementById('sort').addEventListener('change', e=>{ state.sort = e.target.value; render(); });
+document.getElementById('reset').addEventListener('click', ()=>{
+  state.type='all'; state.sex='all'; state.maxPrice=100000; state.lifestyle.clear(); state.search=''; state.sort='match';
+  document.getElementById('search').value=''; document.getElementById('price-range').value=100000; document.getElementById('price-val').textContent='100,000';
+  document.getElementById('sort').value='match';
+  document.querySelectorAll('.lifestyle').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('[data-type]').forEach(p => p.setAttribute('aria-pressed', p.dataset.type==='all' ? 'true':'false'));
+  document.querySelectorAll('[data-sex]').forEach(p => p.setAttribute('aria-pressed', p.dataset.sex==='all' ? 'true':'false'));
+  render();
+});
+
+/* ===== Modal ===== */
+function openPet(id){
+  const p = PETS.find(x=>x.id===id); if(!p) return;
+  document.getElementById('modal-body').innerHTML = `
+    <div class="relative">
+      <img src="${p.img}" alt="${p.name}" class="w-full h-64 sm:h-80 object-cover"/>
+      <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-cream-50/90 hover:bg-cream-50 flex items-center justify-center" data-close>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="absolute bottom-3 left-3 bg-forest-700/90 text-cream-50 text-xs font-semibold px-3 py-1.5 rounded-full">${p.match}${t('pets.match')}</div>
+    </div>
+    <div class="p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h3 class="font-display text-3xl font-semibold text-forest-700">${p.name}</h3>
+          <div class="text-ink-500 text-sm">${p.breed[lang]} · ${ageStr(p.ageW)} · ${p.sexT[lang]}</div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-ink-500">${t('pets.from')}</div>
+          <div class="font-display text-2xl font-semibold text-forest-700">฿${p.price.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-1.5 flex-wrap">
+        ${p.traits[lang].map(tr=>`<span class="text-xs font-semibold text-forest-700 bg-cream-100 border border-cream-200 px-2.5 py-1 rounded-full">${tr}</span>`).join('')}
+      </div>
+      <div class="mt-6 grid sm:grid-cols-3 gap-3">
+        <div class="p-4 bg-cream-100 rounded-xl"><div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.health')}</div><div class="mt-1 font-semibold text-forest-700 text-sm">${t('m.healthV')}</div></div>
+        <div class="p-4 bg-cream-100 rounded-xl"><div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.ped')}</div><div class="mt-1 font-semibold text-forest-700 text-sm">${t('m.pedV')}</div></div>
+        <div class="p-4 bg-cream-100 rounded-xl"><div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.brd')}</div><div class="mt-1 font-semibold text-forest-700 text-sm">${p.breeder}</div></div>
+      </div>
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <button class="flex-1 bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full">${t('m.request')}</button>
+        <button class="flex-1 bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold py-3 rounded-full">${t('m.chat')}</button>
+      </div>
+    </div>`;
+  document.getElementById('modal').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+document.addEventListener('click', e=>{
+  if(e.target.closest('[data-close]')){
+    document.getElementById('modal').classList.add('hidden');
+    document.body.style.overflow='';
+  }
+});
+
+/* Mobile nav */
+document.getElementById('mnav').addEventListener('click', ()=> document.getElementById('mnav-panel').classList.toggle('hidden'));
+document.querySelectorAll('#mnav-panel a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('mnav-panel').classList.add('hidden')));
+
+/* Boot */
+applyI18n();
+</script>
+<script type="module" src="scripts/supabase.js"></script>
+<script src="scripts/auth.js"></script>
+</body>
+</html>

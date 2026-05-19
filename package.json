@@ -1,0 +1,16 @@
+{
+  "name": "pawmatch",
+  "version": "1.0.0",
+  "description": "Thailand's AI-powered pet matching platform — verified breeders, browse pets, and the Pet Persona quiz.",
+  "private": true,
+  "scripts": {
+    "start": "serve -s . -l $PORT",
+    "dev": "serve -s . -l 8080"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

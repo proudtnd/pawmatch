@@ -1,0 +1,1728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>PawMatch — AI-Powered Pet Matching, Verified Breeders & Pets in Thailand</title>
+<meta name="description" content="Discover verified breeders, browse pedigreed pets, and use AI Pet Matching to find the perfect companion for your lifestyle." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/favicon.svg" />
+<meta property="og:title" content="PawMatch — AI-powered pet matching, Thailand" />
+<meta property="og:description" content="Discover verified breeders, browse pedigreed pets, and find your Pet Persona match — Thailand's premium pet platform." />
+<meta property="og:image" content="assets/logos/logo-stacked.svg" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['Fraunces','ui-serif','Georgia','serif'],
+          sans: ['Inter','IBM Plex Sans Thai','ui-sans-serif','system-ui'],
+        },
+        colors: {
+          cream:  { 50:'#FBF7F1', 100:'#F6EFE4', 200:'#EFE3CE', 300:'#E5D2B0' },
+          clay:   { 400:'#D88A6A', 500:'#C2674A', 600:'#A04E36', 700:'#7E3B28' },
+          forest: { 500:'#2E4A3B', 600:'#1F3A2C', 700:'#15291F', 800:'#0E1F18' },
+          gold:   { 400:'#D8B26E', 500:'#B8924C', 600:'#8E6F32' },
+          ink:    { 900:'#1A1714', 700:'#3B342D', 500:'#6B6157', 400:'#8E8479' },
+        },
+        boxShadow: {
+          soft:'0 8px 24px -10px rgba(30,20,10,.18), 0 2px 6px -2px rgba(30,20,10,.06)',
+          lift:'0 20px 40px -20px rgba(30,20,10,.25), 0 8px 16px -10px rgba(30,20,10,.08)',
+        },
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; background:#FBF7F1; color:#1A1714; -webkit-font-smoothing:antialiased; }
+  html[lang="th"] body { font-family:'IBM Plex Sans Thai','Sarabun',system-ui,sans-serif; }
+  .font-display { font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto; letter-spacing:-0.01em; }
+  html[lang="th"] .font-display { font-family:'IBM Plex Sans Thai','Sarabun',serif; letter-spacing:0; font-weight:700; }
+  .brand-wordmark { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; font-weight:800; letter-spacing:-0.018em; }
+  html[lang="th"] .italic { font-style: normal; }
+  .grain::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:multiply; background-image:radial-gradient(rgba(30,20,10,.6) 1px, transparent 1px); background-size:3px 3px; }
+  .pet-card:hover .pet-img { transform: scale(1.04); }
+  .pet-img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .chip { transition: all .15s ease; }
+  .chip:hover { transform: translateY(-1px); }
+  .step-active { background:#1F3A2C; color:#FBF7F1; }
+  .quiz-opt[aria-pressed="true"] { border-color:#1F3A2C; background:#1F3A2C; color:#FBF7F1; }
+  .quiz-opt[aria-pressed="true"] .opt-emoji { transform: scale(1.1); }
+  .opt-emoji { transition: transform .2s ease; }
+  .progress-fill { transition: width .35s ease; }
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  @keyframes float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
+  .floaty { animation: float 5s ease-in-out infinite; }
+  .blob { position:absolute; border-radius:9999px; filter:blur(60px); opacity:.5; pointer-events:none; }
+  .ai-pulse { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(216,178,110,.5)} 50%{ box-shadow:0 0 0 14px rgba(216,178,110,0)} }
+  details > summary { list-style:none; cursor:pointer; }
+  details > summary::-webkit-details-marker { display:none; }
+  details[open] .chev { transform: rotate(180deg); }
+  .chev { transition: transform .2s ease; }
+  .lang-btn[aria-pressed="true"] { background:#1F3A2C; color:#FBF7F1; }
+
+  /* ===== Mobile polish ===== */
+  html, body { max-width: 100vw; overflow-x: hidden; }
+  @supports (padding: max(0px)) {
+    body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+  }
+  /* Larger tap targets on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    button, a[role="button"], .chip, .quiz-opt { min-height: 44px; }
+  }
+  /* Prevent iOS zoom on input focus */
+  input, select, textarea { font-size: 16px; }
+  /* Shrink hero & section padding on tiny phones */
+  @media (max-width: 380px) {
+    .font-display.text-3xl, .font-display.text-4xl { letter-spacing: -0.015em; }
+    .blob { opacity: .35; }
+  }
+  /* Bottom-sheet feel on mobile modal */
+  @media (max-width: 640px) {
+    #modal-body { max-height: 92dvh; overflow-y: auto; }
+  }
+  /* Prevent floating hero cards from causing horizontal scroll */
+  .floaty { max-width: calc(100vw - 2rem); }
+</style>
+</head>
+<body class="overflow-x-hidden">
+
+<!-- ============== NAV ============== -->
+<header class="sticky top-0 z-40 backdrop-blur-md bg-cream-50/80 border-b border-cream-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="#" class="flex items-center gap-2">
+      <span class="inline-flex w-9 h-9 rounded-xl bg-cream-100 border border-cream-200 items-center justify-center shadow-soft">
+        <svg viewBox="0 0 64 64" class="w-6 h-6">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="leading-tight">
+        <div class="brand-wordmark text-lg text-forest-700">PawMatch</div>
+        <div class="text-[10px] uppercase tracking-[0.18em] text-ink-500 -mt-0.5" data-i18n="nav.country">Thailand</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink-700">
+      <a href="#match" class="hover:text-forest-700" data-i18n="nav.match">AI Matching</a>
+      <a href="#breeders" class="hover:text-forest-700" data-i18n="nav.breeders">Breeders</a>
+      <a href="#pets" class="hover:text-forest-700" data-i18n="nav.pets">Browse Pets</a>
+      <a href="#how" class="hover:text-forest-700" data-i18n="nav.how">How it works</a>
+      <a href="#faq" class="hover:text-forest-700" data-i18n="nav.faq">FAQ</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <!-- Language toggle -->
+      <div class="inline-flex items-center bg-cream-100 border border-cream-200 rounded-full p-0.5 text-xs font-semibold">
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn rounded-full px-2.5 py-1.5" data-lang="th" aria-pressed="false">ไทย</button>
+      </div>
+      <button class="hidden sm:inline-flex text-sm font-medium text-ink-700 hover:text-forest-700 px-3 py-2" data-i18n="nav.signin">Sign in</button>
+      <a href="#match" class="inline-flex items-center gap-1.5 bg-forest-600 hover:bg-forest-700 text-cream-50 text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-soft">
+        <span class="hidden sm:inline" data-i18n="nav.cta">Find my match</span>
+        <span class="sm:hidden">✨</span>
+        <svg class="w-4 h-4 hidden sm:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button id="mnav" class="md:hidden ml-1 p-2 rounded-lg hover:bg-cream-200" aria-label="Menu">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mnav-panel" class="hidden md:hidden border-t border-cream-200 bg-cream-50">
+    <div class="px-4 py-3 grid gap-1 text-sm">
+      <a href="#match" class="py-2" data-i18n="nav.match">AI Matching</a>
+      <a href="#breeders" class="py-2" data-i18n="nav.breeders">Breeders</a>
+      <a href="#pets" class="py-2" data-i18n="nav.pets">Browse Pets</a>
+      <a href="#how" class="py-2" data-i18n="nav.how">How it works</a>
+      <a href="#faq" class="py-2" data-i18n="nav.faq">FAQ</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="relative grain overflow-hidden">
+  <div class="blob bg-clay-400 w-[420px] h-[420px] -top-24 -right-24"></div>
+  <div class="blob bg-gold-400 w-[340px] h-[340px] top-40 -left-20"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-16 lg:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+    <div class="lg:col-span-7 relative">
+      <div class="inline-flex items-center gap-2 bg-cream-100 border border-cream-200 rounded-full pl-1 pr-3 py-1 text-xs font-medium text-forest-700">
+        <span class="bg-forest-600 text-cream-50 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider" data-i18n="hero.badge">New</span>
+        <span data-i18n="hero.badgeText">AI Pet Matching v2 · Powered by lifestyle profiling</span>
+      </div>
+      <h1 class="font-display font-semibold mt-5 text-[2.25rem] sm:text-5xl lg:text-6xl leading-[1.05] sm:leading-[1.03] text-forest-700">
+        <span data-i18n="hero.title1">The right pet,</span><br/>
+        <span class="italic text-clay-600" data-i18n="hero.title2">matched</span>
+        <span data-i18n="hero.title3"> to the right home.</span>
+      </h1>
+      <p class="mt-5 text-base sm:text-lg text-ink-700 max-w-xl" data-i18n="hero.sub">Thailand's premium platform to discover verified breeders, browse pedigreed pets, and use AI to find the companion that truly fits your personality and lifestyle.</p>
+      <div class="mt-7 flex flex-col sm:flex-row gap-3">
+        <a href="#match" class="ai-pulse inline-flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 px-6 py-3.5 rounded-full font-semibold shadow-lift">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
+          <span data-i18n="hero.startCta">Start AI Pet Matching</span>
+        </a>
+        <a href="pets.html" class="inline-flex items-center justify-center gap-2 bg-cream-50 hover:bg-cream-100 text-forest-700 border border-cream-300 px-6 py-3.5 rounded-full font-semibold">
+          <span data-i18n="hero.browseCta">Browse pets</span>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="mt-10 grid grid-cols-3 gap-4 max-w-lg">
+        <div>
+          <div class="font-display text-2xl font-semibold text-forest-700">1,240+</div>
+          <div class="text-xs text-ink-500 uppercase tracking-wider" data-i18n="hero.stat1">Verified breeders</div>
+        </div>
+        <div>
+          <div class="font-display text-2xl font-semibold text-forest-700">8,900</div>
+          <div class="text-xs text-ink-500 uppercase tracking-wider" data-i18n="hero.stat2">Successful matches</div>
+        </div>
+        <div>
+          <div class="font-display text-2xl font-semibold text-forest-700">4.9 ★</div>
+          <div class="text-xs text-ink-500 uppercase tracking-wider" data-i18n="hero.stat3">Owner rating</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 relative">
+      <div class="relative mx-auto max-w-md px-2 sm:px-0">
+        <div class="absolute top-2 -left-2 sm:-top-4 sm:-left-6 bg-cream-50 rounded-2xl shadow-lift p-2.5 sm:p-3 w-36 sm:w-44 floaty z-10 border border-cream-200">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-clay-400 flex items-center justify-center text-cream-50">🐾</div>
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-ink-500" data-i18n="hero.matchScore">Match score</div>
+              <div class="font-display text-lg font-semibold text-forest-700">96%</div>
+            </div>
+          </div>
+          <div class="mt-2 h-1.5 rounded-full bg-cream-200 overflow-hidden"><div class="h-full bg-forest-600" style="width:96%"></div></div>
+        </div>
+
+        <div class="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-4 bg-cream-50 rounded-2xl shadow-lift p-2.5 sm:p-3 w-44 sm:w-52 floaty z-10 border border-cream-200" style="animation-delay:.6s">
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-full bg-forest-600 text-cream-50 flex items-center justify-center">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+            </div>
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-ink-500" data-i18n="hero.verified">Verified breeder</div>
+              <div class="font-display text-sm font-semibold text-forest-700">Bangkok Pedigree Co.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative rounded-[28px] overflow-hidden shadow-lift bg-cream-200 aspect-[4/5]">
+          <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80" alt="Featured pet" class="w-full h-full object-cover"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-forest-800/70 via-transparent to-transparent"></div>
+          <div class="absolute left-4 right-4 bottom-4 text-cream-50">
+            <div class="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] opacity-90">
+              <span class="bg-gold-500 text-forest-700 px-2 py-0.5 rounded-full font-semibold" data-i18n="hero.topMatch">Top match</span>
+              <span data-i18n="hero.featuredMeta">Golden Retriever · 9 wks</span>
+            </div>
+            <div class="font-display text-2xl font-semibold mt-1"><span data-i18n="hero.meet">Meet</span> Khao Niao</div>
+            <div class="text-sm opacity-90" data-i18n="hero.featuredTraits">Calm · Affectionate · Loves families</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- logo strip -->
+  <div class="border-y border-cream-200 bg-cream-100/60 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-x-8 gap-y-3 sm:justify-between">
+      <div class="text-xs uppercase tracking-[0.18em] text-ink-500" data-i18n="hero.partners">Trusted partners</div>
+      <div class="flex items-center gap-x-5 sm:gap-x-7 gap-y-2 text-ink-700/80 font-display italic text-sm sm:text-lg overflow-x-auto no-scrollbar w-full sm:w-auto whitespace-nowrap">
+        <span>Thai Kennel Club</span><span class="text-cream-300">●</span>
+        <span>VetConnect TH</span><span class="text-cream-300">●</span>
+        <span>Royal Canin</span><span class="text-cream-300">●</span>
+        <span>SCG Pet</span><span class="text-cream-300">●</span>
+        <span>PetLover Magazine</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AI MATCHING ============== -->
+<section id="match" class="relative py-16 sm:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-4">
+        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="match.eyebrow">AI Pet Matching</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700 leading-tight" data-i18n="match.title">Five questions.<br/>One perfect companion.</h2>
+        <p class="mt-4 text-ink-700" data-i18n="match.sub">Our matching engine blends behavioural science, breed traits, and lifestyle data to recommend the pets most likely to thrive in your home — not just the cutest one on the page.</p>
+        <ul class="mt-6 space-y-3 text-sm text-ink-700">
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b1">Personality + lifestyle profiling</span></li>
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b2">Cross-checked with breeder data & health records</span></li>
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b3">100% verified breeders only</span></li>
+          <li class="flex gap-3"><span class="text-forest-600 mt-0.5">✓</span> <span data-i18n="match.b4">Private — your answers stay yours</span></li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-8">
+        <div id="quiz" class="bg-cream-50 border border-cream-200 rounded-3xl shadow-lift overflow-hidden">
+          <div class="px-4 sm:px-8 pt-5 sm:pt-6 pb-4 border-b border-cream-200 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-forest-600 text-cream-50 flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
+              </div>
+              <div>
+                <div class="text-[11px] uppercase tracking-[0.18em] text-ink-500">PawMatch AI</div>
+                <div class="font-display font-semibold text-forest-700" id="qstep-title">Lifestyle profile</div>
+              </div>
+            </div>
+            <div class="text-xs text-ink-500"><span id="qstep">1</span> / <span id="qtotal">12</span></div>
+          </div>
+          <div class="h-1.5 bg-cream-200"><div id="qbar" class="h-full bg-gold-500 progress-fill" style="width:20%"></div></div>
+          <div class="p-4 sm:p-8">
+            <div id="qcontent"></div>
+            <div class="mt-8 flex items-center justify-between">
+              <button id="qprev" class="text-sm font-semibold text-ink-500 hover:text-forest-700 disabled:opacity-30" disabled data-i18n="quiz.back">← Back</button>
+              <button id="qnext" class="inline-flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold text-sm px-5 py-2.5 rounded-full shadow-soft disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <span id="qnext-label" data-i18n="quiz.next">Next</span>
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section id="how" class="relative py-16 sm:py-20 bg-cream-100/70 border-y border-cream-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-10">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="how.eyebrow">How it works</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="how.title">From profile to paw — in 4 steps.</h2>
+      </div>
+      <a href="#match" class="text-sm font-semibold text-forest-700 hover:underline" data-i18n="how.link">Try the matching engine →</a>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-cream-50 rounded-2xl border border-cream-200 p-6 shadow-soft">
+        <div class="w-10 h-10 rounded-xl bg-clay-500 text-cream-50 flex items-center justify-center font-display font-semibold">1</div>
+        <div class="font-display text-lg font-semibold text-forest-700 mt-4" data-i18n="how.s1t">Tell us about you</div>
+        <p class="text-sm text-ink-700 mt-1" data-i18n="how.s1d">5 quick questions about your lifestyle, home, and personality.</p>
+      </div>
+      <div class="bg-cream-50 rounded-2xl border border-cream-200 p-6 shadow-soft">
+        <div class="w-10 h-10 rounded-xl bg-clay-500 text-cream-50 flex items-center justify-center font-display font-semibold">2</div>
+        <div class="font-display text-lg font-semibold text-forest-700 mt-4" data-i18n="how.s2t">AI finds your fit</div>
+        <p class="text-sm text-ink-700 mt-1" data-i18n="how.s2d">We rank pets by compatibility — temperament, energy, and care needs.</p>
+      </div>
+      <div class="bg-cream-50 rounded-2xl border border-cream-200 p-6 shadow-soft">
+        <div class="w-10 h-10 rounded-xl bg-clay-500 text-cream-50 flex items-center justify-center font-display font-semibold">3</div>
+        <div class="font-display text-lg font-semibold text-forest-700 mt-4" data-i18n="how.s3t">Meet verified breeders</div>
+        <p class="text-sm text-ink-700 mt-1" data-i18n="how.s3d">All breeders are audited for ethics, health, and pedigree records.</p>
+      </div>
+      <div class="bg-cream-50 rounded-2xl border border-cream-200 p-6 shadow-soft">
+        <div class="w-10 h-10 rounded-xl bg-clay-500 text-cream-50 flex items-center justify-center font-display font-semibold">4</div>
+        <div class="font-display text-lg font-semibold text-forest-700 mt-4" data-i18n="how.s4t">Bring them home</div>
+        <p class="text-sm text-ink-700 mt-1" data-i18n="how.s4d">Secure booking, vet check, and lifetime support from PawMatch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== BREEDERS ============== -->
+<section id="breeders" class="py-16 sm:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="breeders.eyebrow">Verified breeders</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="breeders.title">Thailand's most trusted farms.</h2>
+        <p class="text-ink-700 mt-2 max-w-xl" data-i18n="breeders.sub">Every breeder on PawMatch passes a 38-point audit — facilities, lineage, vet records, and parent welfare.</p>
+      </div>
+      <a href="breeders.html" class="text-sm font-semibold text-forest-700 hover:underline" data-i18n="breeders.link">See all 1,240 →</a>
+    </div>
+    <div id="breeders-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+  </div>
+</section>
+
+<!-- ============== PETS MARKETPLACE ============== -->
+<section id="pets" class="py-16 sm:py-20 bg-cream-100/70 border-y border-cream-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-6">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="pets.eyebrow">Browse pets</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="pets.title">Available now, pedigree assured.</h2>
+      </div>
+      <div class="flex items-center gap-2 text-sm">
+        <span class="text-ink-500" data-i18n="pets.sort">Sort</span>
+        <select class="bg-cream-50 border border-cream-300 rounded-full text-sm px-3 py-2" id="sort-select">
+          <option data-i18n="pets.sort1">Top matches</option>
+          <option data-i18n="pets.sort2">Newest</option>
+          <option data-i18n="pets.sort3">Price: low → high</option>
+          <option data-i18n="pets.sort4">Price: high → low</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-3" id="filters">
+      <button data-filter="all" class="chip step-active rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.all">All pets</button>
+      <button data-filter="dog" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.dog">🐕 Dogs</button>
+      <button data-filter="cat" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.cat">🐈 Cats</button>
+      <button data-filter="small" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.small">🐰 Small pets</button>
+      <button data-filter="exotic" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.exotic">🦜 Exotic</button>
+      <span class="mx-1 self-center w-px h-6 bg-cream-300"></span>
+      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.apt">Apartment friendly</button>
+      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.hypo">Hypoallergenic</button>
+      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.kids">Good with kids</button>
+      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.low">Low energy</button>
+    </div>
+
+    <div id="pets-grid" class="mt-6 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5"></div>
+  </div>
+</section>
+
+<!-- ============== PEDIGREE & HEALTH ============== -->
+<section class="py-16 sm:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
+    <div>
+      <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+        <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="ped.eyebrow">Pedigree & health</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="ped.title">Every pet, fully transparent.</h2>
+      <p class="mt-4 text-ink-700 max-w-lg" data-i18n="ped.sub">Tap any pet to see four generations of pedigree, vaccination history, vet checks, and DNA-tested traits — all verified by our licensed veterinarian partners.</p>
+      <div class="mt-6 grid grid-cols-2 gap-3 max-w-md">
+        <div class="p-4 bg-cream-100 rounded-xl border border-cream-200">
+          <div class="text-xs uppercase tracking-wider text-ink-500" data-i18n="ped.s1l">Vaccinations</div>
+          <div class="font-display text-forest-700 font-semibold" data-i18n="ped.s1v">Up to date</div>
+        </div>
+        <div class="p-4 bg-cream-100 rounded-xl border border-cream-200">
+          <div class="text-xs uppercase tracking-wider text-ink-500" data-i18n="ped.s2l">DNA tested</div>
+          <div class="font-display text-forest-700 font-semibold" data-i18n="ped.s2v">23 markers</div>
+        </div>
+        <div class="p-4 bg-cream-100 rounded-xl border border-cream-200">
+          <div class="text-xs uppercase tracking-wider text-ink-500" data-i18n="ped.s3l">Pedigree depth</div>
+          <div class="font-display text-forest-700 font-semibold" data-i18n="ped.s3v">4 generations</div>
+        </div>
+        <div class="p-4 bg-cream-100 rounded-xl border border-cream-200">
+          <div class="text-xs uppercase tracking-wider text-ink-500" data-i18n="ped.s4l">Vet network</div>
+          <div class="font-display text-forest-700 font-semibold" data-i18n="ped.s4v">120+ clinics</div>
+        </div>
+      </div>
+    </div>
+    <div class="relative">
+      <div class="rounded-3xl bg-forest-700 text-cream-50 p-5 sm:p-8 shadow-lift relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-48 h-48 bg-gold-500/20 rounded-full blur-2xl"></div>
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-[11px] uppercase tracking-[0.18em] text-gold-400" data-i18n="ped.cert">Pedigree certificate</div>
+            <div class="font-display text-xl sm:text-2xl font-semibold mt-1 truncate">Khao Niao · TH-2026-00482</div>
+          </div>
+          <div class="w-10 h-10 shrink-0 rounded-full bg-gold-500 text-forest-800 flex items-center justify-center">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+          </div>
+        </div>
+        <div class="mt-5 sm:mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+          <div class="bg-forest-600/60 rounded-lg p-2 col-span-2 sm:col-span-1 flex sm:block items-center gap-3">
+            <div>
+              <div class="opacity-60" data-i18n="ped.g1">Gen 1</div>
+              <div class="font-semibold">Khao Niao</div>
+            </div>
+            <div class="sm:hidden ml-auto text-[10px] opacity-60">Subject</div>
+          </div>
+          <div class="grid gap-2">
+            <div class="bg-forest-600/60 rounded-lg p-2"><div class="opacity-60" data-i18n="ped.sire">Sire</div><div class="truncate">Champion Khun</div></div>
+            <div class="bg-forest-600/60 rounded-lg p-2"><div class="opacity-60" data-i18n="ped.dam">Dam</div><div class="truncate">Som Tam</div></div>
+          </div>
+          <div class="grid gap-2">
+            <div class="bg-forest-600/60 rounded-lg p-2 text-[10px] truncate">GSire · Royal Lan</div>
+            <div class="bg-forest-600/60 rounded-lg p-2 text-[10px] truncate">GDam · Mali</div>
+            <div class="bg-forest-600/60 rounded-lg p-2 text-[10px] truncate">GSire · Thong</div>
+            <div class="bg-forest-600/60 rounded-lg p-2 text-[10px] truncate">GDam · Bua</div>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-1 gap-1 col-span-2 sm:col-span-1">
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center">GGSire</div>
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center">GGDam</div>
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center">GGSire</div>
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center">GGDam</div>
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center hidden sm:block">GGSire</div>
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center hidden sm:block">GGDam</div>
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center hidden sm:block">GGSire</div>
+            <div class="bg-forest-600/40 rounded-lg p-1.5 text-[10px] text-center hidden sm:block">GGDam</div>
+          </div>
+        </div>
+        <div class="mt-5 sm:mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gold-400"></span> <span data-i18n="ped.verifiedBy">Verified by Thai Kennel Club</span></div>
+          <div class="opacity-70">DNA · OFA Hips · Eyes Clear</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TESTIMONIALS ============== -->
+<section class="py-16 sm:py-20 bg-forest-700 text-cream-50 relative overflow-hidden">
+  <div class="absolute inset-0 grain opacity-100"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <div class="max-w-2xl">
+      <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold-400">
+        <span class="w-6 h-px bg-gold-400"></span> <span data-i18n="tst.eyebrow">Loved by 8,900 families</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3" data-i18n="tst.title">"It felt like the right pet found us."</h2>
+    </div>
+    <div class="mt-10 grid md:grid-cols-3 gap-5">
+      <figure class="bg-forest-600/60 backdrop-blur p-6 rounded-2xl border border-forest-500/40">
+        <blockquote class="font-display text-lg leading-snug" data-i18n="tst.q1">"The AI suggested a Shiba I'd never have picked. Three months in, she's perfect for our small condo."</blockquote>
+        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a1">— Praew · Sukhumvit</figcaption>
+      </figure>
+      <figure class="bg-forest-600/60 backdrop-blur p-6 rounded-2xl border border-forest-500/40">
+        <blockquote class="font-display text-lg leading-snug" data-i18n="tst.q2">"Finally a platform where you can trust the breeder. Pedigree, health, and ethics — all in one place."</blockquote>
+        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a2">— Dr. Nattapong · Veterinarian, CM</figcaption>
+      </figure>
+      <figure class="bg-forest-600/60 backdrop-blur p-6 rounded-2xl border border-forest-500/40">
+        <blockquote class="font-display text-lg leading-snug" data-i18n="tst.q3">"96% match wasn't a marketing number. Mochi fits our family like he was always meant to."</blockquote>
+        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a3">— The Lim Family · Phuket</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section id="faq" class="py-16 sm:py-24">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+        <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="faq.eyebrow">FAQ</span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="faq.title">Good questions, honest answers.</h2>
+    </div>
+    <div class="mt-8 divide-y divide-cream-200 border border-cream-200 rounded-2xl bg-cream-50 overflow-hidden">
+      <details class="group" open>
+        <summary class="flex items-center justify-between gap-4 p-5">
+          <span class="font-display font-semibold text-forest-700" data-i18n="faq.q1">How does PawMatch verify breeders?</span>
+          <svg class="chev w-5 h-5 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-ink-700 text-sm" data-i18n="faq.a1">Every breeder passes a 38-point audit: facility visit, vet records, pedigree validation, parent welfare, and ethical breeding practices. We re-audit annually.</div>
+      </details>
+      <details class="group">
+        <summary class="flex items-center justify-between gap-4 p-5">
+          <span class="font-display font-semibold text-forest-700" data-i18n="faq.q2">Is the AI matching free?</span>
+          <svg class="chev w-5 h-5 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-ink-700 text-sm" data-i18n="faq.a2">Yes — AI Pet Matching is completely free. You only pay the breeder directly once you decide to bring a pet home.</div>
+      </details>
+      <details class="group">
+        <summary class="flex items-center justify-between gap-4 p-5">
+          <span class="font-display font-semibold text-forest-700" data-i18n="faq.q3">What if my pet isn't the right fit?</span>
+          <svg class="chev w-5 h-5 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-ink-700 text-sm" data-i18n="faq.a3">Every adoption includes 30-day behavioural support from our trainers. In the rare case it isn't working, our breeder partners offer a re-home guarantee.</div>
+      </details>
+      <details class="group">
+        <summary class="flex items-center justify-between gap-4 p-5">
+          <span class="font-display font-semibold text-forest-700" data-i18n="faq.q4">Do you deliver outside Bangkok?</span>
+          <svg class="chev w-5 h-5 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-ink-700 text-sm" data-i18n="faq.a4">We coordinate vetted pet transport to all 77 provinces in Thailand, with climate-controlled vehicles and a handler in the cabin.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA ============== -->
+<section class="pb-24">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-3xl bg-clay-500 text-cream-50 p-8 sm:p-12 shadow-lift relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-cream-100/20 blur-3xl"></div>
+      <div class="grid md:grid-cols-2 gap-6 items-center relative">
+        <div>
+          <h3 class="font-display text-3xl sm:text-4xl font-semibold" data-i18n="cta.title">Your match is waiting.</h3>
+          <p class="mt-3 text-cream-100/90 max-w-md" data-i18n="cta.sub">Take the 90-second quiz and meet your top three companions — handpicked by AI, verified by humans.</p>
+        </div>
+        <div class="flex md:justify-end">
+          <a href="#match" class="inline-flex items-center gap-2 bg-cream-50 text-clay-600 hover:bg-cream-100 px-6 py-3.5 rounded-full font-semibold shadow-soft">
+            <span data-i18n="cta.btn">Start AI Pet Matching</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="bg-forest-800 text-cream-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid md:grid-cols-4 gap-8">
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex w-9 h-9 rounded-xl bg-cream-50 items-center justify-center">
+          <svg viewBox="0 0 64 64" class="w-6 h-6">
+            <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+            <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+          </svg>
+        </span>
+        <div class="brand-wordmark text-xl">PawMatch</div>
+      </div>
+      <p class="mt-4 text-sm text-cream-100/70 max-w-sm" data-i18n="ft.tag">Thailand's premium pet platform. AI-powered matching, verified breeders, and a lifetime of support.</p>
+      <div class="mt-6 flex items-center gap-3 text-cream-100/80">
+        <a href="#" class="w-9 h-9 rounded-full bg-forest-700 hover:bg-forest-600 flex items-center justify-center">IG</a>
+        <a href="#" class="w-9 h-9 rounded-full bg-forest-700 hover:bg-forest-600 flex items-center justify-center">LN</a>
+        <a href="#" class="w-9 h-9 rounded-full bg-forest-700 hover:bg-forest-600 flex items-center justify-center">TT</a>
+        <a href="#" class="w-9 h-9 rounded-full bg-forest-700 hover:bg-forest-600 flex items-center justify-center">YT</a>
+      </div>
+    </div>
+    <div>
+      <div class="text-xs uppercase tracking-[0.18em] text-cream-100/60" data-i18n="ft.platform">Platform</div>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href="#match" class="hover:text-gold-400" data-i18n="nav.match">AI Pet Matching</a></li>
+        <li><a href="#breeders" class="hover:text-gold-400" data-i18n="nav.breeders">Verified Breeders</a></li>
+        <li><a href="#pets" class="hover:text-gold-400" data-i18n="nav.pets">Browse Pets</a></li>
+        <li><a href="#" class="hover:text-gold-400" data-i18n="ft.forBreeders">For Breeders</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-xs uppercase tracking-[0.18em] text-cream-100/60" data-i18n="ft.company">Company</div>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href="#" class="hover:text-gold-400" data-i18n="ft.about">About</a></li>
+        <li><a href="#faq" class="hover:text-gold-400" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="#" class="hover:text-gold-400" data-i18n="ft.ethics">Ethics & Welfare</a></li>
+        <li><a href="#" class="hover:text-gold-400" data-i18n="ft.contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-forest-700/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-wrap gap-3 items-center justify-between text-xs text-cream-100/60">
+      <div data-i18n="ft.copy">© 2026 PawMatch Co., Ltd. Bangkok · Thailand.</div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-gold-400" data-i18n="ft.privacy">Privacy</a>
+        <a href="#" class="hover:text-gold-400" data-i18n="ft.terms">Terms</a>
+        <a href="#" class="hover:text-gold-400" data-i18n="ft.welfare">Welfare policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============== MODAL ============== -->
+<div id="modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-forest-800/70 backdrop-blur-sm" data-close></div>
+  <div class="relative h-full overflow-y-auto">
+    <div class="min-h-full flex items-end sm:items-center justify-center p-0 sm:p-6">
+      <div class="bg-cream-50 w-full max-w-3xl rounded-t-3xl sm:rounded-3xl shadow-lift overflow-hidden" id="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============= i18n dictionary ============= */
+const I18N = {
+  en: {
+    'nav.country':'Thailand','nav.match':'AI Matching','nav.breeders':'Breeders','nav.pets':'Browse Pets','nav.how':'How it works','nav.faq':'FAQ','nav.signin':'Sign in','nav.cta':'Find my match',
+    'hero.badge':'New','hero.badgeText':'AI Pet Matching v2 · Powered by lifestyle profiling',
+    'hero.title1':'The right pet,','hero.title2':'matched','hero.title3':' to the right home.',
+    'hero.sub':"Thailand's premium platform to discover verified breeders, browse pedigreed pets, and use AI to find the companion that truly fits your personality and lifestyle.",
+    'hero.startCta':'Start AI Pet Matching','hero.browseCta':'Browse pets',
+    'hero.stat1':'Verified breeders','hero.stat2':'Successful matches','hero.stat3':'Owner rating',
+    'hero.matchScore':'Match score','hero.verified':'Verified breeder','hero.topMatch':'Top match','hero.featuredMeta':'Golden Retriever · 9 wks','hero.meet':'Meet','hero.featuredTraits':'Calm · Affectionate · Loves families','hero.partners':'Trusted partners',
+    'match.eyebrow':'AI Pet Matching','match.title':'12 questions.<br/>Your <em class="not-italic text-clay-600">Pet Persona</em>.','match.sub':"A playful personality quiz that uncovers your ideal pet type, dream breeds, and the kind of pet parent you'll be. Built with behavioural science, designed to share.",
+    'match.b1':'Reveals your Pet Persona archetype','match.b2':'Recommends ideal pet types & dream breeds','match.b3':'Matches you to verified, available pets','match.b4':'Shareable card for IG, TikTok & more',
+    'quiz.back':'← Back','quiz.next':'Next','quiz.see':'Reveal my Pet Persona ✨',
+    'how.eyebrow':'How it works','how.title':'From profile to paw — in 4 steps.','how.link':'Try the matching engine →',
+    'how.s1t':'Tell us about you','how.s1d':'5 quick questions about your lifestyle, home, and personality.',
+    'how.s2t':'AI finds your fit','how.s2d':'We rank pets by compatibility — temperament, energy, and care needs.',
+    'how.s3t':'Meet verified breeders','how.s3d':'All breeders are audited for ethics, health, and pedigree records.',
+    'how.s4t':'Bring them home','how.s4d':'Secure booking, vet check, and lifetime support from PawMatch.',
+    'breeders.eyebrow':'Verified breeders','breeders.title':"Thailand's most trusted farms.",'breeders.sub':'Every breeder on PawMatch passes a 38-point audit — facilities, lineage, vet records, and parent welfare.','breeders.link':'See all 1,240 →','breeders.visit':'Visit farm','breeders.reviews':'reviews','breeders.years':'yrs',
+    'pets.eyebrow':'Browse pets','pets.title':'Available now, pedigree assured.','pets.sort':'Sort','pets.sort1':'Top matches','pets.sort2':'Newest','pets.sort3':'Price: low → high','pets.sort4':'Price: high → low','pets.from':'From','pets.breeder':'Breeder','pets.match':'% match',
+    'filter.all':'All pets','filter.dog':'🐕 Dogs','filter.cat':'🐈 Cats','filter.small':'🐰 Small pets','filter.exotic':'🦜 Exotic','filter.apt':'Apartment friendly','filter.hypo':'Hypoallergenic','filter.kids':'Good with kids','filter.low':'Low energy',
+    'ped.eyebrow':'Pedigree & health','ped.title':'Every pet, fully transparent.','ped.sub':'Tap any pet to see four generations of pedigree, vaccination history, vet checks, and DNA-tested traits — all verified by our licensed veterinarian partners.',
+    'ped.s1l':'Vaccinations','ped.s1v':'Up to date','ped.s2l':'DNA tested','ped.s2v':'23 markers','ped.s3l':'Pedigree depth','ped.s3v':'4 generations','ped.s4l':'Vet network','ped.s4v':'120+ clinics',
+    'ped.cert':'Pedigree certificate','ped.g1':'Gen 1','ped.sire':'Sire','ped.dam':'Dam','ped.verifiedBy':'Verified by Thai Kennel Club',
+    'tst.eyebrow':'Loved by 8,900 families','tst.title':'"It felt like the right pet found us."',
+    'tst.q1':'"The AI suggested a Shiba I\'d never have picked. Three months in, she\'s perfect for our small condo."','tst.a1':'— Praew · Sukhumvit',
+    'tst.q2':'"Finally a platform where you can trust the breeder. Pedigree, health, and ethics — all in one place."','tst.a2':'— Dr. Nattapong · Veterinarian, CM',
+    'tst.q3':'"96% match wasn\'t a marketing number. Mochi fits our family like he was always meant to."','tst.a3':'— The Lim Family · Phuket',
+    'faq.eyebrow':'FAQ','faq.title':'Good questions, honest answers.',
+    'faq.q1':'How does PawMatch verify breeders?','faq.a1':'Every breeder passes a 38-point audit: facility visit, vet records, pedigree validation, parent welfare, and ethical breeding practices. We re-audit annually.',
+    'faq.q2':'Is the AI matching free?','faq.a2':'Yes — AI Pet Matching is completely free. You only pay the breeder directly once you decide to bring a pet home.',
+    'faq.q3':"What if my pet isn't the right fit?",'faq.a3':"Every adoption includes 30-day behavioural support from our trainers. In the rare case it isn't working, our breeder partners offer a re-home guarantee.",
+    'faq.q4':'Do you deliver outside Bangkok?','faq.a4':'We coordinate vetted pet transport to all 77 provinces in Thailand, with climate-controlled vehicles and a handler in the cabin.',
+    'cta.title':'Your match is waiting.','cta.sub':'Take the 90-second quiz and meet your top three companions — handpicked by AI, verified by humans.','cta.btn':'Start AI Pet Matching',
+    'ft.tag':"Thailand's premium pet platform. AI-powered matching, verified breeders, and a lifetime of support.",'ft.platform':'Platform','ft.company':'Company','ft.forBreeders':'For Breeders','ft.about':'About','ft.ethics':'Ethics & Welfare','ft.contact':'Contact','ft.copy':'© 2026 PawMatch Co., Ltd. Bangkok · Thailand.','ft.privacy':'Privacy','ft.terms':'Terms','ft.welfare':'Welfare policy',
+    'm.request':'Request a meet','m.chat':'Chat breeder','m.why':'Why we matched you','m.health':'Health','m.healthV':'Vacc · Vet checked · DNA ✓','m.ped':'Pedigree','m.pedV':'4 gens · TKC certified','m.brd':'Breeder','m.matchFor':'% AI match · for your profile',
+    'r.analysing':'Analysis complete','r.title':'Your Pet Persona','r.sub':'Ranked by personality, lifestyle, and home compatibility.','r.best':'Top match','r.retake':'Retake quiz','r.browse':'Browse all pets',
+    'r.persona':'Pet Persona','r.youAre':'You are','r.idealPet':'Your ideal pet','r.typeMatch':'Pet type compatibility',
+    'r.dreamBreeds':'Dream breeds','r.breedTitle':'Breeds that fit your vibe','r.rec':'Pick',
+    'r.availTitle':'Available now','r.availSub':'Pets matching your persona, ready to meet',
+    'r.shareEyebrow':'Share your persona','r.shareTitle':'Made for the feed.','r.shareSub':'Download your Pet Persona card or share to LINE, IG, and TikTok — let friends find theirs too.',
+    'r.shareIG':'Save IG Story','r.shareTT':'Share TikTok','r.shareCopy':'Copy link','r.copyCode':'Copy',
+    'r.invite':'Invite friends','r.inviteSub':'Send your code & both get rewards.','r.referReward':'You get ฿200 credit · they get ฿200 off · for every friend who completes the quiz.',
+    'r.copied':'Copied! ✨','r.generating':'Generating your Top 3 story card… 🎨','r.igTip':'Image saved — open Instagram and upload to your Story 📸','r.ttTip':'Link copied — paste in TikTok 🎵',
+    'r.shareText1':'I just took the PawMatch quiz — I’m','r.shareText2':'Take the quiz & find your Pet Persona →',
+    'weeks':'wks','months':'mo',
+  },
+  th: {
+    'nav.country':'ประเทศไทย','nav.match':'จับคู่ด้วย AI','nav.breeders':'ฟาร์มผู้เพาะ','nav.pets':'ดูสัตว์เลี้ยง','nav.how':'วิธีใช้งาน','nav.faq':'คำถามที่พบบ่อย','nav.signin':'เข้าสู่ระบบ','nav.cta':'หาคู่ของฉัน',
+    'hero.badge':'ใหม่','hero.badgeText':'AI Pet Matching v2 · ขับเคลื่อนด้วยข้อมูลไลฟ์สไตล์',
+    'hero.title1':'สัตว์เลี้ยงที่ใช่','hero.title2':'จับคู่','hero.title3':' กับบ้านที่เหมาะสม',
+    'hero.sub':'แพลตฟอร์มสัตว์เลี้ยงระดับพรีเมียมของไทย ค้นหาฟาร์มที่ได้รับการรับรอง เลือกสัตว์เลี้ยงสายพันธุ์แท้ และใช้ AI ค้นหาเพื่อนคู่ใจที่เหมาะกับบุคลิกและไลฟ์สไตล์ของคุณ',
+    'hero.startCta':'เริ่มจับคู่ด้วย AI','hero.browseCta':'ดูสัตว์เลี้ยง',
+    'hero.stat1':'ฟาร์มที่รับรอง','hero.stat2':'จับคู่สำเร็จ','hero.stat3':'คะแนนจากผู้เลี้ยง',
+    'hero.matchScore':'คะแนนความเข้ากัน','hero.verified':'ฟาร์มที่รับรอง','hero.topMatch':'คู่ที่ใช่ที่สุด','hero.featuredMeta':'โกลเด้น รีทรีฟเวอร์ · 9 สัปดาห์','hero.meet':'พบกับ','hero.featuredTraits':'สงบ · อ่อนโยน · รักครอบครัว','hero.partners':'พันธมิตรที่ไว้วางใจ',
+    'match.eyebrow':'จับคู่สัตว์เลี้ยงด้วย AI','match.title':'12 คำถาม<br/>ค้นพบ <em class="not-italic text-clay-600">Pet Persona</em> ของคุณ','match.sub':'แบบทดสอบบุคลิกสนุกๆ ที่จะเผยประเภทสัตว์เลี้ยงในฝัน สายพันธุ์ที่ใช่ และคุณเป็นเจ้าของสัตว์เลี้ยงแบบไหน — สร้างจากหลักจิตวิทยา ออกแบบมาเพื่อแชร์',
+    'match.b1':'เผยบุคลิก Pet Persona ของคุณ','match.b2':'แนะนำประเภทและสายพันธุ์ในฝัน','match.b3':'จับคู่กับสัตว์เลี้ยงที่พร้อมรับเลี้ยง','match.b4':'การ์ดผลลัพธ์แชร์ลง IG TikTok ได้ทันที',
+    'quiz.back':'← ย้อนกลับ','quiz.next':'ถัดไป','quiz.see':'เผย Pet Persona ของฉัน ✨',
+    'how.eyebrow':'วิธีใช้งาน','how.title':'จากโปรไฟล์สู่อ้อมกอด — ใน 4 ขั้นตอน','how.link':'ลองระบบจับคู่ →',
+    'how.s1t':'บอกเราเกี่ยวกับตัวคุณ','how.s1d':'5 คำถามสั้นๆ เกี่ยวกับไลฟ์สไตล์ บ้าน และบุคลิกของคุณ',
+    'how.s2t':'AI หาคู่ที่ใช่','how.s2d':'จัดอันดับสัตว์เลี้ยงตามความเข้ากัน — นิสัย พลังงาน และการดูแล',
+    'how.s3t':'พบฟาร์มที่รับรอง','how.s3d':'ทุกฟาร์มผ่านการตรวจสอบด้านจริยธรรม สุขภาพ และพันธุ์ประวัติ',
+    'how.s4t':'พากลับบ้าน','how.s4d':'จองอย่างปลอดภัย ตรวจสุขภาพ และสนับสนุนตลอดชีวิตจาก PawMatch',
+    'breeders.eyebrow':'ฟาร์มที่รับรอง','breeders.title':'ฟาร์มที่ไว้ใจได้ที่สุดในประเทศไทย','breeders.sub':'ทุกฟาร์มบน PawMatch ผ่านการตรวจสอบ 38 หัวข้อ — สถานที่ สายพันธุ์ ประวัติสัตวแพทย์ และสวัสดิภาพพ่อแม่พันธุ์','breeders.link':'ดูทั้งหมด 1,240 ฟาร์ม →','breeders.visit':'เยี่ยมฟาร์ม','breeders.reviews':'รีวิว','breeders.years':'ปี',
+    'pets.eyebrow':'ดูสัตว์เลี้ยง','pets.title':'พร้อมรับกลับบ้าน รับรองสายพันธุ์','pets.sort':'เรียง','pets.sort1':'คู่ที่ใช่ที่สุด','pets.sort2':'ใหม่ล่าสุด','pets.sort3':'ราคา: น้อย → มาก','pets.sort4':'ราคา: มาก → น้อย','pets.from':'เริ่มต้น','pets.breeder':'ฟาร์ม','pets.match':'% เข้ากัน',
+    'filter.all':'ทั้งหมด','filter.dog':'🐕 สุนัข','filter.cat':'🐈 แมว','filter.small':'🐰 สัตว์เล็ก','filter.exotic':'🦜 สัตว์พิเศษ','filter.apt':'เหมาะกับคอนโด','filter.hypo':'ไม่ก่อภูมิแพ้','filter.kids':'เข้ากับเด็ก','filter.low':'พลังงานน้อย',
+    'ped.eyebrow':'พันธุ์ประวัติและสุขภาพ','ped.title':'ทุกตัว โปร่งใส 100%','ped.sub':'แตะที่สัตว์เลี้ยงเพื่อดูพันธุ์ประวัติย้อนหลัง 4 ชั่วอายุ ประวัติวัคซีน การตรวจสุขภาพ และผลทดสอบ DNA — ตรวจสอบโดยสัตวแพทย์พันธมิตรของเรา',
+    'ped.s1l':'วัคซีน','ped.s1v':'ครบถ้วน','ped.s2l':'ทดสอบ DNA','ped.s2v':'23 จุด','ped.s3l':'พันธุ์ประวัติ','ped.s3v':'4 ชั่วอายุ','ped.s4l':'เครือข่ายสัตวแพทย์','ped.s4v':'120+ คลินิก',
+    'ped.cert':'ใบรับรองพันธุ์ประวัติ','ped.g1':'รุ่นที่ 1','ped.sire':'พ่อ','ped.dam':'แม่','ped.verifiedBy':'รับรองโดย Thai Kennel Club',
+    'tst.eyebrow':'8,900 ครอบครัวไว้ใจเรา','tst.title':'“เหมือนเขาเลือกเรา ไม่ใช่เราเลือกเขา”',
+    'tst.q1':'“AI แนะนำชิบะที่ฉันไม่เคยคิดจะเลี้ยง สามเดือนผ่านไป เธอเข้ากับคอนโดเล็กๆ ของเราได้สมบูรณ์แบบ”','tst.a1':'— แพรว · สุขุมวิท',
+    'tst.q2':'“ในที่สุดก็มีแพลตฟอร์มที่ไว้ใจฟาร์มได้ สายพันธุ์ สุขภาพ และจริยธรรม — ครบในที่เดียว”','tst.a2':'— สพ.ญ. ณัฐพงษ์ · เชียงใหม่',
+    'tst.q3':'“96% ไม่ใช่แค่ตัวเลขโฆษณา โมจิเข้ากับครอบครัวเหมือนเขาเกิดมาเพื่อเรา”','tst.a3':'— ครอบครัวลิ้ม · ภูเก็ต',
+    'faq.eyebrow':'คำถามที่พบบ่อย','faq.title':'คำถามดีๆ คำตอบจริงใจ',
+    'faq.q1':'PawMatch รับรองฟาร์มอย่างไร?','faq.a1':'ทุกฟาร์มผ่านการตรวจสอบ 38 หัวข้อ: เยี่ยมสถานที่ ตรวจประวัติสัตวแพทย์ ยืนยันสายพันธุ์ สวัสดิภาพพ่อแม่พันธุ์ และจริยธรรมในการเพาะพันธุ์ เราตรวจสอบใหม่ทุกปี',
+    'faq.q2':'การจับคู่ด้วย AI ฟรีไหม?','faq.a2':'ใช่ — AI Pet Matching ฟรี 100% คุณจ่ายเฉพาะกับฟาร์มโดยตรงเมื่อตัดสินใจรับสัตว์เลี้ยงกลับบ้านเท่านั้น',
+    'faq.q3':'ถ้าสัตว์เลี้ยงไม่เข้ากับเรา ทำอย่างไร?','faq.a3':'ทุกการรับเลี้ยงมีการดูแลพฤติกรรม 30 วันจากเทรนเนอร์ของเรา ในกรณีที่ไม่เข้ากันจริงๆ ฟาร์มพันธมิตรของเรารับประกันการย้ายบ้านใหม่',
+    'faq.q4':'ส่งนอกกรุงเทพไหม?','faq.a4':'เราจัดส่งสัตว์เลี้ยงไปยังทั้ง 77 จังหวัด ด้วยรถควบคุมอุณหภูมิและมีผู้ดูแลในห้องโดยสาร',
+    'cta.title':'คู่ของคุณกำลังรออยู่','cta.sub':'ทำแบบทดสอบ 90 วินาที แล้วพบเพื่อนคู่ใจ 3 อันดับแรกของคุณ — คัดเลือกโดย AI รับรองโดยมนุษย์','cta.btn':'เริ่มจับคู่ด้วย AI',
+    'ft.tag':'แพลตฟอร์มสัตว์เลี้ยงระดับพรีเมียมของไทย จับคู่ด้วย AI ฟาร์มที่รับรอง และการสนับสนุนตลอดชีวิต','ft.platform':'แพลตฟอร์ม','ft.company':'บริษัท','ft.forBreeders':'สำหรับฟาร์ม','ft.about':'เกี่ยวกับเรา','ft.ethics':'จริยธรรมและสวัสดิภาพ','ft.contact':'ติดต่อ','ft.copy':'© 2026 PawMatch Co., Ltd. กรุงเทพฯ · ประเทศไทย','ft.privacy':'ความเป็นส่วนตัว','ft.terms':'ข้อตกลง','ft.welfare':'นโยบายสวัสดิภาพ',
+    'm.request':'ขอนัดพบ','m.chat':'แชทกับฟาร์ม','m.why':'ทำไมเราจับคู่ให้คุณ','m.health':'สุขภาพ','m.healthV':'วัคซีน · ตรวจโดยสัตวแพทย์ · DNA ✓','m.ped':'พันธุ์ประวัติ','m.pedV':'4 รุ่น · รับรอง TKC','m.brd':'ฟาร์ม','m.matchFor':'% AI จับคู่ · สำหรับโปรไฟล์คุณ',
+    'r.analysing':'วิเคราะห์เสร็จสิ้น','r.title':'Pet Persona ของคุณ','r.sub':'จัดอันดับตามบุคลิก ไลฟ์สไตล์ และความเข้ากันกับบ้าน','r.best':'คู่ที่ใช่','r.retake':'ทำใหม่','r.browse':'ดูสัตว์เลี้ยงทั้งหมด',
+    'r.persona':'Pet Persona','r.youAre':'คุณคือ','r.idealPet':'สัตว์เลี้ยงในอุดมคติของคุณ','r.typeMatch':'ความเข้ากันกับประเภทสัตว์',
+    'r.dreamBreeds':'สายพันธุ์ในฝัน','r.breedTitle':'สายพันธุ์ที่เข้ากับไวบ์คุณ','r.rec':'อันดับ',
+    'r.availTitle':'พร้อมรับเลี้ยง','r.availSub':'สัตว์เลี้ยงที่เข้ากับ Persona ของคุณ',
+    'r.shareEyebrow':'แชร์ Persona ของคุณ','r.shareTitle':'พร้อมอวดในฟีด','r.shareSub':'ดาวน์โหลดการ์ด Pet Persona หรือแชร์ไปยัง LINE, IG, TikTok — ชวนเพื่อนๆ มาทำกัน',
+    'r.shareIG':'บันทึก IG Story','r.shareTT':'แชร์ TikTok','r.shareCopy':'คัดลอกลิงก์','r.copyCode':'คัดลอก',
+    'r.invite':'ชวนเพื่อน','r.inviteSub':'ส่งโค้ดให้เพื่อน รับรางวัลทั้งคู่','r.referReward':'คุณได้เครดิต ฿200 · เพื่อนได้ส่วนลด ฿200 · ทุกครั้งที่เพื่อนทำแบบทดสอบครบ',
+    'r.copied':'คัดลอกแล้ว! ✨','r.generating':'กำลังสร้างการ์ด Top 3 ของคุณ… 🎨','r.igTip':'บันทึกรูปแล้ว — เปิด Instagram และอัพโหลดใน Story 📸','r.ttTip':'คัดลอกลิงก์แล้ว — วางใน TikTok 🎵',
+    'r.shareText1':'เพิ่งทำ PawMatch quiz มา ฉันคือ','r.shareText2':'มาหา Pet Persona ของคุณกัน →',
+    'weeks':'สัปดาห์','months':'เดือน',
+  }
+};
+
+/* ============= Data ============= */
+const breeders = [
+  { name:'Bangkok Pedigree Co.', loc:{en:'Sukhumvit, Bangkok',th:'สุขุมวิท กรุงเทพฯ'}, years:12, rating:4.9, reviews:312, badges:{en:['Top 1%','TKC Verified'],th:['Top 1%','TKC รับรอง']}, img:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80', specialty:{en:'Golden Retriever · Labrador',th:'โกลเด้น รีทรีฟเวอร์ · ลาบราดอร์'} },
+  { name:'Chiang Mai Highland Cattery', loc:{en:'Mae Rim, Chiang Mai',th:'แม่ริม เชียงใหม่'}, years:8, rating:4.8, reviews:184, badges:{en:['Cattery of the Year'],th:['ฟาร์มแมวยอดเยี่ยม']}, img:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80', specialty:{en:'British Shorthair · Maine Coon',th:'บริติช ชอร์ตแฮร์ · เมนคูน'} },
+  { name:'Royal Siam Kennels', loc:{en:'Hua Hin',th:'หัวหิน'}, years:18, rating:5.0, reviews:421, badges:{en:['Heritage Breeder'],th:['ฟาร์มมรดก']}, img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80', specialty:{en:'Thai Ridgeback · Bangkaew',th:'ไทยหลังอาน · บางแก้ว'} },
+  { name:'Sunny Paws Phuket', loc:{en:'Kathu, Phuket',th:'กะทู้ ภูเก็ต'}, years:6, rating:4.7, reviews:96, badges:{en:['Welfare First'],th:['สวัสดิภาพมาก่อน']}, img:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=900&q=80', specialty:{en:'Shiba Inu · Pomeranian',th:'ชิบะ อินุ · ปอมเมอเรเนียน'} },
+  { name:'Northern Bloom Farm', loc:{en:'Lampang',th:'ลำปาง'}, years:10, rating:4.9, reviews:208, badges:{en:['DNA Certified'],th:['รับรอง DNA']}, img:'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=900&q=80', specialty:{en:'Ragdoll · Scottish Fold',th:'แร็กดอลล์ · สก็อตติช โฟลด์'} },
+  { name:'BKK Exotic House', loc:{en:'Thonglor, Bangkok',th:'ทองหล่อ กรุงเทพฯ'}, years:5, rating:4.8, reviews:74, badges:{en:['CITES Licensed'],th:['ใบอนุญาต CITES']}, img:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80', specialty:{en:'Macaws · Sugar Glider',th:'นกมาคอว์ · ชูการ์ ไกลเดอร์'} },
+];
+
+const pets = [
+  { id:1, name:'Khao Niao', breed:{en:'Golden Retriever',th:'โกลเด้น รีทรีฟเวอร์'}, type:'dog', ageW:9, sex:{en:'Female',th:'เพศเมีย'}, price:45000, energy:3, kids:1, apt:0, hypo:0, traits:{en:['Calm','Affectionate','Family'],th:['สงบ','อ่อนโยน','รักครอบครัว']}, match:96, img:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80', breeder:'Bangkok Pedigree Co.' },
+  { id:2, name:'Mochi', breed:{en:'Shiba Inu',th:'ชิบะ อินุ'}, type:'dog', ageW:11, sex:{en:'Male',th:'เพศผู้'}, price:62000, energy:3, kids:1, apt:1, hypo:0, traits:{en:['Bold','Smart','Independent'],th:['กล้า','ฉลาด','อิสระ']}, match:92, img:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80', breeder:'Sunny Paws Phuket' },
+  { id:3, name:'Pudding', breed:{en:'British Shorthair',th:'บริติช ชอร์ตแฮร์'}, type:'cat', ageW:12, sex:{en:'Female',th:'เพศเมีย'}, price:38000, energy:1, kids:1, apt:1, hypo:0, traits:{en:['Quiet','Affectionate','Apartment'],th:['สงบ','อ่อนโยน','คอนโด']}, match:94, img:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80', breeder:'Chiang Mai Highland Cattery' },
+  { id:4, name:'Ginger', breed:{en:'Maine Coon',th:'เมนคูน'}, type:'cat', ageW:14, sex:{en:'Male',th:'เพศผู้'}, price:55000, energy:2, kids:1, apt:1, hypo:0, traits:{en:['Gentle','Sociable','Large'],th:['อ่อนโยน','เข้าสังคม','ตัวใหญ่']}, match:89, img:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80', breeder:'Northern Bloom Farm' },
+  { id:5, name:'Som Tam', breed:{en:'Thai Ridgeback',th:'ไทยหลังอาน'}, type:'dog', ageW:10, sex:{en:'Male',th:'เพศผู้'}, price:35000, energy:3, kids:0, apt:0, hypo:0, traits:{en:['Loyal','Active','Protective'],th:['ซื่อสัตย์','กระฉับกระเฉง','คุ้มกัน']}, match:88, img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80', breeder:'Royal Siam Kennels' },
+  { id:6, name:'Mali', breed:{en:'Pomeranian',th:'ปอมเมอเรเนียน'}, type:'dog', ageW:9, sex:{en:'Female',th:'เพศเมีย'}, price:42000, energy:2, kids:1, apt:1, hypo:0, traits:{en:['Playful','Compact','Vocal'],th:['ขี้เล่น','ตัวเล็ก','ช่างพูด']}, match:90, img:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80', breeder:'Sunny Paws Phuket' },
+  { id:7, name:'Latte', breed:{en:'Ragdoll',th:'แร็กดอลล์'}, type:'cat', ageW:13, sex:{en:'Female',th:'เพศเมีย'}, price:48000, energy:1, kids:1, apt:1, hypo:0, traits:{en:['Cuddly','Docile','Quiet'],th:['ขี้กอด','ว่านอนสอนง่าย','สงบ']}, match:95, img:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80', breeder:'Northern Bloom Farm' },
+  { id:8, name:'Bua', breed:{en:'Holland Lop',th:'ฮอลแลนด์ลอป'}, type:'small', ageW:8, sex:{en:'Female',th:'เพศเมีย'}, price:6500, energy:2, kids:1, apt:1, hypo:1, traits:{en:['Tiny','Gentle','Quiet'],th:['ตัวจิ๋ว','อ่อนโยน','สงบ']}, match:86, img:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=900&q=80', breeder:'Northern Bloom Farm' },
+  { id:9, name:'Kiwi', breed:{en:'Sun Conure',th:'นกซันคอนัวร์'}, type:'exotic', ageW:16, sex:{en:'Male',th:'เพศผู้'}, price:18000, energy:3, kids:1, apt:1, hypo:1, traits:{en:['Vibrant','Social','Vocal'],th:['สีสด','เข้าสังคม','ช่างพูด']}, match:81, img:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80', breeder:'BKK Exotic House' },
+  { id:10, name:'Thong', breed:{en:'Bangkaew',th:'บางแก้ว'}, type:'dog', ageW:12, sex:{en:'Male',th:'เพศผู้'}, price:28000, energy:3, kids:1, apt:0, hypo:0, traits:{en:['Loyal','Athletic','Smart'],th:['ซื่อสัตย์','แข็งแรง','ฉลาด']}, match:84, img:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=900&q=80', breeder:'Royal Siam Kennels' },
+  { id:11, name:'Yuki', breed:{en:'Scottish Fold',th:'สก็อตติช โฟลด์'}, type:'cat', ageW:10, sex:{en:'Female',th:'เพศเมีย'}, price:52000, energy:2, kids:1, apt:1, hypo:0, traits:{en:['Sweet','Curious','Quiet'],th:['น่ารัก','อยากรู้','สงบ']}, match:91, img:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80', breeder:'Chiang Mai Highland Cattery' },
+  { id:12, name:'Pang', breed:{en:'Labrador',th:'ลาบราดอร์'}, type:'dog', ageW:11, sex:{en:'Male',th:'เพศผู้'}, price:38000, energy:3, kids:1, apt:0, hypo:0, traits:{en:['Playful','Friendly','Energetic'],th:['ขี้เล่น','เป็นมิตร','กระตือรือร้น']}, match:93, img:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=900&q=80', breeder:'Bangkok Pedigree Co.' },
+];
+
+/* ============= i18n core ============= */
+let lang = localStorage.getItem('pm-lang') || 'en';
+function t(key){ return (I18N[lang] && I18N[lang][key]) ?? (I18N.en[key] ?? key); }
+function applyI18n(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang===lang ? 'true':'false'));
+  renderBreeders();
+  renderPets(currentFilter);
+  // Update quiz labels
+  if(typeof renderQ === 'function') renderQ();
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', ()=>{
+  lang = b.dataset.lang;
+  localStorage.setItem('pm-lang', lang);
+  applyI18n();
+}));
+
+/* ============= Breeders render ============= */
+const bg = document.getElementById('breeders-grid');
+function renderBreeders(){
+  bg.innerHTML = breeders.map(b => `
+    <article class="bg-cream-50 rounded-2xl border border-cream-200 overflow-hidden shadow-soft hover:shadow-lift transition group">
+      <div class="aspect-[5/3] overflow-hidden bg-cream-200 relative">
+        <img src="${b.img}" alt="${b.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700"/>
+        <div class="absolute top-3 left-3 flex gap-1.5">
+          ${b.badges[lang].map(x=>`<span class="bg-cream-50/95 text-forest-700 text-[10px] uppercase tracking-wider font-semibold px-2 py-1 rounded-full">${x}</span>`).join('')}
+        </div>
+        <div class="absolute top-3 right-3 bg-forest-700 text-cream-50 rounded-full p-1.5">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+      </div>
+      <div class="p-5">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-lg font-semibold text-forest-700">${b.name}</h3>
+            <div class="text-xs text-ink-500 mt-0.5">${b.loc[lang]} · ${b.years} ${t('breeders.years')}</div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm font-semibold text-forest-700">★ ${b.rating}</div>
+            <div class="text-[11px] text-ink-500">${b.reviews} ${t('breeders.reviews')}</div>
+          </div>
+        </div>
+        <div class="mt-3 text-xs text-ink-700 italic">${b.specialty[lang]}</div>
+        <button class="mt-4 w-full text-sm font-semibold bg-cream-100 hover:bg-cream-200 text-forest-700 py-2.5 rounded-full">${t('breeders.visit')}</button>
+      </div>
+    </article>
+  `).join('');
+}
+
+/* ============= Pets render ============= */
+const pg = document.getElementById('pets-grid');
+let currentFilter = 'all';
+function ageStr(w){
+  if(w >= 16) return Math.round(w/4) + ' ' + t('months');
+  return w + ' ' + t('weeks');
+}
+function renderPets(filter='all'){
+  currentFilter = filter;
+  const list = filter==='all' ? pets : pets.filter(p=>p.type===filter);
+  pg.innerHTML = list.map(p => `
+    <article class="pet-card group bg-cream-50 rounded-2xl border border-cream-200 overflow-hidden shadow-soft hover:shadow-lift transition cursor-pointer" data-id="${p.id}">
+      <div class="aspect-[4/5] bg-cream-200 overflow-hidden relative">
+        <img src="${p.img}" alt="${p.name}" class="pet-img w-full h-full object-cover"/>
+        <div class="absolute top-3 left-3 bg-forest-700/90 backdrop-blur text-cream-50 text-[11px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+          <svg class="w-3 h-3 text-gold-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.9L22 9.3l-5.6 4.8L18 22l-6-3.7L6 22l1.6-7.9L2 9.3l7.6-.4z"/></svg>
+          ${p.match}${t('pets.match')}
+        </div>
+        <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-cream-50/90 hover:bg-cream-50 text-clay-500 flex items-center justify-center" onclick="event.stopPropagation(); this.classList.toggle('text-clay-600')">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.35-7-10a4 4 0 017-2.65A4 4 0 0119 11c0 5.65-7 10-7 10z"/></svg>
+        </button>
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-800/85 to-transparent p-2.5 sm:p-3 text-cream-50">
+          <div class="font-display font-semibold text-base sm:text-lg leading-tight">${p.name}</div>
+          <div class="text-[10px] sm:text-[11px] opacity-90 truncate">${p.breed[lang]} · ${ageStr(p.ageW)}</div>
+        </div>
+      </div>
+      <div class="p-3 sm:p-4">
+        <div class="hidden sm:flex items-center gap-1.5 flex-wrap">
+          ${p.traits[lang].map(tr=>`<span class="text-[10px] uppercase tracking-wider font-semibold text-forest-700 bg-cream-100 px-2 py-0.5 rounded-full">${tr}</span>`).join('')}
+        </div>
+        <div class="flex sm:hidden gap-1">
+          ${p.traits[lang].slice(0,2).map(tr=>`<span class="text-[9px] uppercase tracking-wider font-semibold text-forest-700 bg-cream-100 px-1.5 py-0.5 rounded-full truncate max-w-[80px]">${tr}</span>`).join('')}
+        </div>
+        <div class="mt-2 sm:mt-3 flex items-center justify-between gap-2">
+          <div class="min-w-0">
+            <div class="text-[10px] sm:text-[11px] text-ink-500">${t('pets.from')}</div>
+            <div class="font-display font-semibold text-forest-700 text-sm sm:text-base">฿${p.price.toLocaleString()}</div>
+          </div>
+          <div class="text-right min-w-0">
+            <div class="text-[10px] sm:text-[11px] text-ink-500">${t('pets.breeder')}</div>
+            <div class="text-[11px] sm:text-xs font-medium text-ink-700 truncate max-w-[90px] sm:max-w-[140px]">${p.breeder}</div>
+          </div>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  pg.querySelectorAll('[data-id]').forEach(el => el.addEventListener('click', ()=> openPet(parseInt(el.dataset.id))));
+}
+
+document.getElementById('filters').addEventListener('click', e=>{
+  const btn = e.target.closest('[data-filter]'); if(!btn) return;
+  document.querySelectorAll('#filters [data-filter]').forEach(b=>{
+    b.classList.remove('step-active');
+    b.classList.add('bg-cream-50','border','border-cream-300');
+  });
+  btn.classList.add('step-active'); btn.classList.remove('bg-cream-50','border','border-cream-300');
+  renderPets(btn.dataset.filter);
+});
+
+/* ============= Modal ============= */
+function openPet(id){
+  const p = pets.find(x=>x.id===id); if(!p) return;
+  document.getElementById('modal-body').innerHTML = `
+    <div class="relative">
+      <img src="${p.img}" alt="${p.name}" class="w-full h-64 sm:h-80 object-cover"/>
+      <button class="absolute top-3 right-3 w-9 h-9 rounded-full bg-cream-50/90 hover:bg-cream-50 flex items-center justify-center" data-close>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="absolute bottom-3 left-3 bg-forest-700/90 text-cream-50 text-xs font-semibold px-3 py-1.5 rounded-full">${p.match}${t('m.matchFor')}</div>
+    </div>
+    <div class="p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h3 class="font-display text-3xl font-semibold text-forest-700">${p.name}</h3>
+          <div class="text-ink-500 text-sm">${p.breed[lang]} · ${ageStr(p.ageW)} · ${p.sex[lang]}</div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-ink-500">${t('pets.from')}</div>
+          <div class="font-display text-2xl font-semibold text-forest-700">฿${p.price.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-1.5 flex-wrap">
+        ${p.traits[lang].map(tr=>`<span class="text-xs font-semibold text-forest-700 bg-cream-100 border border-cream-200 px-2.5 py-1 rounded-full">${tr}</span>`).join('')}
+      </div>
+      <div class="mt-6 grid sm:grid-cols-3 gap-3">
+        <div class="p-4 bg-cream-100 rounded-xl">
+          <div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.health')}</div>
+          <div class="mt-1 font-semibold text-forest-700 text-sm">${t('m.healthV')}</div>
+        </div>
+        <div class="p-4 bg-cream-100 rounded-xl">
+          <div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.ped')}</div>
+          <div class="mt-1 font-semibold text-forest-700 text-sm">${t('m.pedV')}</div>
+        </div>
+        <div class="p-4 bg-cream-100 rounded-xl">
+          <div class="text-[11px] uppercase tracking-wider text-ink-500">${t('m.brd')}</div>
+          <div class="mt-1 font-semibold text-forest-700 text-sm">${p.breeder}</div>
+        </div>
+      </div>
+      <div class="mt-6">
+        <div class="text-sm font-semibold text-forest-700">${t('m.why')}</div>
+        <p class="text-sm text-ink-700 mt-1">${lang==='th'
+          ? `จากโปรไฟล์ไลฟ์สไตล์ของคุณ ${p.name} มีระดับพลังงานและนิสัยที่ตรงกับสิ่งที่คุณบรรยาย — ${p.traits.th[0]} เหมาะกับสภาพบ้านของคุณ`
+          : `Based on your lifestyle profile, ${p.name}'s energy level and temperament align with what you described — ${p.traits.en[0].toLowerCase()} demeanour, suitable for your home setup.`}</p>
+      </div>
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <button class="flex-1 bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full">${t('m.request')}</button>
+        <button class="flex-1 bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold py-3 rounded-full">${t('m.chat')}</button>
+      </div>
+    </div>`;
+  document.getElementById('modal').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+document.addEventListener('click', e=>{
+  if(e.target.closest('[data-close]')){
+    document.getElementById('modal').classList.add('hidden');
+    document.body.style.overflow='';
+  }
+});
+
+/* ============= Quiz ============= */
+const QUESTIONS = {
+  en: [
+    { key:'home', title:'01 · Your space', q:'What does your home look like?', opts:[{v:'condo',l:'Condo / Apartment',e:'🏙️'},{v:'townhouse',l:'Townhouse',e:'🏘️'},{v:'house',l:'House with garden',e:'🏡'},{v:'farm',l:'Rural / Farm',e:'🌾'}]},
+    { key:'energy', title:'02 · Energy', q:'How active is your daily life?', opts:[{v:'low',l:'Indoors, chill mode',e:'🛋️'},{v:'medium',l:'Walks, weekend trips',e:'🚶'},{v:'high',l:'Runs, hikes, gym daily',e:'🏃'}]},
+    { key:'social', title:'03 · Social style', q:"How would friends describe you?", opts:[{v:'introvert',l:'Cozy introvert',e:'📚'},{v:'ambivert',l:'Selectively social',e:'🌗'},{v:'extrovert',l:'Life of the party',e:'🎉'}]},
+    { key:'weekend', title:'04 · Weekend vibes', q:'Your ideal Saturday looks like…', opts:[{v:'cafe',l:'Café + journaling',e:'☕'},{v:'mall',l:'Mall hopping with friends',e:'🛍️'},{v:'nature',l:'Beach, hike, or roadtrip',e:'🏖️'},{v:'home',l:'Movies, takeout, plants',e:'🎬'}]},
+    { key:'family', title:'05 · Household', q:'Who shares your home?', opts:[{v:'solo',l:'Just me',e:'🧑'},{v:'couple',l:'My partner & me',e:'💞'},{v:'kids',l:'With young children',e:'👨‍👩‍👧'},{v:'multi',l:'Multi-generational',e:'👵'}]},
+    { key:'time', title:'06 · Time', q:'Hours you can spend with a pet daily?', opts:[{v:'<1',l:'Less than 1 hour',e:'⏱️'},{v:'1-3',l:'1–3 hours',e:'🕒'},{v:'3+',l:'3+ hours, all in',e:'🕘'}]},
+    { key:'noise', title:'07 · Noise tolerance', q:'Could your home handle some barking, meowing, or chirping?', opts:[{v:'quiet',l:'Please keep it quiet',e:'🤫'},{v:'mild',l:'A little is fine',e:'🙂'},{v:'loud',l:"Bring on the chaos",e:'📢'}]},
+    { key:'mess', title:'08 · The mess factor', q:'How do you feel about fur, paws, and the occasional accident?', opts:[{v:'spotless',l:'I need spotless',e:'✨'},{v:'okay',l:"I can handle it",e:'🧹'},{v:'love',l:"Mess = personality",e:'🌪️'}]},
+    { key:'budget', title:'09 · Budget', q:'Monthly pet budget you’re comfy with?', opts:[{v:'low',l:'฿1k – 3k',e:'🪙'},{v:'mid',l:'฿3k – 8k',e:'💵'},{v:'high',l:'฿8k+ — premium care',e:'💎'}]},
+    { key:'exp', title:'10 · Experience', q:'How experienced are you with pets?', opts:[{v:'first',l:'First-time owner',e:'🌱'},{v:'some',l:'Had pets before',e:'🪴'},{v:'pro',l:'Basically a pet whisperer',e:'🌳'}]},
+    { key:'pref', title:'11 · Vibe check', q:'What kind of bond do you want?', opts:[{v:'calm',l:'Calm, quiet companion',e:'🌿'},{v:'play',l:'Goofy, playful sidekick',e:'🎾'},{v:'loyal',l:'Loyal protector',e:'🛡️'},{v:'unique',l:'Something rare & unique',e:'✨'}]},
+    { key:'goal', title:'12 · The dream', q:'What do you hope a pet brings to your life?', opts:[{v:'comfort',l:'Comfort & emotional support',e:'🫶'},{v:'adventure',l:"An adventure partner",e:'🧭'},{v:'family',l:'A family member',e:'🏡'},{v:'aesthetic',l:'Pure cute aesthetic',e:'📸'}]},
+  ],
+  th: [
+    { key:'home', title:'01 · พื้นที่ของคุณ', q:'บ้านของคุณเป็นแบบไหน?', opts:[{v:'condo',l:'คอนโด / อพาร์ตเมนต์',e:'🏙️'},{v:'townhouse',l:'ทาวน์เฮาส์',e:'🏘️'},{v:'house',l:'บ้านมีสวน',e:'🏡'},{v:'farm',l:'ชนบท / ฟาร์ม',e:'🌾'}]},
+    { key:'energy', title:'02 · พลังงาน', q:'ชีวิตประจำวันคุณกระฉับกระเฉงแค่ไหน?', opts:[{v:'low',l:'อยู่บ้าน ชิลๆ',e:'🛋️'},{v:'medium',l:'เดินเล่น เที่ยวสุดสัปดาห์',e:'🚶'},{v:'high',l:'วิ่ง เดินป่า ฟิตทุกวัน',e:'🏃'}]},
+    { key:'social', title:'03 · สไตล์การเข้าสังคม', q:'เพื่อนๆ จะบรรยายคุณว่าอย่างไร?', opts:[{v:'introvert',l:'อินโทรเวิร์ตขี้อาย',e:'📚'},{v:'ambivert',l:'เลือกเข้าสังคม',e:'🌗'},{v:'extrovert',l:'ชีวิตของปาร์ตี้',e:'🎉'}]},
+    { key:'weekend', title:'04 · วันหยุดในฝัน', q:'วันเสาร์ในอุดมคติของคุณคือ…', opts:[{v:'cafe',l:'คาเฟ่ + เขียนไดอารี่',e:'☕'},{v:'mall',l:'เดินห้างกับเพื่อน',e:'🛍️'},{v:'nature',l:'ทะเล ป่า โร้ดทริป',e:'🏖️'},{v:'home',l:'หนัง อาหาร ต้นไม้',e:'🎬'}]},
+    { key:'family', title:'05 · ครอบครัว', q:'ใครอาศัยอยู่กับคุณ?', opts:[{v:'solo',l:'อยู่คนเดียว',e:'🧑'},{v:'couple',l:'อยู่กับคู่รัก',e:'💞'},{v:'kids',l:'มีเด็กเล็ก',e:'👨‍👩‍👧'},{v:'multi',l:'หลายช่วงวัย',e:'👵'}]},
+    { key:'time', title:'06 · เวลา', q:'มีเวลาให้สัตว์เลี้ยงต่อวันกี่ชั่วโมง?', opts:[{v:'<1',l:'น้อยกว่า 1 ชั่วโมง',e:'⏱️'},{v:'1-3',l:'1–3 ชั่วโมง',e:'🕒'},{v:'3+',l:'มากกว่า 3 ชั่วโมง',e:'🕘'}]},
+    { key:'noise', title:'07 · ทนเสียงได้แค่ไหน', q:'รับเสียงเห่า เหมียว หรือนกร้องได้ไหม?', opts:[{v:'quiet',l:'ขอเงียบๆ',e:'🤫'},{v:'mild',l:'นิดหน่อยพอไหว',e:'🙂'},{v:'loud',l:'สนุกไปกับความวุ่นวาย',e:'📢'}]},
+    { key:'mess', title:'08 · เรื่องความรก', q:'รู้สึกยังไงกับขน เท้า และความเลอะเทอะ?', opts:[{v:'spotless',l:'ต้องสะอาดเอี่ยม',e:'✨'},{v:'okay',l:'พอรับได้',e:'🧹'},{v:'love',l:'รกคือเสน่ห์',e:'🌪️'}]},
+    { key:'budget', title:'09 · งบประมาณ', q:'งบดูแลสัตว์เลี้ยงต่อเดือนที่สบายใจ?', opts:[{v:'low',l:'฿1,000 – 3,000',e:'🪙'},{v:'mid',l:'฿3,000 – 8,000',e:'💵'},{v:'high',l:'฿8,000+ ดูแลแบบพรีเมียม',e:'💎'}]},
+    { key:'exp', title:'10 · ประสบการณ์', q:'เลี้ยงสัตว์มาแค่ไหนแล้ว?', opts:[{v:'first',l:'มือใหม่หัดเลี้ยง',e:'🌱'},{v:'some',l:'เคยเลี้ยงมาบ้าง',e:'🪴'},{v:'pro',l:'นักดูแลสัตว์เลี้ยงตัวยง',e:'🌳'}]},
+    { key:'pref', title:'11 · เช็คไวบ์', q:'อยากได้ความสัมพันธ์แบบไหน?', opts:[{v:'calm',l:'เพื่อนสงบ เงียบๆ',e:'🌿'},{v:'play',l:'คู่หูขี้เล่นเฮฮา',e:'🎾'},{v:'loyal',l:'ผู้พิทักษ์ผู้ซื่อสัตย์',e:'🛡️'},{v:'unique',l:'แปลกและพิเศษ',e:'✨'}]},
+    { key:'goal', title:'12 · ความฝัน', q:'อยากให้สัตว์เลี้ยงนำอะไรเข้ามาในชีวิต?', opts:[{v:'comfort',l:'ความอบอุ่น กำลังใจ',e:'🫶'},{v:'adventure',l:'คู่หูผจญภัย',e:'🧭'},{v:'family',l:'สมาชิกครอบครัว',e:'🏡'},{v:'aesthetic',l:'ความน่ารักสไตล์ฟีด',e:'📸'}]},
+  ]
+};
+
+/* ============= Archetypes ============= */
+const ARCHETYPES = {
+  cozy:        { emoji:'🫖', grad:'from-clay-400 via-clay-500 to-clay-600',
+                 en:{name:'The Cozy Curator', tag:'Soft soul · slow living · indoor magic',
+                     traits:['Empathetic','Patient','Aesthetic-driven','Gentle'],
+                     ideal:'A calm indoor companion who makes home feel like a sanctuary.',
+                     types:[{k:'cat',v:95},{k:'small',v:78},{k:'dog',v:55},{k:'exotic',v:35}],
+                     breeds:[{n:'Ragdoll',d:'Cuddly, docile, follows you everywhere',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'British Shorthair',d:'Plush, quiet, low-maintenance royalty',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Holland Lop',d:'Tiny, gentle, café-aesthetic bunny',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'นักจัดบ้านสายอบอุ่น', tag:'จิตใจอ่อนโยน · ชีวิตช้าๆ · เวทมนตร์ในบ้าน',
+                     traits:['เห็นอกเห็นใจ','อดทน','รักความสวยงาม','อ่อนโยน'],
+                     ideal:'คู่หูในบ้านที่สงบ ทำให้บ้านรู้สึกเหมือนวิหารส่วนตัว',
+                     types:[{k:'cat',v:95},{k:'small',v:78},{k:'dog',v:55},{k:'exotic',v:35}],
+                     breeds:[{n:'แร็กดอลล์',d:'ขี้กอด ว่าง่าย ตามคุณทุกที่',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'บริติช ชอร์ตแฮร์',d:'นุ่ม สงบ ดูแลง่ายสไตล์ราชา',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ฮอลแลนด์ลอป',d:'กระต่ายตัวจิ๋ว สายคาเฟ่',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}]} },
+  adventurer:  { emoji:'🏔️', grad:'from-forest-500 via-forest-600 to-forest-700',
+                 en:{name:'The Adventure Seeker', tag:'High energy · outdoor heart · roadtrip ready',
+                     traits:['Energetic','Spontaneous','Athletic','Curious'],
+                     ideal:'A high-energy partner who hikes, swims, and roadtrips with you.',
+                     types:[{k:'dog',v:97},{k:'cat',v:40},{k:'exotic',v:50},{k:'small',v:25}],
+                     breeds:[{n:'Labrador',d:'Endless energy, beach-loving best friend',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Golden Retriever',d:'Sunshine personality, family-ready',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Thai Ridgeback',d:'Athletic, native Thai breed, loyal explorer',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'นักผจญภัย', tag:'พลังงานเต็มเปี่ยม · ใจกลางแจ้ง · พร้อมโร้ดทริป',
+                     traits:['กระตือรือร้น','สปอนเทเนียส','แข็งแรง','อยากรู้อยากเห็น'],
+                     ideal:'คู่หูพลังงานสูงที่เดินป่า ว่ายน้ำ และไปโร้ดทริปกับคุณได้',
+                     types:[{k:'dog',v:97},{k:'cat',v:40},{k:'exotic',v:50},{k:'small',v:25}],
+                     breeds:[{n:'ลาบราดอร์',d:'พลังงานล้น เพื่อนสายชายหาด',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
+                             {n:'โกลเด้น รีทรีฟเวอร์',d:'บุคลิกแสงแดด เหมาะกับครอบครัว',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ไทยหลังอาน',d:'แข็งแรง สายพันธุ์ไทยแท้ นักสำรวจที่ซื่อสัตย์',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'}]} },
+  social:      { emoji:'🎉', grad:'from-gold-400 via-clay-400 to-clay-500',
+                 en:{name:'The Social Butterfly', tag:'People person · pet that posts well · main character energy',
+                     traits:['Outgoing','Playful','Confident','Trend-aware'],
+                     ideal:'A photogenic, sociable pet that loves people and cameras as much as you do.',
+                     types:[{k:'dog',v:92},{k:'cat',v:55},{k:'exotic',v:65},{k:'small',v:40}],
+                     breeds:[{n:'Pomeranian',d:"Fluffy main character, instagram-ready",i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Shiba Inu',d:'Iconic, internet-famous, surprisingly chill',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Sun Conure',d:'Vibrant exotic that loves to chat',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'ผีเสื้อสังคม', tag:'คนรักคน · สัตว์เลี้ยงโพสต์สวย · พลังตัวเอก',
+                     traits:['ชอบเข้าสังคม','ขี้เล่น','มั่นใจ','ตามเทรนด์'],
+                     ideal:'สัตว์เลี้ยงที่ถ่ายรูปสวย ชอบคน และชอบกล้องเหมือนคุณ',
+                     types:[{k:'dog',v:92},{k:'cat',v:55},{k:'exotic',v:65},{k:'small',v:40}],
+                     breeds:[{n:'ปอมเมอเรเนียน',d:'ฟูฟ่อง ตัวเอกของฟีด',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ชิบะ อินุ',d:'ดังในอินเทอร์เน็ต ชิลเกินคาด',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
+                             {n:'นกซันคอนัวร์',d:'สีสันสด ชอบคุย',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]} },
+  guardian:    { emoji:'🛡️', grad:'from-forest-600 via-forest-700 to-forest-800',
+                 en:{name:'The Loyal Guardian', tag:'Disciplined · protective · ride-or-die',
+                     traits:['Loyal','Reliable','Calm under pressure','Devoted'],
+                     ideal:'A devoted, intelligent companion who watches over your home and family.',
+                     types:[{k:'dog',v:96},{k:'cat',v:45},{k:'small',v:20},{k:'exotic',v:30}],
+                     breeds:[{n:'Bangkaew',d:'Loyal native Thai breed, athletic & smart',i:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Thai Ridgeback',d:'Watchful, alert, ancient lineage',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Labrador',d:'Trainable, gentle giant, family-protective',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'ผู้พิทักษ์ผู้ซื่อสัตย์', tag:'มีวินัย · ปกป้อง · เพื่อนตาย',
+                     traits:['ซื่อสัตย์','พึ่งพาได้','สงบในยามคับขัน','ทุ่มเท'],
+                     ideal:'เพื่อนที่ฉลาดและทุ่มเท คอยดูแลบ้านและครอบครัว',
+                     types:[{k:'dog',v:96},{k:'cat',v:45},{k:'small',v:20},{k:'exotic',v:30}],
+                     breeds:[{n:'บางแก้ว',d:'สายพันธุ์ไทย แข็งแรงและฉลาด',i:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ไทยหลังอาน',d:'ตื่นตัว สายเลือดโบราณ',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ลาบราดอร์',d:'ฝึกง่าย ยักษ์ใจดี ปกป้องครอบครัว',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'}]} },
+  freespirit:  { emoji:'🦜', grad:'from-clay-500 via-gold-500 to-gold-400',
+                 en:{name:'The Free Spirit', tag:'Unconventional · curious · collector of rare beauty',
+                     traits:['Creative','Curious','Independent','Open-minded'],
+                     ideal:'A unique, eye-catching companion that mirrors your one-of-a-kind energy.',
+                     types:[{k:'exotic',v:92},{k:'small',v:75},{k:'cat',v:60},{k:'dog',v:50}],
+                     breeds:[{n:'Sun Conure',d:'Vibrant, vocal, charismatic exotic',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Scottish Fold',d:'Quirky ears, sweet personality',i:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Sugar Glider',d:'Tiny, nocturnal, deeply bonding',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'จิตวิญญาณเสรี', tag:'ไม่ตามขนบ · ช่างสงสัย · นักสะสมความงามหายาก',
+                     traits:['สร้างสรรค์','อยากรู้อยากเห็น','อิสระ','เปิดกว้าง'],
+                     ideal:'เพื่อนที่แปลกและสะดุดตา สะท้อนตัวตนที่ไม่เหมือนใคร',
+                     types:[{k:'exotic',v:92},{k:'small',v:75},{k:'cat',v:60},{k:'dog',v:50}],
+                     breeds:[{n:'นกซันคอนัวร์',d:'สีสด ช่างพูด มีเสน่ห์',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
+                             {n:'สก็อตติช โฟลด์',d:'หูพับน่ารัก นิสัยหวาน',i:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'},
+                             {n:'ชูการ์ ไกลเดอร์',d:'ตัวจิ๋ว ออกหากินกลางคืน ผูกพันลึก',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]} },
+  nurturer:    { emoji:'🌸', grad:'from-clay-400 via-clay-500 to-forest-500',
+                 en:{name:'The Heartfelt Nurturer', tag:'Family-first · warm · the human everyone calls when sad',
+                     traits:['Caring','Patient','Family-oriented','Empathetic'],
+                     ideal:'A friendly, kid-safe sweetheart who becomes a real family member.',
+                     types:[{k:'dog',v:93},{k:'cat',v:75},{k:'small',v:60},{k:'exotic',v:30}],
+                     breeds:[{n:'Golden Retriever',d:'Patient, gentle, classic family dog',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Maine Coon',d:'Gentle giant cat, sociable, kid-friendly',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'Cavalier King Charles',d:'Cuddly, affectionate, loves everyone',i:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80'}]},
+                 th:{name:'ผู้ดูแลใจอบอุ่น', tag:'ครอบครัวมาก่อน · อบอุ่น · คนที่ทุกคนเรียกหา',
+                     traits:['ใส่ใจ','อดทน','รักครอบครัว','เห็นอกเห็นใจ'],
+                     ideal:'เพื่อนใจดีปลอดภัยกับเด็ก กลายเป็นสมาชิกครอบครัวจริงๆ',
+                     types:[{k:'dog',v:93},{k:'cat',v:75},{k:'small',v:60},{k:'exotic',v:30}],
+                     breeds:[{n:'โกลเด้น รีทรีฟเวอร์',d:'อดทน อ่อนโยน สุนัขครอบครัวคลาสสิก',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
+                             {n:'เมนคูน',d:'แมวยักษ์ใจดี เข้ากับเด็กได้',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
+                             {n:'คาวาเลียร์',d:'ขี้กอด อ่อนโยน รักทุกคน',i:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80'}]} },
+};
+
+function calcArchetype(a){
+  const s = { cozy:0, adventurer:0, social:0, guardian:0, freespirit:0, nurturer:0 };
+  // home
+  if(a.home==='condo') { s.cozy+=3; s.social+=2; s.freespirit+=1; }
+  if(a.home==='townhouse') { s.nurturer+=2; s.cozy+=1; }
+  if(a.home==='house') { s.nurturer+=3; s.adventurer+=2; s.guardian+=2; }
+  if(a.home==='farm') { s.adventurer+=3; s.guardian+=3; s.freespirit+=2; }
+  // energy
+  if(a.energy==='low') { s.cozy+=3; s.freespirit+=1; }
+  if(a.energy==='medium') { s.nurturer+=2; s.social+=2; s.guardian+=1; }
+  if(a.energy==='high') { s.adventurer+=4; s.social+=2; }
+  // social
+  if(a.social==='introvert') { s.cozy+=3; s.freespirit+=2; s.guardian+=1; }
+  if(a.social==='ambivert') { s.nurturer+=2; s.guardian+=1; }
+  if(a.social==='extrovert') { s.social+=4; s.adventurer+=1; }
+  // weekend
+  if(a.weekend==='cafe') { s.cozy+=2; s.social+=1; }
+  if(a.weekend==='mall') { s.social+=3; }
+  if(a.weekend==='nature') { s.adventurer+=4; s.freespirit+=1; }
+  if(a.weekend==='home') { s.cozy+=3; s.nurturer+=1; }
+  // family
+  if(a.family==='solo') { s.freespirit+=2; s.cozy+=1; }
+  if(a.family==='couple') { s.social+=1; s.adventurer+=1; }
+  if(a.family==='kids') { s.nurturer+=4; }
+  if(a.family==='multi') { s.nurturer+=3; s.guardian+=2; }
+  // time
+  if(a.time==='<1') { s.cozy+=1; s.freespirit+=1; }
+  if(a.time==='1-3') { s.nurturer+=1; s.social+=1; }
+  if(a.time==='3+') { s.adventurer+=2; s.nurturer+=2; s.guardian+=2; }
+  // noise
+  if(a.noise==='quiet') { s.cozy+=2; }
+  if(a.noise==='mild') { s.nurturer+=1; s.guardian+=1; }
+  if(a.noise==='loud') { s.social+=2; s.adventurer+=1; s.freespirit+=2; }
+  // mess
+  if(a.mess==='spotless') { s.cozy+=2; }
+  if(a.mess==='okay') { s.nurturer+=1; s.guardian+=1; }
+  if(a.mess==='love') { s.adventurer+=2; s.freespirit+=2; }
+  // budget
+  if(a.budget==='high') { s.cozy+=1; s.social+=1; s.freespirit+=1; }
+  if(a.budget==='mid') { s.nurturer+=1; }
+  if(a.budget==='low') { s.guardian+=1; }
+  // exp
+  if(a.exp==='first') { s.cozy+=1; s.nurturer+=1; }
+  if(a.exp==='pro') { s.adventurer+=1; s.guardian+=2; s.freespirit+=2; }
+  // pref
+  if(a.pref==='calm') { s.cozy+=3; }
+  if(a.pref==='play') { s.social+=3; s.adventurer+=1; }
+  if(a.pref==='loyal') { s.guardian+=4; }
+  if(a.pref==='unique') { s.freespirit+=4; }
+  // goal
+  if(a.goal==='comfort') { s.cozy+=2; s.nurturer+=2; }
+  if(a.goal==='adventure') { s.adventurer+=3; }
+  if(a.goal==='family') { s.nurturer+=3; s.guardian+=1; }
+  if(a.goal==='aesthetic') { s.social+=2; s.freespirit+=2; }
+
+  let top = 'cozy', max=-1;
+  for(const k in s){ if(s[k]>max){ max=s[k]; top=k; } }
+  return { key: top, scores: s };
+}
+let qi = 0; const answers = {};
+const qcontent = document.getElementById('qcontent');
+const qbar = document.getElementById('qbar');
+const qstep = document.getElementById('qstep');
+const qtitle = document.getElementById('qstep-title');
+const qprev = document.getElementById('qprev');
+const qnext = document.getElementById('qnext');
+const qnextLabel = document.getElementById('qnext-label');
+
+function renderQ(){
+  const list = QUESTIONS[lang];
+  document.getElementById('qtotal').textContent = list.length;
+  if(qi >= list.length){ return renderResults(); }
+  const q = list[qi];
+  qtitle.textContent = q.title;
+  qstep.textContent = qi+1;
+  qbar.style.width = ((qi+1)/(list.length+1)*100) + '%';
+  qcontent.innerHTML = `
+    <div class="font-display text-2xl sm:text-3xl font-semibold text-forest-700">${q.q}</div>
+    <div class="mt-6 grid sm:grid-cols-2 gap-3">
+      ${q.opts.map(o=>`
+        <button class="quiz-opt text-left bg-cream-50 border-2 border-cream-200 hover:border-forest-600 rounded-2xl p-4 flex items-center gap-3 transition" data-v="${o.v}" aria-pressed="${answers[q.key]===o.v}">
+          <span class="opt-emoji text-2xl">${o.e}</span>
+          <span class="font-semibold">${o.l}</span>
+        </button>`).join('')}
+    </div>`;
+  qprev.disabled = qi===0;
+  qnext.disabled = !answers[q.key];
+  qnextLabel.textContent = qi===list.length-1 ? t('quiz.see') : t('quiz.next');
+  qprev.textContent = t('quiz.back');
+  qcontent.querySelectorAll('.quiz-opt').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      answers[q.key] = b.dataset.v;
+      qcontent.querySelectorAll('.quiz-opt').forEach(x=>x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+      qnext.disabled = false;
+    });
+  });
+}
+function renderResults(){
+  const { key:archKey } = calcArchetype(answers);
+  const arch = ARCHETYPES[archKey];
+  const A = arch[lang];
+  window._lastArch = archKey;
+
+  // Match available pets too
+  const typeMap = Object.fromEntries(A.types.map(x=>[x.k,x.v]));
+  const scored = pets.map(p=>{
+    let s = (typeMap[p.type] || 50);
+    if(answers.energy==='low' && p.energy<=2) s+=8;
+    if(answers.energy==='high' && p.energy===3) s+=8;
+    if(answers.home==='condo' && p.apt) s+=5;
+    if(answers.family==='kids' && p.kids) s+=4;
+    if(answers.pref==='calm' && (p.traits.en.includes('Calm')||p.traits.en.includes('Quiet'))) s+=5;
+    if(answers.pref==='play' && p.traits.en.includes('Playful')) s+=5;
+    if(answers.pref==='loyal' && p.traits.en.includes('Loyal')) s+=5;
+    return {...p, score: Math.min(99, Math.max(55, s))};
+  }).sort((a,b)=>b.score-a.score).slice(0,3);
+
+  qstep.textContent = '✓';
+  qtitle.textContent = t('r.title');
+  qbar.style.width = '100%';
+
+  const inviteCode = 'PAW' + Math.random().toString(36).slice(2,7).toUpperCase();
+  const shareUrl = `https://pawmatch.co/persona/${archKey}?ref=${inviteCode}`;
+  const typeLabels = lang==='th'
+    ? { dog:'สุนัข', cat:'แมว', small:'สัตว์เล็ก', exotic:'สัตว์พิเศษ' }
+    : { dog:'Dogs', cat:'Cats', small:'Small pets', exotic:'Exotic' };
+  const typeIcons = { dog:'🐕', cat:'🐈', small:'🐰', exotic:'🦜' };
+
+  qcontent.innerHTML = `
+    <!-- HERO RESULT CARD -->
+    <div id="result-card" class="relative rounded-3xl overflow-hidden bg-gradient-to-br ${arch.grad} text-cream-50 p-5 sm:p-10 shadow-lift">
+      <div class="absolute inset-0 grain opacity-100"></div>
+      <div class="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-cream-50/15 blur-3xl"></div>
+      <div class="relative">
+        <div class="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] opacity-90">
+          <span>PawMatch · ${t('r.persona')}</span>
+        </div>
+        <div class="mt-2 text-6xl sm:text-7xl leading-none">${arch.emoji}</div>
+        <h3 class="font-display text-3xl sm:text-4xl font-bold mt-3 leading-tight">${t('r.youAre')} <span class="italic">${A.name}</span></h3>
+        <p class="mt-2 opacity-90 text-sm sm:text-base">${A.tag}</p>
+
+        <div class="mt-5 flex flex-wrap gap-2">
+          ${A.traits.map(tr=>`<span class="bg-cream-50/20 backdrop-blur border border-cream-50/30 text-[11px] sm:text-xs font-semibold px-3 py-1 rounded-full">${tr}</span>`).join('')}
+        </div>
+        <div class="mt-5 p-4 bg-cream-50/10 backdrop-blur border border-cream-50/20 rounded-2xl text-sm">
+          <div class="text-[10px] uppercase tracking-[0.18em] opacity-80">${t('r.idealPet')}</div>
+          <div class="mt-1 font-display text-lg leading-snug">${A.ideal}</div>
+        </div>
+        <div class="absolute bottom-0 right-0 text-[10px] opacity-60 hidden sm:block">pawmatch.co</div>
+      </div>
+    </div>
+
+    <!-- PET TYPE COMPATIBILITY -->
+    <div class="mt-6 bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6">
+      <div class="text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">${t('r.typeMatch')}</div>
+      <div class="mt-3 grid sm:grid-cols-2 gap-3">
+        ${A.types.sort((a,b)=>b.v-a.v).map(x=>`
+          <div>
+            <div class="flex justify-between text-sm">
+              <div class="font-semibold text-forest-700">${typeIcons[x.k]} ${typeLabels[x.k]}</div>
+              <div class="text-ink-500">${x.v}%</div>
+            </div>
+            <div class="mt-1 h-2 rounded-full bg-cream-200 overflow-hidden">
+              <div class="h-full bg-gradient-to-r ${arch.grad}" style="width:${x.v}%"></div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- BREED RECOMMENDATIONS -->
+    <div class="mt-6">
+      <div class="text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">${t('r.dreamBreeds')}</div>
+      <h4 class="font-display text-xl sm:text-2xl font-semibold text-forest-700 mt-1">${t('r.breedTitle')}</h4>
+      <div class="mt-4 grid sm:grid-cols-3 gap-4">
+        ${A.breeds.map((b,i)=>`
+          <div class="group bg-cream-50 border border-cream-200 rounded-2xl overflow-hidden shadow-soft hover:shadow-lift transition">
+            <div class="relative aspect-[4/3] bg-cream-200 overflow-hidden">
+              <img src="${b.i}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700"/>
+              <div class="absolute top-2 left-2 bg-forest-700/85 text-cream-50 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">${t('r.rec')} #${i+1}</div>
+            </div>
+            <div class="p-4">
+              <div class="font-display font-semibold text-forest-700">${b.n}</div>
+              <div class="text-xs text-ink-700 mt-1">${b.d}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- AVAILABLE PETS -->
+    <div class="mt-6">
+      <div class="text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">${t('r.availTitle')}</div>
+      <h4 class="font-display text-xl sm:text-2xl font-semibold text-forest-700 mt-1">${t('r.availSub')}</h4>
+      <div class="mt-4 grid sm:grid-cols-3 gap-4">
+        ${scored.map((p,i)=>`
+          <button class="text-left group bg-cream-50 border border-cream-200 hover:border-forest-600 rounded-2xl overflow-hidden transition shadow-soft hover:shadow-lift" onclick="openPet(${p.id})">
+            <div class="relative aspect-[4/5] overflow-hidden bg-cream-200">
+              <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700"/>
+              ${i===0?`<div class="absolute top-3 left-3 bg-gold-500 text-forest-800 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">${t('r.best')}</div>`:''}
+              <div class="absolute top-3 right-3 bg-forest-700 text-cream-50 text-xs font-bold px-2.5 py-1 rounded-full">${p.score}%</div>
+            </div>
+            <div class="p-3">
+              <div class="font-display font-semibold text-forest-700">${p.name}</div>
+              <div class="text-xs text-ink-500">${p.breed[lang]} · ${ageStr(p.ageW)}</div>
+            </div>
+          </button>`).join('')}
+      </div>
+    </div>
+
+    <!-- SHARE -->
+    <div class="mt-8 bg-forest-700 text-cream-50 rounded-3xl p-5 sm:p-8 relative overflow-hidden">
+      <div class="absolute inset-0 grain opacity-100"></div>
+      <div class="relative grid md:grid-cols-2 gap-6 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-gold-400">${t('r.shareEyebrow')}</div>
+          <h4 class="font-display text-2xl sm:text-3xl font-semibold mt-2">${t('r.shareTitle')}</h4>
+          <p class="mt-2 text-cream-100/80 text-sm">${t('r.shareSub')}</p>
+          <div class="mt-5 grid grid-cols-2 gap-2">
+            <button data-share="ig" class="bg-gradient-to-tr from-clay-500 via-clay-400 to-gold-400 text-cream-50 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+              ${t('r.shareIG')}
+            </button>
+            <button data-share="tiktok" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
+              <span class="text-lg">🎵</span> ${t('r.shareTT')}
+            </button>
+            <button data-share="line" class="bg-forest-600 hover:bg-forest-500 text-cream-50 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
+              <span class="text-lg">💬</span> LINE
+            </button>
+            <button data-share="copy" class="bg-cream-50 text-forest-700 font-semibold text-sm px-4 py-3 rounded-2xl flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span id="copy-label">${t('r.shareCopy')}</span>
+            </button>
+          </div>
+        </div>
+        <div class="bg-forest-800/60 rounded-2xl p-4 backdrop-blur border border-forest-600/50">
+          <div class="text-[11px] uppercase tracking-[0.18em] text-gold-400">${t('r.invite')}</div>
+          <div class="mt-2 font-display text-lg">${t('r.inviteSub')}</div>
+          <div class="mt-3 flex items-center gap-2 bg-forest-700 rounded-xl p-2 border border-forest-600/60">
+            <code class="flex-1 px-2 text-sm font-mono">${inviteCode}</code>
+            <button data-share="invite" class="bg-gold-500 hover:bg-gold-400 text-forest-800 font-semibold text-xs px-3 py-1.5 rounded-lg">${t('r.copyCode')}</button>
+          </div>
+          <div class="mt-3 text-[11px] text-cream-100/70">${t('r.referReward')}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+      <button id="qrestart" class="bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold px-5 py-2.5 rounded-full text-sm">${t('r.retake')}</button>
+      <a href="#pets" class="bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold px-5 py-2.5 rounded-full text-sm text-center">${t('r.browse')}</a>
+    </div>
+
+    <div id="share-toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] hidden bg-forest-800 text-cream-50 px-4 py-2 rounded-full text-sm shadow-lift"></div>
+  `;
+  qprev.disabled = false; qnext.disabled = true; qnext.classList.add('invisible');
+
+  document.getElementById('qrestart').addEventListener('click', ()=>{
+    qi=0; for(const k in answers) delete answers[k];
+    qnext.classList.remove('invisible'); renderQ();
+  });
+
+  // Share handlers
+  const toast = (msg)=>{
+    const el = document.getElementById('share-toast');
+    el.textContent = msg; el.classList.remove('hidden');
+    clearTimeout(window._toastT); window._toastT = setTimeout(()=>el.classList.add('hidden'), 2200);
+  };
+  const shareText = `${t('r.shareText1')} ${A.name} ${arch.emoji}\n${A.tag}\n${t('r.shareText2')}`;
+  document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', async ()=>{
+    const kind = b.dataset.share;
+    if(kind==='copy' || kind==='invite'){
+      const text = kind==='copy' ? `${shareText}\n${shareUrl}` : `${inviteCode} — ${shareUrl}`;
+      try { await navigator.clipboard.writeText(text); toast(t('r.copied')); }
+      catch { toast('Copy failed'); }
+      return;
+    }
+    if(kind==='ig'){
+      toast(t('r.generating'));
+      try {
+        await downloadResultCard(archKey, arch, A, inviteCode);
+        toast(t('r.igTip'));
+      } catch(e){ toast('Image generation failed'); }
+      return;
+    }
+    if(kind==='tiktok'){
+      if(navigator.share){
+        try { await navigator.share({ title:'My Pet Persona', text: shareText, url: shareUrl }); } catch {}
+      } else {
+        await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
+        toast(t('r.ttTip'));
+      }
+      return;
+    }
+    if(kind==='line'){
+      const url = `https://line.me/R/msg/text/?${encodeURIComponent(shareText+'\n'+shareUrl)}`;
+      window.open(url, '_blank');
+    }
+  }));
+}
+
+/* ============= Result card download (canvas, IG Story 1080x1920) ============= */
+const ARCH_DISPLAY = {
+  en: {
+    cozy:        ['The Cozy', 'Curator'],
+    adventurer:  ['Adventure', 'Seeker'],
+    social:      ['Social', 'Butterfly'],
+    guardian:    ['Loyal', 'Guardian'],
+    freespirit:  ['Free', 'Spirit'],
+    nurturer:    ['Heartfelt', 'Nurturer'],
+  },
+  th: {
+    cozy:        ['นักจัดบ้าน', 'สายอบอุ่น'],
+    adventurer:  ['นัก', 'ผจญภัย'],
+    social:      ['ผีเสื้อ', 'สังคม'],
+    guardian:    ['ผู้พิทักษ์', 'ผู้ซื่อสัตย์'],
+    freespirit:  ['จิตวิญญาณ', 'เสรี'],
+    nurturer:    ['ผู้ดูแล', 'ใจอบอุ่น'],
+  }
+};
+const ARCH_EMOJI = {
+  cozy:'🏡', adventurer:'🏔️', social:'🎉', guardian:'🛡️', freespirit:'🦜', nurturer:'🌸'
+};
+
+function loadImage(src){
+  return new Promise((res)=>{
+    const im = new Image();
+    im.crossOrigin = 'anonymous';
+    im.onload = () => res(im);
+    im.onerror = () => res(null);
+    im.src = src;
+  });
+}
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y, x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r);
+  ctx.arcTo(x, y, x+w, y, r);
+  ctx.closePath();
+}
+function wrapText(ctx, text, x, y, maxW, lineH, maxLines){
+  const words = (text||'').split(' '); let line=''; let yy=y; let lines=0;
+  for(const w of words){
+    const test = line + w + ' ';
+    if(ctx.measureText(test).width > maxW && line){
+      ctx.fillText(line, x, yy); line=w+' '; yy+=lineH; lines++;
+      if(maxLines && lines>=maxLines-1){
+        // last line, draw rest truncated
+        let rest = line;
+        for(const w2 of words.slice(words.indexOf(w)+1)) rest += w2+' ';
+        while(ctx.measureText(rest+'…').width > maxW && rest.length>1) rest = rest.slice(0,-1);
+        ctx.fillText(rest+'…', x, yy);
+        return;
+      }
+    } else line = test;
+  }
+  ctx.fillText(line, x, yy);
+}
+
+/* ----- Watercolor doodle helpers ----- */
+function drawSparkle(ctx, x, y, s, color){
+  ctx.save(); ctx.translate(x,y); ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(0,-s); ctx.bezierCurveTo(s*0.15,-s*0.15,s*0.15,s*0.15,0,s);
+  ctx.bezierCurveTo(-s*0.15,s*0.15,-s*0.15,-s*0.15,0,-s); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(-s,0); ctx.bezierCurveTo(-s*0.15,-s*0.15,s*0.15,-s*0.15,s,0);
+  ctx.bezierCurveTo(s*0.15,s*0.15,-s*0.15,s*0.15,-s,0); ctx.fill();
+  ctx.beginPath(); ctx.arc(s*1.5,-s*0.5,2.5,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(-s*1.4,s*0.6,2,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+function drawSquiggle(ctx, x, y, w, color, lw){
+  ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=lw||4; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(x,y);
+  const segs=6, sw=w/segs;
+  for(let i=0;i<segs;i++){
+    const sx=x+i*sw, ex=sx+sw, cy=y+(i%2===0?-9:9);
+    ctx.quadraticCurveTo(sx+sw/2, cy, ex, y);
+  }
+  ctx.stroke(); ctx.restore();
+}
+function drawHeart(ctx, x, y, s, color){
+  ctx.save(); ctx.translate(x,y); ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(0, s*0.25);
+  ctx.bezierCurveTo(-s*0.6,-s*0.3,-s*1.05, s*0.15, 0, s*0.95);
+  ctx.bezierCurveTo(s*1.05, s*0.15, s*0.6,-s*0.3, 0, s*0.25);
+  ctx.fill(); ctx.restore();
+}
+function drawPaw(ctx, x, y, s, color){
+  ctx.save(); ctx.translate(x,y); ctx.fillStyle=color;
+  // toes
+  [[-0.55,-0.45,-0.35],[0.55,-0.45,0.35],[-0.85,0.1,-0.7],[0.85,0.1,0.7]].forEach(([px,py,rot])=>{
+    ctx.save(); ctx.translate(px*s,py*s); ctx.rotate(rot);
+    ctx.beginPath(); ctx.ellipse(0,0,s*0.22,s*0.30,0,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  });
+  ctx.beginPath(); ctx.ellipse(0, s*0.45, s*0.55, s*0.48, 0, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+function drawHand(ctx, x, y, s, color, type){
+  // little hand-drawn flourish next to score (curved lines)
+  ctx.save(); ctx.translate(x,y);
+  ctx.strokeStyle=color; ctx.lineWidth=3; ctx.lineCap='round';
+  for(let i=-1;i<=1;i++){
+    ctx.beginPath();
+    ctx.arc(0, 0, s + i*s*0.35, -0.6, 0.6);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+async function downloadResultCard(archKey, arch, A, code){
+  const W=1080, H=1920;
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
+  const ctx=c.getContext('2d');
+  if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch{} }
+
+  // ===== Cream paper background =====
+  ctx.fillStyle='#F5EFE2'; ctx.fillRect(0,0,W,H);
+
+  // Warm corner washes
+  const wash=(cx,cy,r,col)=>{
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+    g.addColorStop(0,col); g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  };
+  wash(120, 220, 480, 'rgba(216,178,110,0.18)');
+  wash(960, 280, 380, 'rgba(216,138,138,0.12)');
+  wash(120, 1500, 520, 'rgba(155,180,175,0.10)');
+
+  // Paper grain
+  ctx.fillStyle='rgba(60,40,20,0.025)';
+  for(let i=0;i<1800;i++){ ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2); }
+
+  // ===== HEADER =====
+  ctx.textAlign='left';
+  ctx.fillStyle='#3B342D';
+  ctx.font='700 40px Inter, "IBM Plex Sans Thai", sans-serif';
+  ctx.fillText('🐾 PawMatch', 70, 110);
+  ctx.font='600 18px Inter, sans-serif';
+  ctx.fillStyle='#8E8479';
+  ctx.fillText('PET  PERSONA  QUIZ', 70, 144);
+
+  // Persona pill (top-right)
+  ctx.font='600 24px Inter, "IBM Plex Sans Thai", sans-serif';
+  const personaTxt = ARCH_EMOJI[archKey] + '  ' + A.name;
+  const pillW = Math.min(640, ctx.measureText(personaTxt).width + 56);
+  const pillX = W - 70 - pillW;
+  roundRect(ctx, pillX, 78, pillW, 60, 30);
+  ctx.fillStyle='rgba(255,255,255,0.75)'; ctx.fill();
+  ctx.strokeStyle='#D8CAB0'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#3B342D';
+  ctx.fillText(personaTxt, pillX+28, 118);
+
+  // ===== TITLE BLOCK =====
+  ctx.textAlign='center';
+
+  // Pre-title "ผลลัพธ์คือคุณเป็น" / "You are the..."
+  ctx.fillStyle='#6B6157';
+  ctx.font='italic 500 32px Georgia, "IBM Plex Sans Thai", serif';
+  ctx.fillText(lang==='th' ? 'ผลลัพธ์คือคุณเป็น' : 'You are the…', W/2, 248);
+
+  // Big two-line archetype name
+  const display = (ARCH_DISPLAY[lang] && ARCH_DISPLAY[lang][archKey]) || [A.name, ''];
+  const fontFamily = lang==='th' ? '"IBM Plex Sans Thai", Georgia, serif' : 'Georgia, serif';
+  // Auto-fit line 1
+  let sz1=120;
+  ctx.font = `italic 800 ${sz1}px ${fontFamily}`;
+  while(ctx.measureText(display[0]).width > W-160 && sz1>70){ sz1-=4; ctx.font=`italic 800 ${sz1}px ${fontFamily}`; }
+  ctx.fillStyle='#3B342D';
+  ctx.fillText(display[0], W/2, 360);
+
+  // Line 2 in rose accent
+  let sz2=120;
+  ctx.font = `italic 800 ${sz2}px ${fontFamily}`;
+  while(ctx.measureText(display[1]).width > W-200 && sz2>70){ sz2-=4; ctx.font=`italic 800 ${sz2}px ${fontFamily}`; }
+  ctx.fillStyle='#C2674A';
+  ctx.fillText(display[1] || '', W/2, 470);
+
+  // Curly underline under line 2
+  const ul2W = Math.min(W-260, ctx.measureText(display[1]||display[0]).width + 40);
+  drawSquiggle(ctx, W/2 - ul2W/2, 500, ul2W, '#D88A8A', 5);
+
+  // ===== Sparkles scattered around title =====
+  const sparks = [[90,300,22],[140,230,16],[220,420,14],[990,290,22],[930,400,16],[80,500,18],[990,520,20]];
+  sparks.forEach(([x,y,s])=>drawSparkle(ctx,x,y,s,'#D8B26E'));
+
+  // ===== Traits row with hearts =====
+  ctx.font='italic 500 30px Georgia, "IBM Plex Sans Thai", serif';
+  const traits = A.traits.slice(0,3);
+  // measure width of traits + hearts
+  let tw=0;
+  traits.forEach((tr,i)=>{
+    tw += ctx.measureText(tr).width;
+    if(i<traits.length-1) tw += 60; // heart space
+  });
+  let tx = W/2 - tw/2;
+  ctx.textAlign='left';
+  traits.forEach((tr,i)=>{
+    ctx.fillStyle='#3B342D';
+    ctx.fillText(tr, tx, 590);
+    tx += ctx.measureText(tr).width;
+    if(i<traits.length-1){
+      drawHeart(ctx, tx+22, 575, 14, '#D88A8A');
+      tx += 60;
+    }
+  });
+
+  // ===== TOP 3 BANNER =====
+  ctx.textAlign='center';
+  const bannerTxt = lang==='th' ? '🐾   TOP 3 PET MATCHES ของฉัน' : '🐾   MY TOP 3 PET MATCHES';
+  ctx.font='700 28px Inter, "IBM Plex Sans Thai", sans-serif';
+  const bw = ctx.measureText(bannerTxt).width + 100;
+  const bx = W/2 - bw/2;
+  // soft teal watercolor wash pill
+  roundRect(ctx, bx, 660, bw, 70, 35);
+  const bg = ctx.createLinearGradient(bx,660,bx+bw,730);
+  bg.addColorStop(0,'rgba(155,180,175,0.32)');
+  bg.addColorStop(1,'rgba(216,178,110,0.18)');
+  ctx.fillStyle=bg; ctx.fill();
+  ctx.strokeStyle='rgba(155,180,175,0.4)'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#3B342D';
+  ctx.fillText(bannerTxt, W/2, 705);
+  ctx.textAlign='left';
+
+  // ===== TOP 3 CARDS =====
+  const topImgs = await Promise.all(A.breeds.slice(0,3).map(b => loadImage(b.i)));
+  const baseScore = (A.types[0]?.v ?? 96);
+  const scores = [Math.min(99,baseScore), Math.max(70,baseScore-5), Math.max(65,baseScore-9)];
+
+  // Card accents — rose / dusty blue / sage green
+  const palettes = [
+    { accent:'#C2674A', soft:'#F2D9CF', bar:'#D88A8A', deco:'heart', decoCol:'#D88A8A' },
+    { accent:'#5B7A99', soft:'#D5DDE5', bar:'#8AA8C2', deco:'paw',   decoCol:'#8AA8C2' },
+    { accent:'#7B9A6B', soft:'#D9E2CC', bar:'#9DB88B', deco:'heart', decoCol:'#9DB88B' },
+  ];
+
+  let y = 780;
+  const cardW = W-140, cardH = 290, photoSize = 240;
+  for(let i=0;i<3;i++){
+    const b = A.breeds[i]; const im = topImgs[i]; const p = palettes[i];
+
+    // Card shadow + body
+    ctx.save();
+    ctx.shadowColor='rgba(60,40,20,0.10)';
+    ctx.shadowBlur=22; ctx.shadowOffsetY=8;
+    roundRect(ctx, 70, y, cardW, cardH, 28);
+    ctx.fillStyle='#FFFCF5'; ctx.fill();
+    ctx.restore();
+    // Border
+    roundRect(ctx, 70, y, cardW, cardH, 28);
+    ctx.strokeStyle='#EADFC9'; ctx.lineWidth=1.5; ctx.stroke();
+
+    // Photo
+    const px = 95, py = y+25;
+    ctx.save();
+    roundRect(ctx, px, py, photoSize, photoSize, 20);
+    ctx.fillStyle=p.soft; ctx.fill();
+    ctx.clip();
+    if(im){
+      const ar=im.width/im.height; let sw=im.width, sh=im.height, sx=0, sy=0;
+      if(ar>1){ sw=im.height; sx=(im.width-sw)/2; } else { sh=im.width; sy=(im.height-sh)/2; }
+      ctx.drawImage(im, sx, sy, sw, sh, px, py, photoSize, photoSize);
+    }
+    ctx.restore();
+
+    // Number badge (top-left of photo)
+    const bcx = px+2, bcy = py+2;
+    ctx.beginPath(); ctx.arc(bcx, bcy, 34, 0, Math.PI*2);
+    ctx.fillStyle=p.accent; ctx.fill();
+    ctx.strokeStyle='#FFFCF5'; ctx.lineWidth=5; ctx.stroke();
+    ctx.fillStyle='#FFFCF5';
+    ctx.font='700 32px Inter, sans-serif';
+    ctx.textAlign='center'; ctx.fillText(String(i+1), bcx, bcy+11); ctx.textAlign='left';
+
+    // Crown above #1
+    if(i===0){
+      ctx.font='40px serif';
+      ctx.fillText('👑', px-12, py-12);
+    }
+
+    // Text column
+    const tx = px + photoSize + 36;
+    const tw = cardW - photoSize - 60 - 40;
+
+    // Breed name
+    ctx.fillStyle='#3B342D';
+    ctx.font=`700 46px ${lang==='th'?'"IBM Plex Sans Thai", Georgia, serif':'Georgia, serif'}`;
+    ctx.fillText(b.n, tx, y+78);
+
+    // Description
+    ctx.fillStyle='#6B6157';
+    ctx.font='500 22px Inter, "IBM Plex Sans Thai", sans-serif';
+    wrapText(ctx, b.d, tx, y+118, tw-40, 30, 2);
+
+    // Big % in accent
+    ctx.fillStyle=p.accent;
+    ctx.font=`700 84px ${lang==='th'?'"IBM Plex Sans Thai", Georgia, serif':'Georgia, serif'}`;
+    const pctTxt = scores[i]+'%';
+    ctx.fillText(pctTxt, tx, y+232);
+    const pctW = ctx.measureText(pctTxt).width;
+    // "match" label
+    ctx.fillStyle='#8E8479';
+    ctx.font='500 24px Inter, sans-serif';
+    ctx.fillText('match', tx+pctW+14, y+232);
+
+    // Progress bar
+    const barX=tx, barY=y+252, barW=tw, barH=8;
+    roundRect(ctx, barX, barY, barW, barH, 4);
+    ctx.fillStyle='#F0E6D5'; ctx.fill();
+    roundRect(ctx, barX, barY, barW*scores[i]/100, barH, 4);
+    ctx.fillStyle=p.bar; ctx.fill();
+
+    // Decorative doodle (top right of card)
+    const dx = 70+cardW-90, dy = y+80;
+    if(p.deco==='heart'){
+      drawHeart(ctx, dx, dy, 30, p.decoCol);
+    } else {
+      drawPaw(ctx, dx, dy, 32, p.decoCol);
+    }
+    // little stroke flourish
+    ctx.strokeStyle=p.decoCol; ctx.lineWidth=2.5; ctx.lineCap='round';
+    [[-10,-12],[6,-18],[16,-4]].forEach(([ox,oy])=>{
+      ctx.beginPath();
+      ctx.moveTo(dx+ox+30, dy+oy);
+      ctx.lineTo(dx+ox+42, dy+oy-6);
+      ctx.stroke();
+    });
+
+    y += cardH + 26;
+  }
+
+  // ===== BOTTOM CTA =====
+  const ctaTop = y + 18;
+  // Left column
+  ctx.fillStyle='#6B6157';
+  ctx.font='italic 500 24px Georgia, "IBM Plex Sans Thai", serif';
+  const lead = lang==='th' ? 'อยากรู้ว่าเพื่อนของคุณเป็นสายไหน?' : "Want to see your friends' personas?";
+  ctx.fillText(lead, 70, ctaTop+24);
+  ctx.fillStyle='#3B342D';
+  ctx.font='700 46px Georgia, serif';
+  ctx.fillText('pawmatch.co', 70, ctaTop+84);
+  drawSquiggle(ctx, 70, ctaTop+98, 270, '#D88A8A', 4);
+
+  // Invite pill (bottom right)
+  const inviteTxt = '🔗  Invite · ' + code;
+  ctx.font='700 24px Inter, sans-serif';
+  const inW = ctx.measureText(inviteTxt).width + 56;
+  const inX = W - 70 - inW;
+  const inY = ctaTop + 8;
+  roundRect(ctx, inX, inY, inW, 60, 30);
+  ctx.fillStyle='#F2D9CF'; ctx.fill();
+  ctx.strokeStyle='#D88A8A'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#A04E36';
+  ctx.fillText(inviteTxt, inX+26, inY+40);
+
+  ctx.fillStyle='#8E8479';
+  ctx.font='500 18px Inter, "IBM Plex Sans Thai", sans-serif';
+  const tagline = lang==='th'
+    ? 'ชวนเพื่อนมา MATCH ตัวตนสัตว์เลี้ยงกัน! ♥'
+    : 'Invite friends to find their pet persona! ♥';
+  ctx.textAlign='right';
+  ctx.fillText(tagline, W-70, inY+92);
+  ctx.textAlign='left';
+
+  // tiny sparkles at bottom corners
+  drawSparkle(ctx, 380, ctaTop+74, 10, '#D8B26E');
+  drawSparkle(ctx, W-100, H-60, 14, '#D8B26E');
+
+  // ===== DOWNLOAD =====
+  const url = c.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = url; a.download = `pawmatch-top3-${archKey}.png`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+qnext.addEventListener('click', ()=>{ qi++; renderQ(); });
+qprev.addEventListener('click', ()=>{ qi=Math.max(0,qi-1); qnext.classList.remove('invisible'); renderQ(); });
+
+/* mobile nav */
+document.getElementById('mnav').addEventListener('click', ()=> document.getElementById('mnav-panel').classList.toggle('hidden'));
+document.querySelectorAll('#mnav-panel a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('mnav-panel').classList.add('hidden')));
+
+/* boot */
+applyI18n();
+renderQ();
+</script>
+<script type="module" src="scripts/supabase.js"></script>
+<script src="scripts/auth.js"></script>
+</body>
+</html>

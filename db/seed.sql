@@ -1,0 +1,33 @@
+-- ============================================================
+-- PawMatch — Seed data (reference tables)
+-- Run AFTER schema.sql
+-- ============================================================
+
+-- ============================================================
+-- BREEDS — bilingual reference catalog
+-- ============================================================
+INSERT INTO breeds (slug, species, name, origin, avg_lifespan_years, avg_size, hypoallergenic, energy_level, apartment_friendly, kid_friendly, care_difficulty, temperament_tags, photo_url) VALUES
+('golden-retriever',     'dog',    '{"en":"Golden Retriever","th":"โกลเด้น รีทรีฟเวอร์"}',     'Scotland',      12, 'Large',     false, 3, false, true, 2, ARRAY['friendly','playful','family'],          'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80'),
+('shiba-inu',            'dog',    '{"en":"Shiba Inu","th":"ชิบะ อินุ"}',                       'Japan',         14, 'Small',     false, 3, true,  true, 3, ARRAY['bold','smart','independent'],            'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80'),
+('british-shorthair',    'cat',    '{"en":"British Shorthair","th":"บริติช ชอร์ตแฮร์"}',         'United Kingdom',14, 'Medium',    false, 1, true,  true, 2, ARRAY['calm','affectionate','quiet'],            'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80'),
+('maine-coon',           'cat',    '{"en":"Maine Coon","th":"เมนคูน"}',                          'United States', 13, 'Large',     false, 2, true,  true, 3, ARRAY['gentle','sociable','large'],              'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80'),
+('thai-ridgeback',       'dog',    '{"en":"Thai Ridgeback","th":"ไทยหลังอาน"}',                 'Thailand',      13, 'Medium',    false, 3, false, true, 4, ARRAY['loyal','athletic','protective'],          'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80'),
+('pomeranian',           'dog',    '{"en":"Pomeranian","th":"ปอมเมอเรเนียน"}',                  'Germany',       14, 'Toy',       false, 2, true,  true, 2, ARRAY['playful','compact','vocal'],              'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80'),
+('ragdoll',              'cat',    '{"en":"Ragdoll","th":"แร็กดอลล์"}',                          'United States', 15, 'Large',     false, 1, true,  true, 1, ARRAY['cuddly','docile','quiet'],                'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80'),
+('holland-lop',          'small',  '{"en":"Holland Lop","th":"ฮอลแลนด์ลอป"}',                   'Netherlands',    8, 'Small',     true,  2, true,  true, 2, ARRAY['tiny','gentle','quiet'],                  'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=900&q=80'),
+('sun-conure',           'exotic', '{"en":"Sun Conure","th":"นกซันคอนัวร์"}',                   'South America', 25, 'Small',     true,  3, true,  true, 4, ARRAY['vibrant','social','vocal'],               'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80'),
+('bangkaew',             'dog',    '{"en":"Bangkaew","th":"บางแก้ว"}',                          'Thailand',      13, 'Medium',    false, 3, false, true, 3, ARRAY['loyal','athletic','smart'],               'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=900&q=80'),
+('scottish-fold',        'cat',    '{"en":"Scottish Fold","th":"สก็อตติช โฟลด์"}',              'Scotland',      13, 'Medium',    false, 2, true,  true, 2, ARRAY['sweet','curious','quiet'],                'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=80'),
+('labrador',             'dog',    '{"en":"Labrador","th":"ลาบราดอร์"}',                        'Canada',        12, 'Large',     false, 3, false, true, 2, ARRAY['playful','friendly','energetic'],         'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=900&q=80'),
+('persian',              'cat',    '{"en":"Persian","th":"เปอร์เซีย"}',                          'Iran',          14, 'Medium',    false, 1, true,  true, 4, ARRAY['quiet','sweet','flat-faced'],             'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80'),
+('german-shepherd',      'dog',    '{"en":"German Shepherd","th":"เยอรมัน เชพเพิร์ด"}',         'Germany',       11, 'Large',     false, 3, false, true, 3, ARRAY['loyal','intelligent','protective'],       'https://images.unsplash.com/photo-1568572933382-74d440642117?auto=format&fit=crop&w=900&q=80'),
+('cavalier-king-charles','dog',    '{"en":"Cavalier King Charles","th":"คาวาเลียร์ คิง ชาลส์"}', 'United Kingdom',12, 'Toy',       false, 2, true,  true, 2, ARRAY['cuddly','affectionate','gentle'],        'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=900&q=80'),
+('netherland-dwarf',     'small',  '{"en":"Netherland Dwarf","th":"เนเธอร์แลนด์ ดวอร์ฟ"}',      'Netherlands',    9, 'Toy',       true,  2, true,  true, 2, ARRAY['tiny','curious','playful'],               'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=900&q=80'),
+('cockatiel',            'exotic', '{"en":"Cockatiel","th":"ค็อกคาเทล"}',                       'Australia',     20, 'Small',     true,  3, true,  true, 3, ARRAY['friendly','vocal','social'],              'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80'),
+('sugar-glider',         'exotic', '{"en":"Sugar Glider","th":"ชูการ์ ไกลเดอร์"}',              'Australia',     14, 'Toy',       true,  3, true,  false,4, ARRAY['nocturnal','bonding','tiny'],            'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=900&q=80'),
+('guinea-pig',           'small',  '{"en":"Guinea Pig","th":"หนูตะเภา"}',                       'Andes',          7, 'Small',     true,  2, true,  true, 1, ARRAY['social','vocal','gentle'],                'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=900&q=80'),
+('hamster',              'small',  '{"en":"Hamster","th":"หนูแฮมสเตอร์"}',                       'Syria',           3, 'Toy',       true,  2, true,  true, 1, ARRAY['nocturnal','solitary','tiny'],            'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=900&q=80');
+
+-- ============================================================
+-- Done.
+-- ============================================================
