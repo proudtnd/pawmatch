@@ -772,44 +772,252 @@ async function downloadResultCard(archKey, arch, A, code){
   const c=document.createElement('canvas'); c.width=W; c.height=H;
   const ctx=c.getContext('2d');
   if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch{} }
+
+  const leastList = (LEAST_COMPAT[archKey] && LEAST_COMPAT[archKey][lang]) || [];
+  const isThai = lang === 'th';
+  const sans  = '"Inter","IBM Plex Sans Thai",sans-serif';
+  const disp  = isThai ? '"IBM Plex Sans Thai","Sarabun",sans-serif' : 'Georgia,"IBM Plex Sans Thai",serif';
+  const italic = isThai ? '' : 'italic ';
+
+  // ===== CREAM PAPER BACKGROUND =====
+  ctx.fillStyle = '#FBF7F1';
+  ctx.fillRect(0,0,W,H);
+  // Soft warm washes
+  const wash=(cx,cy,r,col)=>{ const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(255,255,255,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); };
+  wash(120, 240, 480, 'rgba(216,178,110,0.15)');
+  wash(950, 1700, 520, 'rgba(216,138,138,0.10)');
+  // Paper grain
+  ctx.fillStyle='rgba(60,40,20,0.025)';
+  for(let i=0;i<1400;i++) ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2);
+
+  // ===== TOP HEADER =====
+  ctx.fillStyle='#15291F'; ctx.textAlign='left';
+  ctx.font='800 38px '+sans;
+  ctx.fillText('🐾 PawMatch', 60, 92);
+  ctx.font='600 18px '+sans;
+  ctx.fillStyle='#8E8479';
+  ctx.fillText('PET PERSONA QUIZ', 60, 122);
+
+  // ===== HERO PERSONA CARD =====
+  const heroX=60, heroY=170, heroW=W-120, heroH=600;
+  ctx.save();
+  roundRect(ctx, heroX, heroY, heroW, heroH, 36);
   const colors = ARCH_GRAD_CSS[archKey] || ['#C2674A','#A04E36','#7E3B28'];
-  const g = ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,colors[0]); g.addColorStop(0.55,colors[1]); g.addColorStop(1,colors[2]);
-  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='rgba(255,255,255,0.04)'; for(let i=0;i<900;i++) ctx.fillRect(Math.random()*W,Math.random()*H,3,3);
-  ctx.fillStyle='#FBF7F1'; ctx.textAlign='left';
-  ctx.font='700 38px Inter, "IBM Plex Sans Thai", sans-serif'; ctx.fillText('🐾 PawMatch', 70, 110);
-  ctx.font='600 18px Inter, sans-serif'; ctx.fillStyle='rgba(251,247,241,0.7)'; ctx.fillText('PET PERSONA QUIZ', 70, 144);
-  ctx.fillStyle='rgba(251,247,241,0.75)'; ctx.font='600 24px Inter, sans-serif'; ctx.fillText('MY TOP 3 PET MATCHES', 70, 230);
-  ctx.fillStyle='#FBF7F1'; ctx.font='800 92px Georgia, serif'; wrapText(ctx, A.name, 70, 320, W-140, 100, 2);
-  ctx.font='500 32px Inter, "IBM Plex Sans Thai", sans-serif'; ctx.fillStyle='rgba(251,247,241,0.92)'; wrapText(ctx, A.tag, 70, 510, W-140, 44, 2);
-  const topImgs = await Promise.all(A.breeds.slice(0,3).map(b => loadImage(b.i)));
-  const scores=[96,91,87];
-  let y=680; const cardW=W-140, cardH=300, photo=252;
-  for(let i=0;i<3;i++){
-    const b=A.breeds[i]; const im=topImgs[i];
-    roundRect(ctx,70,y,cardW,cardH,32); ctx.fillStyle='rgba(251,247,241,0.14)'; ctx.fill();
-    ctx.strokeStyle='rgba(251,247,241,0.22)'; ctx.lineWidth=2; ctx.stroke();
-    ctx.save(); roundRect(ctx,94,y+24,photo,photo,24); ctx.clip();
-    if(im){ const ar=im.width/im.height; let sw=im.width, sh=im.height, sx=0, sy=0; if(ar>1){ sw=im.height; sx=(im.width-sw)/2; } else { sh=im.width; sy=(im.height-sh)/2; } ctx.drawImage(im,sx,sy,sw,sh,94,y+24,photo,photo); }
-    ctx.restore();
-    const tx=94+photo+32, tw=cardW-photo-56-32;
-    ctx.fillStyle='#FBF7F1'; ctx.font='800 50px Georgia, serif'; ctx.fillText(b.n, tx, y+82);
-    ctx.font='500 26px Inter, "IBM Plex Sans Thai", sans-serif'; ctx.fillStyle='rgba(251,247,241,0.88)'; wrapText(ctx,b.d,tx,y+128,tw,36,2);
-    ctx.font='800 78px Inter, sans-serif'; ctx.fillStyle='#FBF7F1';
-    const sTxt = scores[i]+'%'; ctx.fillText(sTxt, tx, y+248);
-    const sW=ctx.measureText(sTxt).width; ctx.font='600 22px Inter, sans-serif'; ctx.fillStyle='rgba(251,247,241,0.75)';
-    ctx.fillText('match', tx+sW+12, y+248);
-    y += cardH + 28;
+  const grad = ctx.createLinearGradient(heroX, heroY, heroX+heroW, heroY+heroH);
+  grad.addColorStop(0,colors[0]); grad.addColorStop(0.55,colors[1]); grad.addColorStop(1,colors[2]);
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.clip();
+  ctx.fillStyle='rgba(255,255,255,0.05)';
+  for(let i=0;i<450;i++) ctx.fillRect(heroX+Math.random()*heroW, heroY+Math.random()*heroH, 3, 3);
+  ctx.restore();
+
+  // Decorative star top-left
+  ctx.save();
+  ctx.translate(heroX+50, heroY+50);
+  ctx.fillStyle='rgba(251,247,241,0.55)';
+  ctx.beginPath();
+  for(let i=0;i<4;i++){ ctx.rotate(Math.PI/2);
+    ctx.beginPath();
+    ctx.moveTo(0,-14); ctx.bezierCurveTo(3,-3,3,-3,14,0); ctx.bezierCurveTo(3,3,3,3,0,14); ctx.bezierCurveTo(-3,3,-3,3,-14,0); ctx.bezierCurveTo(-3,-3,-3,-3,0,-14); ctx.fill();
+    break;
   }
-  ctx.strokeStyle='rgba(251,247,241,0.25)'; ctx.beginPath(); ctx.moveTo(70,H-220); ctx.lineTo(W-70,H-220); ctx.stroke();
-  ctx.fillStyle='rgba(251,247,241,0.75)'; ctx.font='600 22px Inter, sans-serif'; ctx.fillText('FIND YOUR PET PERSONA', 70, H-160);
-  ctx.fillStyle='#FBF7F1'; ctx.font='800 56px Georgia, serif'; ctx.fillText('pawmatch.co', 70, H-95);
-  ctx.font='600 24px Inter, sans-serif';
-  const codeTxt='Invite · '+code; const cw=ctx.measureText(codeTxt).width+48;
-  roundRect(ctx, W-70-cw, H-130, cw, 56, 28); ctx.fillStyle='rgba(14,31,24,0.45)'; ctx.fill();
-  ctx.fillStyle='#FBF7F1'; ctx.fillText(codeTxt, W-70-cw+24, H-95);
+  ctx.restore();
+
+  // Decorative heart bottom-right
+  ctx.save();
+  ctx.translate(heroX+heroW-50, heroY+heroH-45);
+  ctx.fillStyle='rgba(251,247,241,0.5)';
+  ctx.beginPath();
+  ctx.moveTo(0, 4);
+  ctx.bezierCurveTo(-9, -5, -16, 4, 0, 14);
+  ctx.bezierCurveTo(16, 4, 9, -5, 0, 4);
+  ctx.fill();
+  ctx.restore();
+
+  // PET PERSONA chip
+  ctx.textAlign='center';
+  ctx.font='700 22px '+sans;
+  const chipTxt = '🐾   PET PERSONA';
+  const chipMW = ctx.measureText(chipTxt).width;
+  const chipW = chipMW + 52, chipX = W/2 - chipW/2, chipY = heroY + 50;
+  roundRect(ctx, chipX, chipY, chipW, 50, 25);
+  ctx.fillStyle='rgba(251,247,241,0.22)'; ctx.fill();
+  ctx.strokeStyle='rgba(251,247,241,0.32)'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#FBF7F1';
+  ctx.fillText(chipTxt, W/2, chipY + 33);
+
+  // Big emoji
+  ctx.font='180px serif';
+  ctx.fillText(arch.emoji, W/2, heroY + 295);
+
+  // "You are the..." label
+  ctx.font='500 22px '+sans;
+  ctx.fillStyle='rgba(251,247,241,0.85)';
+  ctx.fillText(t('r.youAre'), heroY ? W/2 : W/2, heroY + 350);
+
+  // Archetype NAME (auto-fit, italic for English only)
+  let nameSize = isThai ? 70 : 80;
+  ctx.font = `${italic}800 ${nameSize}px ${disp}`;
+  while(ctx.measureText(A.name).width > heroW - 80 && nameSize > 44){
+    nameSize -= 4;
+    ctx.font = `${italic}800 ${nameSize}px ${disp}`;
+  }
+  ctx.fillStyle='#FBF7F1';
+  ctx.fillText(A.name, W/2, heroY + 430);
+
+  // Tag
+  ctx.font='500 26px '+sans;
+  ctx.fillStyle='rgba(251,247,241,0.93)';
+  wrapText(ctx, A.tag, W/2, heroY + 478, heroW - 120, 34, 2);
+
+  // Trait chips row
+  ctx.font='600 21px '+sans;
+  const chips = A.traits.slice(0,4);
+  const chipPad = 22, chipGap = 12, chipsH = 42;
+  let chipWidths = chips.map(cc => ctx.measureText(cc).width + chipPad*2);
+  let totalCW = chipWidths.reduce((a,b)=>a+b,0) + chipGap*(chips.length-1);
+  // Scale down font if too wide
+  let traitSize = 21;
+  while(totalCW > heroW - 60 && traitSize > 14){
+    traitSize -= 1;
+    ctx.font='600 '+traitSize+'px '+sans;
+    chipWidths = chips.map(cc => ctx.measureText(cc).width + chipPad*2);
+    totalCW = chipWidths.reduce((a,b)=>a+b,0) + chipGap*(chips.length-1);
+  }
+  let chipCursor = W/2 - totalCW/2;
+  const chipsRowY = heroY + heroH - 80;
+  chips.forEach((cc, i) => {
+    const cw = chipWidths[i];
+    roundRect(ctx, chipCursor, chipsRowY, cw, chipsH, chipsH/2);
+    ctx.fillStyle='rgba(251,247,241,0.22)'; ctx.fill();
+    ctx.strokeStyle='rgba(251,247,241,0.32)'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.fillStyle='#FBF7F1';
+    ctx.fillText(cc, chipCursor + cw/2, chipsRowY + chipsH/2 + 7);
+    chipCursor += cw + chipGap;
+  });
+
+  // Preload images
+  const bestImgs  = await Promise.all(A.breeds.slice(0,3).map(b => loadImage(b.i)));
+  const leastImgs = await Promise.all(leastList.slice(0,3).map(b => loadImage(b.i)));
+
+  // ===== SECTION renderer =====
+  const renderSection = (yPos, label, subtitle, items, imgs, kind) => {
+    const sx=heroX, sy=yPos, sw=heroW, sh=490;
+    // Container
+    roundRect(ctx, sx, sy, sw, sh, 32);
+    ctx.fillStyle='#FFFFFF'; ctx.fill();
+    ctx.strokeStyle='#EFE3CE'; ctx.lineWidth=2; ctx.stroke();
+
+    // Header
+    ctx.textAlign='left';
+    ctx.fillStyle='#15291F';
+    ctx.font='800 30px '+sans;
+    ctx.fillText(label, sx+30, sy+60);
+    if(subtitle){
+      ctx.textAlign='right';
+      ctx.font=`${italic}500 16px ${sans}`;
+      ctx.fillStyle='#8E8479';
+      ctx.fillText(subtitle, sx+sw-30, sy+60);
+    }
+
+    // 3 cards row
+    const cardsY = sy + 90;
+    const cardW = 280, gap = 30, photoSize = 280;
+    const cardsStart = sx + 30;
+    for(let i=0;i<3;i++){
+      const b = items[i]; if(!b) continue;
+      const im = imgs[i];
+      const cx = cardsStart + i*(cardW+gap);
+      // Card body
+      roundRect(ctx, cx, cardsY, cardW, 370, 22);
+      ctx.fillStyle='#FBF7F1'; ctx.fill();
+      ctx.strokeStyle='#EFE3CE'; ctx.lineWidth=1.5; ctx.stroke();
+      // Photo
+      ctx.save();
+      roundRect(ctx, cx, cardsY, cardW, photoSize, 22);
+      ctx.fillStyle='#EFE3CE'; ctx.fill();
+      ctx.clip();
+      if(im){
+        const ar=im.width/im.height; let sw2=im.width, sh2=im.height, sxc=0, syc=0;
+        if(ar>1){ sw2=im.height; sxc=(im.width-sw2)/2; } else { sh2=im.width; syc=(im.height-sh2)/2; }
+        if(kind==='least'){ ctx.filter='saturate(0.72)'; }
+        ctx.drawImage(im, sxc, syc, sw2, sh2, cx, cardsY, cardW, photoSize);
+        ctx.filter='none';
+      }
+      if(kind==='least'){
+        ctx.fillStyle='rgba(251,247,241,0.10)';
+        ctx.fillRect(cx, cardsY, cardW, photoSize);
+      }
+      ctx.restore();
+      // Badge
+      if(kind==='best'){
+        ctx.beginPath(); ctx.arc(cx+30, cardsY+30, 19, 0, Math.PI*2);
+        ctx.fillStyle='#B8924C'; ctx.fill();
+        ctx.strokeStyle='#FBF7F1'; ctx.lineWidth=2; ctx.stroke();
+        ctx.fillStyle='#15291F';
+        ctx.font='800 22px '+sans;
+        ctx.textAlign='center';
+        ctx.fillText(String(i+1), cx+30, cardsY+38);
+      } else {
+        ctx.beginPath(); ctx.arc(cx+cardW-30, cardsY+30, 18, 0, Math.PI*2);
+        ctx.fillStyle='rgba(15,15,15,0.55)'; ctx.fill();
+        ctx.strokeStyle='#FBF7F1'; ctx.lineWidth=2; ctx.stroke();
+        ctx.fillStyle='#FBF7F1';
+        ctx.font='700 20px '+sans;
+        ctx.textAlign='center';
+        ctx.fillText('✕', cx+cardW-30, cardsY+37);
+      }
+      // Name
+      ctx.fillStyle='#15291F';
+      ctx.font='700 22px '+disp;
+      ctx.textAlign='left';
+      let name = b.n;
+      while(ctx.measureText(name).width > cardW - 30 && name.length > 1){ name = name.slice(0,-1); }
+      if(name !== b.n) name = name.slice(0,-1) + '…';
+      ctx.fillText(name, cx+16, cardsY + photoSize + 32);
+      // Description
+      if(kind==='least'){
+        ctx.font=`${italic}500 16px ${sans}`;
+        ctx.fillStyle='#A04E36';
+      } else {
+        ctx.font='500 16px '+sans;
+        ctx.fillStyle='#6B6157';
+      }
+      wrapText(ctx, b.d, cx+16, cardsY + photoSize + 58, cardW - 32, 22, 2);
+    }
+  };
+
+  renderSection(800,  '💚  ' + t('r.bestTitle'),  null,             A.breeds, bestImgs,  'best');
+  renderSection(1310, '🙈  ' + t('r.leastTitle'), t('r.leastSub'),  leastList, leastImgs, 'least');
+
+  // ===== FOOTER =====
+  // Divider
+  ctx.strokeStyle='#E5D2B0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(heroX, 1830); ctx.lineTo(heroX+heroW, 1830); ctx.stroke();
+
+  ctx.textAlign='left';
+  ctx.fillStyle='#8E8479';
+  ctx.font='600 18px '+sans;
+  ctx.fillText('FIND YOUR PET PERSONA →', 60, 1870);
+  ctx.fillStyle='#15291F';
+  ctx.font='800 34px '+sans;
+  ctx.fillText('pawmatch.co', 60, 1905);
+
+  // Invite chip
+  ctx.font='700 18px '+sans;
+  const inviteTxt = '🔗 Invite · ' + code;
+  const inW = ctx.measureText(inviteTxt).width + 38;
+  const inX = W - 60 - inW, inY = 1872;
+  roundRect(ctx, inX, inY, inW, 44, 22);
+  ctx.fillStyle='#1F3A2C'; ctx.fill();
+  ctx.fillStyle='#FBF7F1';
+  ctx.textAlign='left';
+  ctx.fillText(inviteTxt, inX + 19, inY + 28);
+
+  // ===== DOWNLOAD =====
   const url=c.toDataURL('image/png');
-  const a=document.createElement('a'); a.href=url; a.download=`pawmatch-top3-${archKey}.png`;
+  const a=document.createElement('a');
+  a.href=url; a.download=`pawmatch-persona-${archKey}.png`;
   document.body.appendChild(a); a.click(); a.remove();
 }
 
