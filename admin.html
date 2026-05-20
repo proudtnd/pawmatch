@@ -408,7 +408,10 @@ document.getElementById('refresh-btn').addEventListener('click', ()=>{
   document.getElementById('refresh-btn').classList.add('opacity-50');
   loadDashboard().finally(()=> document.getElementById('refresh-btn').classList.remove('opacity-50'));
 });
-window.addEventListener('pm:auth', () => location.reload());
+// Only reload on explicit sign-out — not on initial SIGNED_IN (which fires on every page load with a session)
+window.addEventListener('pm:auth', (e) => {
+  if(e.detail?.event === 'SIGNED_OUT') location.reload();
+});
 
 boot();
 </script>
