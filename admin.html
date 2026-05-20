@@ -68,8 +68,8 @@
 </header>
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-  <!-- Auth gate -->
-  <div id="auth-gate" class="hidden text-center py-20">
+  <!-- Auth gate — visible by default; boot() hides it only when we detect a signed-in admin -->
+  <div id="auth-gate" class="text-center py-20">
     <div class="text-5xl mb-4">🔐</div>
     <h1 class="font-display text-3xl font-semibold text-forest-700">Admin only</h1>
     <p class="text-ink-700 mt-2 max-w-sm mx-auto">Sign in with your admin Google account to see live engagement.</p>
@@ -362,32 +362,37 @@ async function loadDashboard(){
 }
 
 async function boot(){
-  // Wait for supabase.js to load
-  let tries = 0;
-  while(!window.PawDB && tries < 50){ await new Promise(r => setTimeout(r, 100)); tries++; }
-  if(!window.PawDB){
-    document.getElementById('auth-gate').classList.remove('hidden');
-    return;
-  }
-  const user = await window.PawDB.getCurrentUser();
-  if(!user){
-    document.getElementById('auth-gate').classList.remove('hidden');
-    return;
-  }
-  // Check admin
-  if(user.profile?.role !== 'admin'){
-    document.getElementById('denied').classList.remove('hidden');
+  // Auth gate is already visible by default — we hide it only when authenticated
+  try {
+    // Wait for supabase.js module to finish loading
+    let tries = 0;
+    while(!window.PawDB && tries < 50){ await new Promise(r => setTimeout(r, 100)); tries++; }
+    if(!window.PawDB){ console.warn('PawDB failed to load — leaving auth-gate visible'); return; }
+
+    const user = await window.PawDB.getCurrentUser();
+    if(!user){ return; }   // not signed in → auth-gate stays visible
+
+    // Signed in but not admin → show denied
+    if(user.profile?.role !== 'admin'){
+      document.getElementById('auth-gate').classList.add('hidden');
+      document.getElementById('denied').classList.remove('hidden');
+      document.getElementById('user-pill').classList.remove('hidden');
+      document.getElementById('user-pill').textContent = user.email;
+      return;
+    }
+
+    // Admin → swap to dashboard
+    document.getElementById('auth-gate').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    document.getElementById('refresh-btn').classList.remove('hidden');
     document.getElementById('user-pill').classList.remove('hidden');
-    document.getElementById('user-pill').textContent = user.email;
-    return;
+    document.getElementById('user-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-forest-600"></span>${user.email}`;
+    document.getElementById('signout-btn').classList.remove('hidden');
+    await loadDashboard();
+  } catch(err){
+    console.error('admin boot failed:', err);
+    // auth-gate remains visible as a safe fallback
   }
-  // Admin → load dashboard
-  document.getElementById('dashboard').classList.remove('hidden');
-  document.getElementById('refresh-btn').classList.remove('hidden');
-  document.getElementById('user-pill').classList.remove('hidden');
-  document.getElementById('user-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-forest-600"></span>${user.email}`;
-  document.getElementById('signout-btn').classList.remove('hidden');
-  loadDashboard();
 }
 
 document.getElementById('signin-btn').addEventListener('click', ()=>{
