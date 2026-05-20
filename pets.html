@@ -285,6 +285,7 @@ document.getElementById('notify-form').addEventListener('submit', async (e) => {
     msg.className = 'mt-3 text-sm text-forest-700 font-medium';
     msg.textContent = t('cs.success');
     emailInput.value = '';
+    try { window.PawDB?.logEvent('waitlist_joined', { feature:'pets' }); } catch{}
   } else {
     // Supabase not loaded — still show a friendly confirmation locally
     submitBtn.disabled = false; submitBtn.style.opacity = 1;
@@ -299,6 +300,9 @@ document.getElementById('mnav').addEventListener('click', ()=> document.getEleme
 document.querySelectorAll('#mnav-panel a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('mnav-panel').classList.add('hidden')));
 
 applyI18n();
+
+/* Analytics — log page view */
+setTimeout(()=>{ try { window.PawDB?.logEvent('page_view'); } catch{} }, 250);
 
 /* Auto-scroll to form if hash is #notify */
 if(window.location.hash === '#notify'){

@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Admin — PawMatch</title>
+<meta name="robots" content="noindex,nofollow" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: {
+        serif:['Fraunces','Georgia','serif'],
+        sans:['Inter','system-ui','sans-serif'],
+        mono:['IBM Plex Mono','monospace'],
+      },
+      colors: {
+        cream:  { 50:'#FBF7F1', 100:'#F6EFE4', 200:'#EFE3CE', 300:'#E5D2B0' },
+        clay:   { 400:'#D88A6A', 500:'#C2674A', 600:'#A04E36', 700:'#7E3B28' },
+        forest: { 500:'#2E4A3B', 600:'#1F3A2C', 700:'#15291F', 800:'#0E1F18' },
+        gold:   { 400:'#D8B26E', 500:'#B8924C', 600:'#8E6F32' },
+        ink:    { 900:'#1A1714', 700:'#3B342D', 500:'#6B6157', 400:'#8E8479' },
+      },
+      boxShadow: {
+        soft:'0 8px 24px -10px rgba(30,20,10,.18), 0 2px 6px -2px rgba(30,20,10,.06)',
+      },
+    } }
+  }
+</script>
+<style>
+  body { font-family:'Inter',system-ui,sans-serif; background:#FBF7F1; color:#1A1714; }
+  .font-display { font-family:'Fraunces',Georgia,serif; }
+  .brand-wordmark { font-family:'Inter',sans-serif; font-weight:800; letter-spacing:-0.018em; }
+  .skel { background: linear-gradient(90deg, #EFE3CE 0%, #F6EFE4 50%, #EFE3CE 100%); background-size:200% 100%; animation: shimmer 1.5s infinite; }
+  @keyframes shimmer { 0%{ background-position:200% 0 } 100%{ background-position:-200% 0 } }
+  .bar { transition: width .6s cubic-bezier(.2,.7,.2,1); }
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="sticky top-0 z-30 bg-cream-50/90 backdrop-blur border-b border-cream-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="inline-flex w-9 h-9 rounded-xl bg-cream-100 border border-cream-200 items-center justify-center shadow-soft">
+        <svg viewBox="0 0 64 64" class="w-6 h-6">
+          <g fill="#1F3A2C"><ellipse cx="11" cy="26" rx="5" ry="7" transform="rotate(-22 11 26)"/><ellipse cx="23" cy="16" rx="5.5" ry="8" transform="rotate(-8 23 16)"/><ellipse cx="41" cy="16" rx="5.5" ry="8" transform="rotate(8 41 16)"/><ellipse cx="53" cy="26" rx="5" ry="7" transform="rotate(22 53 26)"/></g>
+          <path d="M 32 38 C 28 30, 13 30, 13 41 C 13 50, 26 56, 32 60 C 38 56, 51 50, 51 41 C 51 30, 36 30, 32 38 Z" fill="#C2674A"/>
+        </svg>
+      </span>
+      <div class="leading-tight">
+        <div class="brand-wordmark text-lg text-forest-700">PawMatch</div>
+        <div class="text-[10px] uppercase tracking-[0.18em] text-ink-500 -mt-0.5">Admin · live</div>
+      </div>
+    </a>
+    <div class="flex items-center gap-2">
+      <button id="refresh-btn" class="hidden text-xs font-semibold text-forest-700 hover:text-forest-600 bg-cream-100 border border-cream-200 rounded-full px-3 py-2" title="Refresh">
+        <svg class="w-4 h-4 inline -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 019-9 9 9 0 016.4 2.6L21 8M21 3v5h-5M21 12a9 9 0 01-9 9 9 9 0 01-6.4-2.6L3 16M3 21v-5h5"/></svg>
+        Refresh
+      </button>
+      <div id="user-pill" class="hidden inline-flex items-center gap-2 text-xs text-ink-700 bg-cream-100 border border-cream-200 rounded-full px-3 py-1.5"></div>
+      <button id="signout-btn" class="hidden text-xs font-medium text-ink-500 hover:text-clay-600">Sign out</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+  <!-- Auth gate -->
+  <div id="auth-gate" class="hidden text-center py-20">
+    <div class="text-5xl mb-4">🔐</div>
+    <h1 class="font-display text-3xl font-semibold text-forest-700">Admin only</h1>
+    <p class="text-ink-700 mt-2 max-w-sm mx-auto">Sign in with your admin Google account to see live engagement.</p>
+    <button id="signin-btn" class="mt-6 inline-flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold px-6 py-3 rounded-full shadow-soft">
+      <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#fff" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" opacity=".9"/></svg>
+      Continue with Google
+    </button>
+  </div>
+
+  <!-- Denied -->
+  <div id="denied" class="hidden text-center py-20">
+    <div class="text-5xl mb-4">🙅</div>
+    <h1 class="font-display text-3xl font-semibold text-forest-700">No admin access</h1>
+    <p class="text-ink-700 mt-2 max-w-md mx-auto">You're signed in but your account doesn't have the <code class="bg-cream-100 px-1 rounded">admin</code> role. Ask the owner to grant access in Supabase.</p>
+    <button id="signout-denied" class="mt-6 text-sm text-clay-600 hover:underline">Sign out</button>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden space-y-6 sm:space-y-8">
+
+    <!-- KPI cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-cream-50 border border-cream-200 rounded-2xl p-4 sm:p-5 shadow-soft">
+        <div class="text-[10px] uppercase tracking-wider text-ink-500">Page views (7d)</div>
+        <div class="font-display text-3xl sm:text-4xl font-semibold text-forest-700 mt-1" id="kpi-views">—</div>
+      </div>
+      <div class="bg-cream-50 border border-cream-200 rounded-2xl p-4 sm:p-5 shadow-soft">
+        <div class="text-[10px] uppercase tracking-wider text-ink-500">Quiz completions (7d)</div>
+        <div class="font-display text-3xl sm:text-4xl font-semibold text-forest-700 mt-1" id="kpi-quizzes">—</div>
+      </div>
+      <div class="bg-cream-50 border border-cream-200 rounded-2xl p-4 sm:p-5 shadow-soft">
+        <div class="text-[10px] uppercase tracking-wider text-ink-500">Waitlist total</div>
+        <div class="font-display text-3xl sm:text-4xl font-semibold text-forest-700 mt-1" id="kpi-waitlist">—</div>
+      </div>
+      <div class="bg-cream-50 border border-cream-200 rounded-2xl p-4 sm:p-5 shadow-soft">
+        <div class="text-[10px] uppercase tracking-wider text-ink-500">Signed-up users</div>
+        <div class="font-display text-3xl sm:text-4xl font-semibold text-forest-700 mt-1" id="kpi-users">—</div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <!-- Archetype chart -->
+      <section class="bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6 shadow-soft">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-lg sm:text-xl font-semibold text-forest-700">Pet Personas</h2>
+          <div class="text-[10px] uppercase tracking-wider text-ink-500">Last 500 completed quizzes</div>
+        </div>
+        <div id="archetype-chart" class="mt-4 space-y-3">
+          <div class="skel h-6 rounded-full"></div>
+          <div class="skel h-6 rounded-full"></div>
+          <div class="skel h-6 rounded-full"></div>
+        </div>
+      </section>
+
+      <!-- Daily traffic chart -->
+      <section class="bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6 shadow-soft">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-lg sm:text-xl font-semibold text-forest-700">Daily traffic</h2>
+          <div class="text-[10px] uppercase tracking-wider text-ink-500">Last 7 days</div>
+        </div>
+        <div id="daily-chart" class="mt-4 flex items-end gap-2 h-48">
+          <div class="flex-1 skel rounded-t-lg" style="height:30%"></div>
+          <div class="flex-1 skel rounded-t-lg" style="height:60%"></div>
+          <div class="flex-1 skel rounded-t-lg" style="height:45%"></div>
+          <div class="flex-1 skel rounded-t-lg" style="height:80%"></div>
+          <div class="flex-1 skel rounded-t-lg" style="height:55%"></div>
+          <div class="flex-1 skel rounded-t-lg" style="height:70%"></div>
+          <div class="flex-1 skel rounded-t-lg" style="height:40%"></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <!-- Share platforms -->
+      <section class="bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6 shadow-soft">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-lg sm:text-xl font-semibold text-forest-700">Share platforms</h2>
+          <div class="text-[10px] uppercase tracking-wider text-ink-500">Last 7 days</div>
+        </div>
+        <div id="share-chart" class="mt-4 space-y-2.5"></div>
+      </section>
+
+      <!-- Waitlist by feature -->
+      <section class="bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6 shadow-soft">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-lg sm:text-xl font-semibold text-forest-700">Waitlist by feature</h2>
+          <div class="text-[10px] uppercase tracking-wider text-ink-500">All time</div>
+        </div>
+        <div id="waitlist-by-feature" class="mt-4 space-y-2.5"></div>
+      </section>
+    </div>
+
+    <!-- Recent waitlist -->
+    <section class="bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6 shadow-soft">
+      <div class="flex items-center justify-between">
+        <h2 class="font-display text-lg sm:text-xl font-semibold text-forest-700">Recent waitlist signups</h2>
+        <div class="text-[10px] uppercase tracking-wider text-ink-500">Most recent 50</div>
+      </div>
+      <div class="mt-4 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="text-[10px] uppercase tracking-wider text-ink-500 text-left">
+            <tr><th class="pb-2 pr-4">Email</th><th class="pb-2 pr-4">Feature</th><th class="pb-2 pr-4">Lang</th><th class="pb-2 pr-4">When</th></tr>
+          </thead>
+          <tbody id="waitlist-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Recent signups -->
+    <section class="bg-cream-50 border border-cream-200 rounded-2xl p-5 sm:p-6 shadow-soft">
+      <div class="flex items-center justify-between">
+        <h2 class="font-display text-lg sm:text-xl font-semibold text-forest-700">Recent users</h2>
+        <div class="text-[10px] uppercase tracking-wider text-ink-500">Most recent 50</div>
+      </div>
+      <div class="mt-4 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="text-[10px] uppercase tracking-wider text-ink-500 text-left">
+            <tr><th class="pb-2 pr-4">Name</th><th class="pb-2 pr-4">Email</th><th class="pb-2 pr-4">Role</th><th class="pb-2 pr-4">When</th></tr>
+          </thead>
+          <tbody id="users-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="text-[11px] text-ink-500 text-center pt-4">
+      Live data from Supabase · refreshes on page load + manual refresh button
+    </div>
+  </div>
+</main>
+
+<script type="module" src="scripts/supabase.js"></script>
+<script>
+const ARCH_LABEL = {
+  cozy:        '🫖 Cozy Curator',
+  adventurer:  '🏔️ Adventure Seeker',
+  social:      '🎉 Social Butterfly',
+  guardian:    '🛡️ Loyal Guardian',
+  freespirit:  '🦜 Free Spirit',
+  nurturer:    '🌸 Heartfelt Nurturer',
+};
+const FEATURE_LABEL = { pets:'🐾 Pet marketplace', breeders:'🌾 Verified breeders', breeder_signup:'🏡 Breeder application' };
+const PLATFORM_LABEL = { ig:'📸 Instagram', tiktok:'🎵 TikTok', line:'💬 LINE', copy:'🔗 Copy link', invite:'👥 Invite code' };
+
+function timeAgo(iso){
+  const s = (Date.now() - new Date(iso).getTime()) / 1000;
+  if(s < 60) return Math.round(s)+'s';
+  if(s < 3600) return Math.round(s/60)+'m';
+  if(s < 86400) return Math.round(s/3600)+'h';
+  return Math.round(s/86400)+'d';
+}
+function escapeHtml(s){ return (s||'').replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderArchetype(completed){
+  const counts = {};
+  completed.forEach(r => { const a = r.properties?.archetype; if(a) counts[a] = (counts[a]||0)+1; });
+  const total = Object.values(counts).reduce((a,b)=>a+b, 0);
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const el = document.getElementById('archetype-chart');
+  if(total === 0){
+    el.innerHTML = '<div class="text-sm text-ink-500 italic py-2">No completed quizzes yet — take one yourself to seed data.</div>';
+    return;
+  }
+  el.innerHTML = sorted.map(([k, n]) => {
+    const pct = Math.round(100*n/total);
+    return `
+      <div>
+        <div class="flex items-center justify-between text-xs sm:text-sm mb-1">
+          <div class="font-semibold text-forest-700">${ARCH_LABEL[k] || k}</div>
+          <div class="text-ink-500"><span class="font-mono">${n}</span> · <span class="font-semibold text-forest-700">${pct}%</span></div>
+        </div>
+        <div class="h-3 bg-cream-200 rounded-full overflow-hidden">
+          <div class="bar h-full bg-gradient-to-r from-clay-400 to-clay-600" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderDailyChart(events7d){
+  const days = [];
+  for(let i=6;i>=0;i--){
+    const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-i);
+    days.push({ date:d, label:d.toLocaleDateString('en-US',{weekday:'short'}), count:0 });
+  }
+  events7d.filter(e => e.event_name === 'page_view').forEach(e => {
+    const dt = new Date(e.created_at); dt.setHours(0,0,0,0);
+    const slot = days.find(d => d.date.getTime() === dt.getTime());
+    if(slot) slot.count++;
+  });
+  const max = Math.max(1, ...days.map(d=>d.count));
+  const el = document.getElementById('daily-chart');
+  el.innerHTML = days.map(d => {
+    const h = Math.max(4, Math.round(100*d.count/max));
+    return `
+      <div class="flex-1 flex flex-col items-center justify-end gap-1">
+        <div class="text-[10px] text-ink-500 font-mono">${d.count}</div>
+        <div class="w-full bg-gradient-to-t from-forest-700 to-forest-500 rounded-t-lg bar" style="height:${h}%"></div>
+        <div class="text-[10px] text-ink-500">${d.label}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderShareChart(events7d){
+  const counts = {};
+  events7d.filter(e => e.event_name === 'share_clicked').forEach(e => {
+    const p = e.properties?.platform || 'unknown'; counts[p] = (counts[p]||0)+1;
+  });
+  const total = Object.values(counts).reduce((a,b)=>a+b,0);
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const el = document.getElementById('share-chart');
+  if(total === 0){
+    el.innerHTML = '<div class="text-sm text-ink-500 italic">No shares yet.</div>';
+    return;
+  }
+  el.innerHTML = sorted.map(([k,n])=>{
+    const pct = Math.round(100*n/total);
+    return `
+      <div>
+        <div class="flex items-center justify-between text-xs sm:text-sm mb-1">
+          <div class="font-semibold text-forest-700">${PLATFORM_LABEL[k] || k}</div>
+          <div class="text-ink-500"><span class="font-mono">${n}</span> · ${pct}%</div>
+        </div>
+        <div class="h-2.5 bg-cream-200 rounded-full overflow-hidden">
+          <div class="bar h-full bg-gold-500" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderWaitlistByFeature(waitlist){
+  const counts = {};
+  waitlist.forEach(w => { counts[w.feature] = (counts[w.feature]||0)+1; });
+  const total = Object.values(counts).reduce((a,b)=>a+b, 0) || 1;
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const el = document.getElementById('waitlist-by-feature');
+  if(sorted.length === 0){
+    el.innerHTML = '<div class="text-sm text-ink-500 italic">No waitlist signups yet.</div>';
+    return;
+  }
+  el.innerHTML = sorted.map(([k,n])=>{
+    const pct = Math.round(100*n/total);
+    return `
+      <div>
+        <div class="flex items-center justify-between text-xs sm:text-sm mb-1">
+          <div class="font-semibold text-forest-700">${FEATURE_LABEL[k] || k}</div>
+          <div class="text-ink-500"><span class="font-mono">${n}</span></div>
+        </div>
+        <div class="h-2.5 bg-cream-200 rounded-full overflow-hidden">
+          <div class="bar h-full bg-forest-600" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderTables(waitlist, profileRows){
+  document.getElementById('waitlist-tbody').innerHTML = (waitlist||[]).slice(0,50).map(w => `
+    <tr class="border-t border-cream-200">
+      <td class="py-2 pr-4 font-mono text-xs sm:text-sm">${escapeHtml(w.email)}</td>
+      <td class="py-2 pr-4"><span class="text-[10px] uppercase tracking-wider font-semibold text-clay-600 bg-clay-400/15 px-2 py-0.5 rounded-full">${w.feature}</span></td>
+      <td class="py-2 pr-4 text-ink-500">${w.language || '—'}</td>
+      <td class="py-2 pr-4 text-ink-500 font-mono text-xs">${timeAgo(w.created_at)}</td>
+    </tr>`).join('') || `<tr><td colspan="4" class="py-4 text-center text-sm text-ink-500 italic">No waitlist signups yet.</td></tr>`;
+
+  document.getElementById('users-tbody').innerHTML = (profileRows||[]).slice(0,50).map(u => `
+    <tr class="border-t border-cream-200">
+      <td class="py-2 pr-4 font-semibold text-forest-700">${escapeHtml(u.full_name || '—')}</td>
+      <td class="py-2 pr-4 font-mono text-xs sm:text-sm">${escapeHtml(u.email)}</td>
+      <td class="py-2 pr-4"><span class="text-[10px] uppercase tracking-wider font-semibold ${u.role==='admin'?'text-gold-600 bg-gold-400/20':u.role==='breeder'?'text-clay-600 bg-clay-400/15':'text-forest-700 bg-forest-500/10'} px-2 py-0.5 rounded-full">${u.role}</span></td>
+      <td class="py-2 pr-4 text-ink-500 font-mono text-xs">${timeAgo(u.created_at)}</td>
+    </tr>`).join('') || `<tr><td colspan="4" class="py-4 text-center text-sm text-ink-500 italic">No signed-up users yet.</td></tr>`;
+}
+
+async function loadDashboard(){
+  if(!window.PawDB){ setTimeout(loadDashboard, 200); return; }
+  const stats = await window.PawDB.loadAdminStats();
+  const events = stats.events7d.data || [];
+  const completed = stats.completed.data || [];
+  const waitlist = stats.waitlist.data || [];
+  const profileRows = stats.profileRows.data || [];
+
+  document.getElementById('kpi-views').textContent    = events.filter(e=>e.event_name==='page_view').length;
+  document.getElementById('kpi-quizzes').textContent  = events.filter(e=>e.event_name==='quiz_completed').length;
+  document.getElementById('kpi-waitlist').textContent = waitlist.length;
+  document.getElementById('kpi-users').textContent    = profileRows.length;
+
+  renderArchetype(completed);
+  renderDailyChart(events);
+  renderShareChart(events);
+  renderWaitlistByFeature(waitlist);
+  renderTables(waitlist, profileRows);
+}
+
+async function boot(){
+  // Wait for supabase.js to load
+  let tries = 0;
+  while(!window.PawDB && tries < 50){ await new Promise(r => setTimeout(r, 100)); tries++; }
+  if(!window.PawDB){
+    document.getElementById('auth-gate').classList.remove('hidden');
+    return;
+  }
+  const user = await window.PawDB.getCurrentUser();
+  if(!user){
+    document.getElementById('auth-gate').classList.remove('hidden');
+    return;
+  }
+  // Check admin
+  if(user.profile?.role !== 'admin'){
+    document.getElementById('denied').classList.remove('hidden');
+    document.getElementById('user-pill').classList.remove('hidden');
+    document.getElementById('user-pill').textContent = user.email;
+    return;
+  }
+  // Admin → load dashboard
+  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('refresh-btn').classList.remove('hidden');
+  document.getElementById('user-pill').classList.remove('hidden');
+  document.getElementById('user-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-forest-600"></span>${user.email}`;
+  document.getElementById('signout-btn').classList.remove('hidden');
+  loadDashboard();
+}
+
+document.getElementById('signin-btn').addEventListener('click', ()=>{
+  window.PawDB?.signInWithGoogle();
+});
+document.getElementById('signout-btn').addEventListener('click', async ()=>{
+  await window.PawDB?.signOut(); location.reload();
+});
+document.getElementById('signout-denied').addEventListener('click', async ()=>{
+  await window.PawDB?.signOut(); location.reload();
+});
+document.getElementById('refresh-btn').addEventListener('click', ()=>{
+  document.getElementById('refresh-btn').classList.add('opacity-50');
+  loadDashboard().finally(()=> document.getElementById('refresh-btn').classList.remove('opacity-50'));
+});
+window.addEventListener('pm:auth', () => location.reload());
+
+boot();
+</script>
+</body>
+</html>

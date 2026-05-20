@@ -563,10 +563,16 @@ function renderQ(){
 }
 
 function renderResults(){
-  const { key:archKey } = calcArchetype(answers);
+  const { key:archKey, scores } = calcArchetype(answers);
   const arch = ARCHETYPES[archKey];
   const A = arch[lang];
   const leastList = (LEAST_COMPAT[archKey] && LEAST_COMPAT[archKey][lang]) || [];
+
+  // Analytics — log completion + persist to quiz_responses
+  try {
+    window.PawDB?.logEvent('quiz_completed', { archetype: archKey });
+    window.PawDB?.saveQuizResponse(answers, archKey, scores, []);
+  } catch{}
 
   qstep.textContent = '✓';
   qtitle.textContent = t('r.persona');
@@ -650,7 +656,7 @@ function renderResults(){
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
         ${t('r.shareBtn')}
       </button>
-      <a href="pets.html#notify" class="block w-full bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm text-center transition">
+      <a href="pets.html#notify" onclick="try{window.PawDB?.logEvent('cta_clicked',{target:'pets',from:'quiz_result'})}catch(e){}" class="block w-full bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm text-center transition">
         ${t('r.seeAvail')} →
       </a>
       <button id="qrestart" class="w-full bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold py-2.5 rounded-full text-xs">
@@ -723,6 +729,7 @@ function renderResults(){
   const shareText = `${t('r.shareText1')} ${A.name} ${arch.emoji}\n${A.tag}\n${t('r.shareText2')}`;
   document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', async ()=>{
     const kind = b.dataset.share;
+    try { window.PawDB?.logEvent('share_clicked', { platform: kind, archetype: archKey }); } catch{}
     if(kind==='copy' || kind==='invite'){
       const text = kind==='copy' ? `${shareText}\n${shareUrl}` : `${inviteCode} — ${shareUrl}`;
       try { await navigator.clipboard.writeText(text); toast(t('r.copied')); } catch { toast('Copy failed'); }
@@ -758,6 +765,7 @@ document.getElementById('start-btn').addEventListener('click', ()=>{
   document.getElementById('quiz-screen').classList.remove('hidden');
   renderQ();
   window.scrollTo({ top: 0, behavior:'smooth' });
+  try { window.PawDB?.logEvent('quiz_started'); } catch{}
 });
 
 /* mobile nav */
@@ -1033,6 +1041,9 @@ async function downloadResultCard(archKey, arch, A, code){
 
 /* Boot */
 applyI18n();
+
+/* Analytics — log page view */
+setTimeout(()=>{ try { window.PawDB?.logEvent('page_view'); } catch{} }, 250);
 </script>
 <script type="module" src="scripts/supabase.js"></script>
 <script src="scripts/auth.js"></script>

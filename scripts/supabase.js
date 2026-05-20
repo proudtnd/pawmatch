@@ -318,6 +318,49 @@ function getOrCreateSessionId(){
   return id;
 }
 
+/* ============= ANALYTICS (engagement events) ============= */
+// Fire-and-forget event logger — analytics must never break the UX
+export async function logEvent(name, properties){
+  try {
+    const { data: { user } } = await sb.auth.getUser();
+    await sb.from('analytics_events').insert({
+      event_name: name,
+      session_id: getOrCreateSessionId(),
+      user_id: user?.id || null,
+      page: (typeof location !== 'undefined' ? location.pathname : null),
+      properties: properties || null,
+      language: (localStorage.getItem('pm-lang') || 'en'),
+      referrer: (typeof document !== 'undefined' ? (document.referrer || null) : null),
+    });
+  } catch(e){
+    /* silent — analytics never breaks UX */
+  }
+}
+
+// Admin: load aggregated stats for the dashboard
+export async function loadAdminStats(){
+  const d7 = new Date(Date.now() - 7*24*3600*1000).toISOString();
+  const [events7d, completed, waitlist, profileRows] = await Promise.all([
+    sb.from('analytics_events')
+      .select('event_name, created_at, properties, language')
+      .gte('created_at', d7)
+      .order('created_at', { ascending: false }),
+    sb.from('analytics_events')
+      .select('properties, created_at')
+      .eq('event_name','quiz_completed')
+      .order('created_at', { ascending: false })
+      .limit(500),
+    sb.from('waitlist')
+      .select('email, feature, language, created_at')
+      .order('created_at', { ascending: false }),
+    sb.from('profiles')
+      .select('id, full_name, email, role, created_at')
+      .order('created_at', { ascending: false })
+      .limit(50),
+  ]);
+  return { events7d, completed, waitlist, profileRows };
+}
+
 /* ============= AUTH STATE BROADCAST ============= */
 sb.auth.onAuthStateChange((event, session) => {
   if(event === 'SIGNED_IN' && session?.user){
@@ -340,4 +383,5 @@ window.PawDB = {
   uploadFile, uploadPetPhoto, uploadBreederPhoto, uploadAvatar, uploadPrivateDoc, getSignedUrl,
   createReferralCode, claimReferral,
   joinWaitlist,
+  logEvent, loadAdminStats,
 };
