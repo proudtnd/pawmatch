@@ -6,77 +6,66 @@ Thailand's premium AI-powered pet matching platform. Discover verified breeders,
 
 ```
 .
-├── index.html              # Landing page (hero + AI quiz + breeders + pets + FAQ)
-├── pets.html               # Browse pets marketplace with filters
-├── breeders.html           # Verified breeder discovery
+├── index.html              # Landing page (hero + AI quiz teaser + FAQ)
+├── match.html              # AI Pet Matching quiz start + result
+├── pets.html               # Pet marketplace (Coming Soon)
+├── breeders.html           # Verified breeders (Coming Soon)
+├── brand-export.html       # Brand asset generator (FB profile + cover)
 ├── README.md
 ├── .gitignore
 │
 ├── scripts/
-│   └── auth.js             # Shared auth modal (sign in / signup / role picker)
+│   ├── auth.js             # Shared auth modal
+│   └── supabase.js         # Supabase client + data helpers
 │
 ├── assets/
-│   ├── favicon.svg         # Tab icon + apple-touch-icon
-│   └── logos/
-│       ├── logo.svg              # Primary horizontal lockup
-│       ├── logo-stacked.svg      # Stacked variant + OG image
-│       ├── logo-icon.svg         # Icon only, full color
-│       ├── logo-icon-mono.svg    # Icon only, single-fill (currentColor)
-│       └── logo-reverse.svg      # Cream-on-dark for dark backgrounds
+│   ├── favicon.svg
+│   └── logos/              # Heartpaw logo system (5 variants)
 │
-└── _archive/               # Older unrelated projects, kept for reference
-    ├── BUG-35/
-    ├── Learning/
-    └── tiktok-content-studio/
+└── db/
+    ├── schema.sql          # Postgres schema (14 tables + RLS)
+    ├── seed.sql            # Bilingual breed catalog
+    └── migrations/         # Incremental DB changes
 ```
 
 ## Brand System
 
-- **Primary color** — Forest `#1F3A2C`
-- **Accent (heart)** — Clay `#C2674A`
+- **Primary** — Forest `#1F3A2C`
+- **Accent** — Clay `#C2674A`
 - **Background** — Cream `#FBF7F1`
-- **Text** — Ink `#1A1714`
 - **Wordmark** — Inter 800, tracking −1.8%
-- **Display** — Fraunces serif (page headings only, not the brand wordmark)
+- **Display** — Fraunces serif
 - **Thai stack** — IBM Plex Sans Thai + Sarabun
 
 ## Features
 
-- 🐕 **Browse pets** — 12 pedigreed pets with filters, search, sort, and pet detail modal
-- 🌾 **Verified breeders** — 12 audited farms with badges, region/specialty filters
 - ✨ **AI Pet Matching** — 12-question Pet Persona quiz with 6 archetypes
-- 📸 **IG Story share** — Auto-generated Top-3-match card in watercolor style
-- 🔐 **Auth flow** — Sign in / signup / role picker (Pet seeker vs. Breeder) with Google + LINE OAuth UI
-- 🌐 **Bilingual** — Full EN / ไทย support, language preference synced via localStorage
-- 📱 **Mobile-first** — Safe area padding, 44px tap targets, bottom-sheet modals
-
-## Deployment
-
-This is a fully static site (Tailwind CDN, no build step). Deploy by uploading the entire folder (excluding `_archive/`) to any static host:
-
-- **Netlify Drop** — drag the folder to https://app.netlify.com/drop
-- **GitHub Pages** — push to `main`, enable Pages
-- **Vercel / Cloudflare Pages** — connect the repo
-- **Railway** — needs a `package.json` with `serve -s . -l $PORT`
+- 📸 **IG Story share** — Auto-generated Top-3-match card
+- 🔐 **Google auth** via Supabase
+- 🌐 **Bilingual** EN / ไทย throughout
+- 📱 **Mobile-first** responsive design
 
 ## Local Development
 
-No build step needed. Open `index.html` directly, or serve locally:
+No build step needed. Just open `index.html` in a browser, or serve locally:
 
-```powershell
+```bash
 python -m http.server 8080
 # or
 npx serve -l 8080
 ```
 
-Then open http://localhost:8080 in a browser. On phone (same Wi-Fi), use your PC's IP.
+## Deployment
 
-## What's Next (Pre-Launch Checklist)
+Fully static site. Deploy to any host that serves static files:
 
-See the planning notes — top priorities:
-1. Backend (Supabase recommended) with the 12 core tables
-2. Real auth (Google + LINE Login)
-3. PDPA + Terms + Animal Welfare policy (Thai lawyer review)
-4. 10–20 real verified breeders onboarded
-5. Payment integration (Omise or 2C2P for Thai market)
-6. OG image as PNG (currently SVG; regenerate at 1200×630 for social previews)
+- **GitHub Pages** — enable in repo Settings → Pages
+- **Netlify** — connect repo or drag-drop folder
+- **Cloudflare Pages** — connect repo or use wrangler CLI
+- **Vercel** — connect repo
+
+## Tech Stack
+
+- Plain HTML + Tailwind CSS (via CDN) + vanilla JS
+- Supabase (Postgres + Auth + Storage)
+- Hosted on a static CDN (no server-side rendering)
