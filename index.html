@@ -769,6 +769,15 @@ function applyI18n(){
     if(I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
   });
   document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang===lang ? 'true':'false'));
+  // Re-add SOON badges that get wiped by innerHTML replacement above
+  document.querySelectorAll('a[data-i18n="nav.breeders"], a[data-i18n="nav.pets"]').forEach(a => {
+    if(!a.querySelector('.soon-badge')){
+      const badge = document.createElement('span');
+      badge.className = 'soon-badge';
+      badge.textContent = 'SOON';
+      a.appendChild(badge);
+    }
+  });
   if(typeof renderBreeders === 'function') renderBreeders();
   if(typeof renderPets === 'function') renderPets(currentFilter);
   // Update quiz labels
