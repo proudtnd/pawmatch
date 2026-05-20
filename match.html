@@ -44,6 +44,7 @@
   html[lang="th"] .font-display { font-family:'IBM Plex Sans Thai','Sarabun',serif; letter-spacing:0; font-weight:700; }
   html[lang="th"] .italic { font-style: normal; }
   .brand-wordmark { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; font-weight:800; letter-spacing:-0.018em; }
+  .soon-badge { background:#EFE3CE; color:#7E3B28; font-size:9px; padding:2px 6px; border-radius:9999px; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; margin-left:6px; vertical-align:middle; }
   .grain::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:multiply; background-image:radial-gradient(rgba(30,20,10,.6) 1px, transparent 1px); background-size:3px 3px; }
   .quiz-opt[aria-pressed="true"] { border-color:#1F3A2C; background:#1F3A2C; color:#FBF7F1; }
   .quiz-opt[aria-pressed="true"] .opt-emoji { transform: scale(1.1); }
@@ -84,8 +85,8 @@
     </a>
     <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink-700">
       <a href="match.html" class="text-forest-700 font-semibold" data-i18n="nav.match">AI Matching</a>
-      <a href="breeders.html" class="hover:text-forest-700" data-i18n="nav.breeders">Breeders</a>
-      <a href="pets.html" class="hover:text-forest-700" data-i18n="nav.pets">Browse Pets</a>
+      <a href="breeders.html" class="hover:text-forest-700" data-i18n="nav.breeders">Breeders<span class="soon-badge">SOON</span></a>
+      <a href="pets.html" class="hover:text-forest-700" data-i18n="nav.pets">Browse Pets<span class="soon-badge">SOON</span></a>
       <a href="index.html#how" class="hover:text-forest-700" data-i18n="nav.how">How it works</a>
       <a href="index.html#faq" class="hover:text-forest-700" data-i18n="nav.faq">FAQ</a>
     </nav>
@@ -103,8 +104,8 @@
     <div class="px-4 py-3 grid gap-1 text-sm">
       <a href="index.html" class="py-2" data-i18n="nav.home">Home</a>
       <a href="match.html" class="py-2 font-semibold" data-i18n="nav.match">AI Matching</a>
-      <a href="breeders.html" class="py-2" data-i18n="nav.breeders">Breeders</a>
-      <a href="pets.html" class="py-2" data-i18n="nav.pets">Browse Pets</a>
+      <a href="breeders.html" class="py-2" data-i18n="nav.breeders">Breeders <span class="soon-badge">SOON</span></a>
+      <a href="pets.html" class="py-2" data-i18n="nav.pets">Browse Pets <span class="soon-badge">SOON</span></a>
       <a href="index.html#faq" class="py-2" data-i18n="nav.faq">FAQ</a>
     </div>
   </div>
@@ -277,7 +278,7 @@ const I18N = {
     's.stat1':'Quiz takers','s.stat2':'Avg accuracy','s.stat3':'Questions',
     'quiz.back':'← Back','quiz.next':'Next','quiz.see':'Reveal my Pet Persona ✨',
     'r.persona':'Pet Persona','r.youAre':'You are the…','r.bestTitle':'Your dream breeds','r.leastTitle':'Not your vibe','r.leastSub':"just for fun · don't take it personally",
-    'r.shareBtn':'Share my Pet Persona','r.seeAvail':'See available pets','r.retake':'Retake quiz','r.shareMethods':'Share to',
+    'r.shareBtn':'Share my Pet Persona','r.seeAvail':'Get notified when pets are live','r.retake':'Retake quiz','r.shareMethods':'Share to',
     'r.shareIG':'Save IG Story','r.shareTT':'Share TikTok','r.shareCopy':'Copy link','r.copyCode':'Copy',
     'r.invite':'Invite friends','r.inviteSub':'Send your code & both get rewards.','r.referReward':'You get ฿200 credit · they get ฿200 off · for every friend who completes the quiz.',
     'r.copied':'Copied! ✨','r.generating':'Generating your Top 3 story card… 🎨','r.igTip':'Image saved — open Instagram and upload to your Story 📸','r.ttTip':'Link copied — paste in TikTok 🎵',
@@ -299,7 +300,7 @@ const I18N = {
     's.stat1':'ผู้ทำแบบทดสอบ','s.stat2':'ความแม่นยำเฉลี่ย','s.stat3':'คำถาม',
     'quiz.back':'← ย้อนกลับ','quiz.next':'ถัดไป','quiz.see':'เผย Pet Persona ของฉัน ✨',
     'r.persona':'Pet Persona','r.youAre':'คุณคือ…','r.bestTitle':'สายพันธุ์ในฝันของคุณ','r.leastTitle':'ไม่ใช่สายคุณ','r.leastSub':'แค่สนุกๆ · อย่าซีเรียส',
-    'r.shareBtn':'แชร์ Pet Persona ของฉัน','r.seeAvail':'ดูสัตว์เลี้ยงที่พร้อมรับเลี้ยง','r.retake':'ทำใหม่','r.shareMethods':'แชร์ไปยัง',
+    'r.shareBtn':'แชร์ Pet Persona ของฉัน','r.seeAvail':'แจ้งฉันเมื่อมาร์เก็ตเพลสเปิด','r.retake':'ทำใหม่','r.shareMethods':'แชร์ไปยัง',
     'r.shareIG':'บันทึก IG Story','r.shareTT':'แชร์ TikTok','r.shareCopy':'คัดลอกลิงก์','r.copyCode':'คัดลอก',
     'r.invite':'ชวนเพื่อน','r.inviteSub':'ส่งโค้ดให้เพื่อน รับรางวัลทั้งคู่','r.referReward':'คุณได้เครดิต ฿200 · เพื่อนได้ส่วนลด ฿200 · ทุกครั้งที่เพื่อนทำแบบทดสอบครบ',
     'r.copied':'คัดลอกแล้ว! ✨','r.generating':'กำลังสร้างการ์ด Top 3 ของคุณ… 🎨','r.igTip':'บันทึกรูปแล้ว — เปิด Instagram และอัพโหลดใน Story 📸','r.ttTip':'คัดลอกลิงก์แล้ว — วางใน TikTok 🎵',
@@ -640,7 +641,7 @@ function renderResults(){
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
         ${t('r.shareBtn')}
       </button>
-      <a href="pets.html" class="block w-full bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm text-center transition">
+      <a href="pets.html#notify" class="block w-full bg-forest-600 hover:bg-forest-700 text-cream-50 font-semibold py-3 rounded-full text-sm text-center transition">
         ${t('r.seeAvail')} →
       </a>
       <button id="qrestart" class="w-full bg-cream-100 hover:bg-cream-200 text-forest-700 font-semibold py-2.5 rounded-full text-xs">

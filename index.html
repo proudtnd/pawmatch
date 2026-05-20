@@ -46,6 +46,7 @@
   .font-display { font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto; letter-spacing:-0.01em; }
   html[lang="th"] .font-display { font-family:'IBM Plex Sans Thai','Sarabun',serif; letter-spacing:0; font-weight:700; }
   .brand-wordmark { font-family:'Inter','IBM Plex Sans Thai',system-ui,sans-serif; font-weight:800; letter-spacing:-0.018em; }
+  .soon-badge { background:#EFE3CE; color:#7E3B28; font-size:9px; padding:2px 6px; border-radius:9999px; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; margin-left:6px; vertical-align:middle; }
   html[lang="th"] .italic { font-style: normal; }
   .grain::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:multiply; background-image:radial-gradient(rgba(30,20,10,.6) 1px, transparent 1px); background-size:3px 3px; }
   .pet-card:hover .pet-img { transform: scale(1.04); }
@@ -112,9 +113,9 @@
       </div>
     </a>
     <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink-700">
-      <a href="#match" class="hover:text-forest-700" data-i18n="nav.match">AI Matching</a>
-      <a href="#breeders" class="hover:text-forest-700" data-i18n="nav.breeders">Breeders</a>
-      <a href="#pets" class="hover:text-forest-700" data-i18n="nav.pets">Browse Pets</a>
+      <a href="match.html" class="hover:text-forest-700" data-i18n="nav.match">AI Matching</a>
+      <a href="breeders.html" class="hover:text-forest-700" data-i18n="nav.breeders">Breeders<span class="soon-badge">SOON</span></a>
+      <a href="pets.html" class="hover:text-forest-700" data-i18n="nav.pets">Browse Pets<span class="soon-badge">SOON</span></a>
       <a href="#how" class="hover:text-forest-700" data-i18n="nav.how">How it works</a>
       <a href="#faq" class="hover:text-forest-700" data-i18n="nav.faq">FAQ</a>
     </nav>
@@ -137,9 +138,9 @@
   </div>
   <div id="mnav-panel" class="hidden md:hidden border-t border-cream-200 bg-cream-50">
     <div class="px-4 py-3 grid gap-1 text-sm">
-      <a href="#match" class="py-2" data-i18n="nav.match">AI Matching</a>
-      <a href="#breeders" class="py-2" data-i18n="nav.breeders">Breeders</a>
-      <a href="#pets" class="py-2" data-i18n="nav.pets">Browse Pets</a>
+      <a href="match.html" class="py-2" data-i18n="nav.match">AI Matching</a>
+      <a href="breeders.html" class="py-2" data-i18n="nav.breeders">Breeders <span class="soon-badge">SOON</span></a>
+      <a href="pets.html" class="py-2" data-i18n="nav.pets">Browse Pets <span class="soon-badge">SOON</span></a>
       <a href="#how" class="py-2" data-i18n="nav.how">How it works</a>
       <a href="#faq" class="py-2" data-i18n="nav.faq">FAQ</a>
     </div>
@@ -167,10 +168,7 @@
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9l-3.6 3.1.9 4.7L12 14.8 8.2 16.8l.9-4.7L5.5 9l4.6-1.4z"/></svg>
           <span data-i18n="hero.startCta">Start AI Pet Matching</span>
         </a>
-        <a href="pets.html" class="inline-flex items-center justify-center gap-2 bg-cream-50 hover:bg-cream-100 text-forest-700 border border-cream-300 px-6 py-3.5 rounded-full font-semibold">
-          <span data-i18n="hero.browseCta">Browse pets</span>
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+        <div class="self-center text-xs text-ink-500" data-i18n="hero.startNote">⏱️ 90 seconds · Free · Shareable result</div>
       </div>
       <div class="mt-10 grid grid-cols-3 gap-4 max-w-lg">
         <div>
@@ -341,58 +339,49 @@
   </div>
 </section>
 
-<!-- ============== BREEDERS ============== -->
-<section id="breeders" class="py-16 sm:py-24">
+<!-- ============== COMING NEXT (Pets + Breeders teaser) ============== -->
+<section id="next" class="py-16 sm:py-20 bg-cream-100/70 border-y border-cream-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-end justify-between flex-wrap gap-4 mb-8">
-      <div>
-        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
-          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="breeders.eyebrow">Verified breeders</span>
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
+        <span class="w-6 h-px bg-clay-500"></span>
+        <span data-i18n="next.eyebrow">Coming next</span>
+        <span class="w-6 h-px bg-clay-500"></span>
+      </div>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="next.title">Two more pieces of PawMatch — almost ready.</h2>
+      <p class="mt-3 text-ink-700 max-w-xl mx-auto" data-i18n="next.sub">We're not opening the marketplace or breeder directory until they're truly verified. Join either waitlist to be the first to know.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+      <!-- Pets Coming Soon card -->
+      <a href="pets.html#notify" class="group bg-cream-50 border border-cream-200 rounded-3xl p-6 sm:p-7 shadow-soft hover:shadow-lift hover:border-forest-600 transition relative overflow-hidden">
+        <div class="absolute top-4 right-4 bg-cream-200 text-clay-700 text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-full">SOON</div>
+        <div class="text-4xl">🐾</div>
+        <h3 class="font-display text-xl font-semibold text-forest-700 mt-4" data-i18n="next.petsTitle">Pet Marketplace</h3>
+        <p class="text-sm text-ink-700 mt-2" data-i18n="next.petsSub">Pedigreed pets from audited breeders. Filters, pedigree records, in-app chat.</p>
+        <div class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-forest-700 group-hover:underline">
+          <span data-i18n="next.petsCta">Notify me when live</span> →
         </div>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="breeders.title">Thailand's most trusted farms.</h2>
-        <p class="text-ink-700 mt-2 max-w-xl" data-i18n="breeders.sub">Every breeder on PawMatch passes a 38-point audit — facilities, lineage, vet records, and parent welfare.</p>
-      </div>
-      <a href="breeders.html" class="text-sm font-semibold text-forest-700 hover:underline" data-i18n="breeders.link">See all 1,240 →</a>
-    </div>
-    <div id="breeders-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
-  </div>
-</section>
+      </a>
 
-<!-- ============== PETS MARKETPLACE ============== -->
-<section id="pets" class="py-16 sm:py-20 bg-cream-100/70 border-y border-cream-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-end justify-between flex-wrap gap-4 mb-6">
-      <div>
-        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
-          <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="pets.eyebrow">Browse pets</span>
+      <!-- Breeders Coming Soon card -->
+      <a href="breeders.html#notify" class="group bg-cream-50 border border-cream-200 rounded-3xl p-6 sm:p-7 shadow-soft hover:shadow-lift hover:border-forest-600 transition relative overflow-hidden">
+        <div class="absolute top-4 right-4 bg-cream-200 text-clay-700 text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-full">SOON</div>
+        <div class="text-4xl">🌾</div>
+        <h3 class="font-display text-xl font-semibold text-forest-700 mt-4" data-i18n="next.breedersTitle">Verified Breeders</h3>
+        <p class="text-sm text-ink-700 mt-2" data-i18n="next.breedersSub">Thailand's farms — every one audited on 38 points before going public.</p>
+        <div class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-forest-700 group-hover:underline">
+          <span data-i18n="next.breedersCta">Notify me when live</span> →
         </div>
-        <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="pets.title">Available now, pedigree assured.</h2>
-      </div>
-      <div class="flex items-center gap-2 text-sm">
-        <span class="text-ink-500" data-i18n="pets.sort">Sort</span>
-        <select class="bg-cream-50 border border-cream-300 rounded-full text-sm px-3 py-2" id="sort-select">
-          <option data-i18n="pets.sort1">Top matches</option>
-          <option data-i18n="pets.sort2">Newest</option>
-          <option data-i18n="pets.sort3">Price: low → high</option>
-          <option data-i18n="pets.sort4">Price: high → low</option>
-        </select>
-      </div>
+      </a>
     </div>
 
-    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-3" id="filters">
-      <button data-filter="all" class="chip step-active rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.all">All pets</button>
-      <button data-filter="dog" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.dog">🐕 Dogs</button>
-      <button data-filter="cat" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.cat">🐈 Cats</button>
-      <button data-filter="small" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.small">🐰 Small pets</button>
-      <button data-filter="exotic" class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.exotic">🦜 Exotic</button>
-      <span class="mx-1 self-center w-px h-6 bg-cream-300"></span>
-      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.apt">Apartment friendly</button>
-      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.hypo">Hypoallergenic</button>
-      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.kids">Good with kids</button>
-      <button class="chip bg-cream-50 border border-cream-300 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap" data-i18n="filter.low">Low energy</button>
+    <div class="mt-10 text-center">
+      <div class="inline-flex items-center gap-2 text-sm text-ink-500">
+        <span data-i18n="next.liveLabel">Available now:</span>
+        <a href="match.html" class="font-semibold text-forest-700 hover:underline" data-i18n="next.liveLink">✨ AI Pet Matching quiz →</a>
+      </div>
     </div>
-
-    <div id="pets-grid" class="mt-6 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5"></div>
   </div>
 </section>
 
@@ -588,10 +577,10 @@
     <div>
       <div class="text-xs uppercase tracking-[0.18em] text-cream-100/60" data-i18n="ft.platform">Platform</div>
       <ul class="mt-4 space-y-2 text-sm">
-        <li><a href="#match" class="hover:text-gold-400" data-i18n="nav.match">AI Pet Matching</a></li>
-        <li><a href="#breeders" class="hover:text-gold-400" data-i18n="nav.breeders">Verified Breeders</a></li>
-        <li><a href="#pets" class="hover:text-gold-400" data-i18n="nav.pets">Browse Pets</a></li>
-        <li><a href="#" class="hover:text-gold-400" data-i18n="ft.forBreeders">For Breeders</a></li>
+        <li><a href="match.html" class="hover:text-gold-400" data-i18n="nav.match">AI Pet Matching</a></li>
+        <li><a href="breeders.html" class="hover:text-gold-400" data-i18n="nav.breeders">Verified Breeders <span class="soon-badge">SOON</span></a></li>
+        <li><a href="pets.html" class="hover:text-gold-400" data-i18n="nav.pets">Browse Pets <span class="soon-badge">SOON</span></a></li>
+        <li><a href="breeders.html#breeder-apply" class="hover:text-gold-400" data-i18n="ft.forBreeders">For Breeders</a></li>
       </ul>
     </div>
     <div>
@@ -634,7 +623,7 @@ const I18N = {
     'hero.badge':'New','hero.badgeText':'AI Pet Matching v2 · Powered by lifestyle profiling',
     'hero.title1':'The right pet,','hero.title2':'matched','hero.title3':' to the right home.',
     'hero.sub':"Thailand's premium platform to discover verified breeders, browse pedigreed pets, and use AI to find the companion that truly fits your personality and lifestyle.",
-    'hero.startCta':'Start AI Pet Matching','hero.browseCta':'Browse pets',
+    'hero.startCta':'Start AI Pet Matching','hero.browseCta':'Browse pets','hero.startNote':'⏱️ 90 seconds · Free · Shareable result',
     'hero.stat1':'Verified breeders','hero.stat2':'Successful matches','hero.stat3':'Owner rating',
     'hero.matchScore':'Match score','hero.verified':'Verified breeder','hero.topMatch':'Top match','hero.featuredMeta':'Golden Retriever · 9 wks','hero.meet':'Meet','hero.featuredTraits':'Calm · Affectionate · Loves families','hero.partners':'Trusted partners',
     'match.eyebrow':'AI Pet Matching','match.title':'12 questions.<br/>Your <em class="not-italic text-clay-600">Pet Persona</em>.','match.sub':"A playful personality quiz that uncovers your ideal pet type, dream breeds, and the kind of pet parent you'll be. Built with behavioural science, designed to share.",
@@ -652,6 +641,10 @@ const I18N = {
     'how.s3t':'Meet verified breeders','how.s3d':'All breeders are audited for ethics, health, and pedigree records.',
     'how.s4t':'Bring them home','how.s4d':'Secure booking, vet check, and lifetime support from PawMatch.',
     'breeders.eyebrow':'Verified breeders','breeders.title':"Thailand's most trusted farms.",'breeders.sub':'Every breeder on PawMatch passes a 38-point audit — facilities, lineage, vet records, and parent welfare.','breeders.link':'See all 1,240 →','breeders.visit':'Visit farm','breeders.reviews':'reviews','breeders.years':'yrs',
+    'next.eyebrow':'Coming next','next.title':'Two more pieces of PawMatch — almost ready.','next.sub':"We're not opening the marketplace or breeder directory until they're truly verified. Join either waitlist to be the first to know.",
+    'next.petsTitle':'Pet Marketplace','next.petsSub':'Pedigreed pets from audited breeders. Filters, pedigree records, in-app chat.','next.petsCta':'Notify me when live',
+    'next.breedersTitle':'Verified Breeders','next.breedersSub':"Thailand's farms — every one audited on 38 points before going public.",'next.breedersCta':'Notify me when live',
+    'next.liveLabel':'Available now:','next.liveLink':'✨ AI Pet Matching quiz →',
     'pets.eyebrow':'Browse pets','pets.title':'Available now, pedigree assured.','pets.sort':'Sort','pets.sort1':'Top matches','pets.sort2':'Newest','pets.sort3':'Price: low → high','pets.sort4':'Price: high → low','pets.from':'From','pets.breeder':'Breeder','pets.match':'% match',
     'filter.all':'All pets','filter.dog':'🐕 Dogs','filter.cat':'🐈 Cats','filter.small':'🐰 Small pets','filter.exotic':'🦜 Exotic','filter.apt':'Apartment friendly','filter.hypo':'Hypoallergenic','filter.kids':'Good with kids','filter.low':'Low energy',
     'ped.eyebrow':'Pedigree & health','ped.title':'Every pet, fully transparent.','ped.sub':'Tap any pet to see four generations of pedigree, vaccination history, vet checks, and DNA-tested traits — all verified by our licensed veterinarian partners.',
@@ -687,7 +680,7 @@ const I18N = {
     'hero.badge':'ใหม่','hero.badgeText':'AI Pet Matching v2 · ขับเคลื่อนด้วยข้อมูลไลฟ์สไตล์',
     'hero.title1':'สัตว์เลี้ยงที่ใช่','hero.title2':'จับคู่','hero.title3':' กับบ้านที่เหมาะสม',
     'hero.sub':'แพลตฟอร์มสัตว์เลี้ยงระดับพรีเมียมของไทย ค้นหาฟาร์มที่ได้รับการรับรอง เลือกสัตว์เลี้ยงสายพันธุ์แท้ และใช้ AI ค้นหาเพื่อนคู่ใจที่เหมาะกับบุคลิกและไลฟ์สไตล์ของคุณ',
-    'hero.startCta':'เริ่มจับคู่ด้วย AI','hero.browseCta':'ดูสัตว์เลี้ยง',
+    'hero.startCta':'เริ่มจับคู่ด้วย AI','hero.browseCta':'ดูสัตว์เลี้ยง','hero.startNote':'⏱️ 90 วินาที · ฟรี · แชร์ผลลัพธ์ได้',
     'hero.stat1':'ฟาร์มที่รับรอง','hero.stat2':'จับคู่สำเร็จ','hero.stat3':'คะแนนจากผู้เลี้ยง',
     'hero.matchScore':'คะแนนความเข้ากัน','hero.verified':'ฟาร์มที่รับรอง','hero.topMatch':'คู่ที่ใช่ที่สุด','hero.featuredMeta':'โกลเด้น รีทรีฟเวอร์ · 9 สัปดาห์','hero.meet':'พบกับ','hero.featuredTraits':'สงบ · อ่อนโยน · รักครอบครัว','hero.partners':'พันธมิตรที่ไว้วางใจ',
     'match.eyebrow':'จับคู่สัตว์เลี้ยงด้วย AI','match.title':'12 คำถาม<br/>ค้นพบ <em class="not-italic text-clay-600">Pet Persona</em> ของคุณ','match.sub':'แบบทดสอบบุคลิกสนุกๆ ที่จะเผยประเภทสัตว์เลี้ยงในฝัน สายพันธุ์ที่ใช่ และคุณเป็นเจ้าของสัตว์เลี้ยงแบบไหน — สร้างจากหลักจิตวิทยา ออกแบบมาเพื่อแชร์',
@@ -705,6 +698,10 @@ const I18N = {
     'how.s3t':'พบฟาร์มที่รับรอง','how.s3d':'ทุกฟาร์มผ่านการตรวจสอบด้านจริยธรรม สุขภาพ และพันธุ์ประวัติ',
     'how.s4t':'พากลับบ้าน','how.s4d':'จองอย่างปลอดภัย ตรวจสุขภาพ และสนับสนุนตลอดชีวิตจาก PawMatch',
     'breeders.eyebrow':'ฟาร์มที่รับรอง','breeders.title':'ฟาร์มที่ไว้ใจได้ที่สุดในประเทศไทย','breeders.sub':'ทุกฟาร์มบน PawMatch ผ่านการตรวจสอบ 38 หัวข้อ — สถานที่ สายพันธุ์ ประวัติสัตวแพทย์ และสวัสดิภาพพ่อแม่พันธุ์','breeders.link':'ดูทั้งหมด 1,240 ฟาร์ม →','breeders.visit':'เยี่ยมฟาร์ม','breeders.reviews':'รีวิว','breeders.years':'ปี',
+    'next.eyebrow':'เปิดเร็วๆ นี้','next.title':'อีก 2 ฟีเจอร์ของ PawMatch — เกือบพร้อมแล้ว','next.sub':'เราจะไม่เปิดมาร์เก็ตเพลสหรือไดเรกทอรีฟาร์ม จนกว่าจะได้รับการรับรองจริงๆ เข้าร่วมรายชื่อรอเพื่อเป็นคนแรกที่รู้',
+    'next.petsTitle':'มาร์เก็ตเพลสสัตว์เลี้ยง','next.petsSub':'สัตว์เลี้ยงสายพันธุ์แท้จากฟาร์มที่รับรอง พร้อมตัวกรอง พันธุ์ประวัติ และแชทในแอป','next.petsCta':'แจ้งฉันเมื่อเปิด',
+    'next.breedersTitle':'ฟาร์มที่รับรอง','next.breedersSub':'ฟาร์มในไทย ผ่านการตรวจสอบ 38 หัวข้อก่อนเปิดให้คนทั่วไปเห็น','next.breedersCta':'แจ้งฉันเมื่อเปิด',
+    'next.liveLabel':'พร้อมให้บริการแล้ว:','next.liveLink':'✨ ทำแบบทดสอบ AI Pet Matching →',
     'pets.eyebrow':'ดูสัตว์เลี้ยง','pets.title':'พร้อมรับกลับบ้าน รับรองสายพันธุ์','pets.sort':'เรียง','pets.sort1':'คู่ที่ใช่ที่สุด','pets.sort2':'ใหม่ล่าสุด','pets.sort3':'ราคา: น้อย → มาก','pets.sort4':'ราคา: มาก → น้อย','pets.from':'เริ่มต้น','pets.breeder':'ฟาร์ม','pets.match':'% เข้ากัน',
     'filter.all':'ทั้งหมด','filter.dog':'🐕 สุนัข','filter.cat':'🐈 แมว','filter.small':'🐰 สัตว์เล็ก','filter.exotic':'🦜 สัตว์พิเศษ','filter.apt':'เหมาะกับคอนโด','filter.hypo':'ไม่ก่อภูมิแพ้','filter.kids':'เข้ากับเด็ก','filter.low':'พลังงานน้อย',
     'ped.eyebrow':'พันธุ์ประวัติและสุขภาพ','ped.title':'ทุกตัว โปร่งใส 100%','ped.sub':'แตะที่สัตว์เลี้ยงเพื่อดูพันธุ์ประวัติย้อนหลัง 4 ชั่วอายุ ประวัติวัคซีน การตรวจสุขภาพ และผลทดสอบ DNA — ตรวจสอบโดยสัตวแพทย์พันธมิตรของเรา',
@@ -772,8 +769,8 @@ function applyI18n(){
     if(I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
   });
   document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang===lang ? 'true':'false'));
-  renderBreeders();
-  renderPets(currentFilter);
+  if(typeof renderBreeders === 'function') renderBreeders();
+  if(typeof renderPets === 'function') renderPets(currentFilter);
   // Update quiz labels
   if(typeof renderQ === 'function') renderQ();
 }
@@ -786,6 +783,7 @@ document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', 
 /* ============= Breeders render ============= */
 const bg = document.getElementById('breeders-grid');
 function renderBreeders(){
+  if(!bg) return; // section removed in MVP — breeders moved to /breeders.html (Coming Soon)
   bg.innerHTML = breeders.map(b => `
     <article class="bg-cream-50 rounded-2xl border border-cream-200 overflow-hidden shadow-soft hover:shadow-lift transition group">
       <div class="aspect-[5/3] overflow-hidden bg-cream-200 relative">
@@ -823,6 +821,7 @@ function ageStr(w){
   return w + ' ' + t('weeks');
 }
 function renderPets(filter='all'){
+  if(!pg) return; // section removed in MVP — pets moved to /pets.html (Coming Soon)
   currentFilter = filter;
   const list = filter==='all' ? pets : pets.filter(p=>p.type===filter);
   pg.innerHTML = list.map(p => `
@@ -864,7 +863,7 @@ function renderPets(filter='all'){
   pg.querySelectorAll('[data-id]').forEach(el => el.addEventListener('click', ()=> openPet(parseInt(el.dataset.id))));
 }
 
-document.getElementById('filters').addEventListener('click', e=>{
+document.getElementById('filters')?.addEventListener('click', e=>{
   const btn = e.target.closest('[data-filter]'); if(!btn) return;
   document.querySelectorAll('#filters [data-filter]').forEach(b=>{
     b.classList.remove('step-active');

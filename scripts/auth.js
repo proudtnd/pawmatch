@@ -27,7 +27,7 @@
       roleBreederDesc:'List pets, manage pedigree records, and reach trusted families. Verification required.',
       successTitle:'Welcome to PawMatch!',
       successSeeker:"Your account is ready. Let's go find your match.",
-      successBreeder:"Application received. Our team will reach out within 48 hours to begin verification.",
+      successBreeder:"You're on the breeder waitlist. We'll reach out as soon as onboarding opens — typically 1–2 weeks from launch.",
       done:'Done', exploreCta:'Take the AI Quiz',
       breederBannerTitle:'Apply as a verified breeder',
       breederBannerSub:'Every breeder passes a 38-point audit — facilities, lineage, vet records, and ethics. Re-audited annually.',
@@ -54,7 +54,7 @@
       roleBreederDesc:'ลงประกาศสัตว์เลี้ยง จัดการพันธุ์ประวัติ และเข้าถึงครอบครัวที่ไว้ใจได้ ต้องผ่านการรับรอง',
       successTitle:'ยินดีต้อนรับสู่ PawMatch!',
       successSeeker:'บัญชีของคุณพร้อมแล้ว มาหาคู่ของคุณกัน',
-      successBreeder:'รับใบสมัครแล้ว ทีมเราจะติดต่อกลับภายใน 48 ชั่วโมงเพื่อเริ่มการรับรอง',
+      successBreeder:'คุณอยู่ในรายชื่อรอฟาร์มแล้ว เราจะติดต่อทันทีที่เปิดรับสมาชิกใหม่ — ประมาณ 1–2 สัปดาห์หลังเปิดตัว',
       done:'เรียบร้อย', exploreCta:'ทำแบบทดสอบ AI',
       breederBannerTitle:'สมัครเป็นฟาร์มที่รับรอง',
       breederBannerSub:'ทุกฟาร์มผ่านการตรวจสอบ 38 หัวข้อ — สถานที่ สายพันธุ์ ประวัติสัตวแพทย์ และจริยธรรม ตรวจสอบใหม่ทุกปี',
@@ -264,11 +264,11 @@
   function showSuccess(role){
     const msg = role === 'breeder' ? t('successBreeder') : t('successSeeker');
     document.getElementById('pm-success-msg').textContent = msg;
-    // Hide AI quiz CTA for breeders, show breeders dashboard hint instead
+    // For breeders (MVP), route to the Coming Soon breeders page (waitlist).
     const cta = document.getElementById('pm-explore-cta');
     if(role === 'breeder'){
-      cta.textContent = (getLang()==='th') ? 'ดูแดชบอร์ดฟาร์ม' : 'Go to breeder dashboard';
-      cta.setAttribute('href', '#');
+      cta.textContent = (getLang()==='th') ? 'เข้าร่วมรายชื่อรอฟาร์ม →' : 'Join breeder waitlist →';
+      cta.setAttribute('href', 'breeders.html#breeder-apply');
     } else {
       cta.textContent = t('exploreCta');
       cta.setAttribute('href', 'match.html');

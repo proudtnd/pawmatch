@@ -291,6 +291,20 @@ export async function claimReferral(code){
     .select().single();
 }
 
+/* ============= WAITLIST (MVP — Coming Soon signups) ============= */
+export async function joinWaitlist(email, feature, source){
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: { message: 'Enter a valid email' } };
+  if(!['pets','breeders','breeder_signup'].includes(feature)) return { error: { message: 'Invalid feature' } };
+  const { data: { user } } = await sb.auth.getUser();
+  return await sb.from('waitlist').insert({
+    email: email.trim().toLowerCase(),
+    feature,
+    language: (localStorage.getItem('pm-lang') || 'en'),
+    source: source || null,
+    user_id: user?.id || null,
+  }).select().single();
+}
+
 /* ============= UTIL ============= */
 function getOrCreateSessionId(){
   let id = localStorage.getItem('pm-session-id');
@@ -319,4 +333,5 @@ window.PawDB = {
   createOrGetInquiry, sendMessage, loadMessages, subscribeMessages,
   uploadFile, uploadPetPhoto, uploadBreederPhoto, uploadAvatar, uploadPrivateDoc, getSignedUrl,
   createReferralCode, claimReferral,
+  joinWaitlist,
 };
