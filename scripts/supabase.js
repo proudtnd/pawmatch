@@ -296,13 +296,19 @@ export async function joinWaitlist(email, feature, source){
   if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: { message: 'Enter a valid email' } };
   if(!['pets','breeders','breeder_signup'].includes(feature)) return { error: { message: 'Invalid feature' } };
   const { data: { user } } = await sb.auth.getUser();
-  return await sb.from('waitlist').insert({
+  // Note: no .select().single() — RLS denies SELECT to anonymous users.
+  // Insert is fire-and-forget; we only need to know if it succeeded.
+  const { error } = await sb.from('waitlist').insert({
     email: email.trim().toLowerCase(),
     feature,
     language: (localStorage.getItem('pm-lang') || 'en'),
     source: source || null,
     user_id: user?.id || null,
-  }).select().single();
+  });
+  // Treat duplicate-email-on-same-feature as success (already on the list = same outcome from user POV)
+  if(error && error.code === '23505') return { data: { alreadyOnList: true } };
+  if(error) return { error };
+  return { data: { ok: true } };
 }
 
 /* ============= UTIL ============= */
