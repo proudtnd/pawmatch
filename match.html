@@ -365,156 +365,246 @@ const QUESTIONS = {
   ]
 };
 
+/* ============= Persona illustration images ============= */
+const PERSONA_IMAGE = {
+  cozy:        'assets/personas/cozy-curator.png',
+  adventurer:  'assets/personas/adventure-seeker.png',
+  social:      'assets/personas/social-butterfly.png',
+  guardian:    'assets/personas/loyal-guardian.png',
+  freespirit:  'assets/personas/free-spirit.png',
+  nurturer:    'assets/personas/heartfelt-nurturer.png',
+  chaos:       'assets/personas/tiny-chaos-gremlin.png',
+  royal:       'assets/personas/elegant-royal.png',
+};
+
+/* ============= Breed photo lookup (shared) ============= */
+const BREED_IMG = {
+  // dogs
+  labrador:        'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80',
+  golden:          'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+  thaiRidgeback:   'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80',
+  pomeranian:      'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80',
+  shiba:           'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80',
+  bangkaew:        'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=600&q=80',
+  cavalier:        'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80',
+  germanShepherd:  'https://images.unsplash.com/photo-1568572933382-74d440642117?auto=format&fit=crop&w=600&q=80',
+  borderCollie:    'https://images.unsplash.com/photo-1551717743-49959800b1f6?auto=format&fit=crop&w=600&q=80',
+  husky:           'https://images.unsplash.com/photo-1568393691080-39afbc12cba6?auto=format&fit=crop&w=600&q=80',
+  // cats
+  ragdoll:         'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80',
+  britishShort:    'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80',
+  mainecoon:       'https://images.unsplash.com/photo-1606214174585-fe31582dc6ee?auto=format&fit=crop&w=600&q=80',
+  scottishFold:    'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80',
+  persian:         'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?auto=format&fit=crop&w=600&q=80',
+  // small + exotic
+  hollandLop:      'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80',
+  netherlandDwarf: 'https://images.unsplash.com/photo-1556272237-46d3d6f5f9bc?auto=format&fit=crop&w=600&q=80',
+  hamster:         'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?auto=format&fit=crop&w=600&q=80',
+  guineaPig:       'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80',
+  sunConure:       'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80',
+  cockatiel:       'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80',
+  sugarGlider:     'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80',
+  gecko:           'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=600&q=80',
+};
+
 const ARCHETYPES = {
-  cozy:        { emoji:'🫖', grad:'from-clay-400 via-clay-500 to-clay-600',
+  cozy:        { emoji:'🌸', grad:'from-clay-400 via-clay-500 to-clay-600',
                  en:{name:'The Cozy Curator', tag:'Soft soul · slow living · indoor magic', traits:['Empathetic','Patient','Aesthetic-driven','Gentle'],
-                     breeds:[{n:'Ragdoll',d:'Cuddly, docile, follows you everywhere',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-                             {n:'British Shorthair',d:'Plush, quiet, low-maintenance royalty',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Holland Lop',d:'Tiny, gentle, café-aesthetic bunny',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}]},
+                     breeds:[{n:'Ragdoll',d:'Cuddly, docile, follows you everywhere',i:BREED_IMG.ragdoll},
+                             {n:'British Shorthair',d:'Plush, quiet, low-maintenance royalty',i:BREED_IMG.britishShort},
+                             {n:'Holland Lop',d:'Tiny, gentle, café-aesthetic bunny',i:BREED_IMG.hollandLop}]},
                  th:{name:'นักจัดบ้านสายอบอุ่น', tag:'จิตใจอ่อนโยน · ชีวิตช้าๆ · เวทมนตร์ในบ้าน', traits:['เห็นอกเห็นใจ','อดทน','รักความสวยงาม','อ่อนโยน'],
-                     breeds:[{n:'แร็กดอลล์',d:'ขี้กอด ว่าง่าย ตามคุณทุกที่',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-                             {n:'บริติช ชอร์ตแฮร์',d:'นุ่ม สงบ ดูแลง่ายสไตล์ราชา',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
-                             {n:'ฮอลแลนด์ลอป',d:'กระต่ายตัวจิ๋ว สายคาเฟ่',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}]} },
+                     breeds:[{n:'แร็กดอลล์',d:'ขี้กอด ว่าง่าย ตามคุณทุกที่',i:BREED_IMG.ragdoll},
+                             {n:'บริติช ชอร์ตแฮร์',d:'นุ่ม สงบ ดูแลง่ายสไตล์ราชา',i:BREED_IMG.britishShort},
+                             {n:'ฮอลแลนด์ลอป',d:'กระต่ายตัวจิ๋ว สายคาเฟ่',i:BREED_IMG.hollandLop}]} },
   adventurer:  { emoji:'🏔️', grad:'from-forest-500 via-forest-600 to-forest-700',
                  en:{name:'The Adventure Seeker', tag:'High energy · outdoor heart · roadtrip ready', traits:['Energetic','Spontaneous','Athletic','Curious'],
-                     breeds:[{n:'Labrador',d:'Endless energy, beach-loving best friend',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Golden Retriever',d:'Sunshine personality, family-ready',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Thai Ridgeback',d:'Athletic, native Thai breed, loyal explorer',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'}]},
+                     breeds:[{n:'Labrador',d:'Endless energy, beach-loving best friend',i:BREED_IMG.labrador},
+                             {n:'Golden Retriever',d:'Sunshine personality, family-ready',i:BREED_IMG.golden},
+                             {n:'Thai Ridgeback',d:'Athletic, native Thai breed, loyal explorer',i:BREED_IMG.thaiRidgeback}]},
                  th:{name:'นักผจญภัย', tag:'พลังงานเต็มเปี่ยม · ใจกลางแจ้ง · พร้อมโร้ดทริป', traits:['กระตือรือร้น','สปอนเทเนียส','แข็งแรง','อยากรู้อยากเห็น'],
-                     breeds:[{n:'ลาบราดอร์',d:'พลังงานล้น เพื่อนสายชายหาด',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
-                             {n:'โกลเด้น รีทรีฟเวอร์',d:'บุคลิกแสงแดด เหมาะกับครอบครัว',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-                             {n:'ไทยหลังอาน',d:'แข็งแรง สายพันธุ์ไทยแท้ นักสำรวจที่ซื่อสัตย์',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'}]} },
+                     breeds:[{n:'ลาบราดอร์',d:'พลังงานล้น เพื่อนสายชายหาด',i:BREED_IMG.labrador},
+                             {n:'โกลเด้น รีทรีฟเวอร์',d:'บุคลิกแสงแดด เหมาะกับครอบครัว',i:BREED_IMG.golden},
+                             {n:'ไทยหลังอาน',d:'แข็งแรง สายพันธุ์ไทยแท้ นักสำรวจที่ซื่อสัตย์',i:BREED_IMG.thaiRidgeback}]} },
   social:      { emoji:'🎉', grad:'from-gold-400 via-clay-400 to-clay-500',
                  en:{name:'The Social Butterfly', tag:'People person · pet that posts well · main character energy', traits:['Outgoing','Playful','Confident','Trend-aware'],
-                     breeds:[{n:'Pomeranian',d:"Fluffy main character, instagram-ready",i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Shiba Inu',d:'Iconic, internet-famous, surprisingly chill',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Sun Conure',d:'Vibrant exotic that loves to chat',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]},
+                     breeds:[{n:'Pomeranian',d:'Fluffy main character, instagram-ready',i:BREED_IMG.pomeranian},
+                             {n:'Shiba Inu',d:'Iconic, internet-famous, surprisingly chill',i:BREED_IMG.shiba},
+                             {n:'Sun Conure',d:'Vibrant exotic that loves to chat',i:BREED_IMG.sunConure}]},
                  th:{name:'ผีเสื้อสังคม', tag:'คนรักคน · สัตว์เลี้ยงโพสต์สวย · พลังตัวเอก', traits:['ชอบเข้าสังคม','ขี้เล่น','มั่นใจ','ตามเทรนด์'],
-                     breeds:[{n:'ปอมเมอเรเนียน',d:'ฟูฟ่อง ตัวเอกของฟีด',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'},
-                             {n:'ชิบะ อินุ',d:'ดังในอินเทอร์เน็ต ชิลเกินคาด',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
-                             {n:'นกซันคอนัวร์',d:'สีสันสด ชอบคุย',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]} },
+                     breeds:[{n:'ปอมเมอเรเนียน',d:'ฟูฟ่อง ตัวเอกของฟีด',i:BREED_IMG.pomeranian},
+                             {n:'ชิบะ อินุ',d:'ดังในอินเทอร์เน็ต ชิลเกินคาด',i:BREED_IMG.shiba},
+                             {n:'นกซันคอนัวร์',d:'สีสันสด ชอบคุย',i:BREED_IMG.sunConure}]} },
   guardian:    { emoji:'🛡️', grad:'from-forest-600 via-forest-700 to-forest-800',
                  en:{name:'The Loyal Guardian', tag:'Disciplined · protective · ride-or-die', traits:['Loyal','Reliable','Calm under pressure','Devoted'],
-                     breeds:[{n:'Bangkaew',d:'Loyal native Thai breed, athletic & smart',i:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Thai Ridgeback',d:'Watchful, alert, ancient lineage',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Labrador',d:'Trainable, gentle giant, family-protective',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'}]},
+                     breeds:[{n:'German Shepherd',d:'Intelligent, trainable, ultimate protector',i:BREED_IMG.germanShepherd},
+                             {n:'Bangkaew',d:'Loyal native Thai breed, athletic & smart',i:BREED_IMG.bangkaew},
+                             {n:'Labrador',d:'Trainable, gentle giant, family-protective',i:BREED_IMG.labrador}]},
                  th:{name:'ผู้พิทักษ์ผู้ซื่อสัตย์', tag:'มีวินัย · ปกป้อง · เพื่อนตาย', traits:['ซื่อสัตย์','พึ่งพาได้','สงบในยามคับขัน','ทุ่มเท'],
-                     breeds:[{n:'บางแก้ว',d:'สายพันธุ์ไทย แข็งแรงและฉลาด',i:'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=600&q=80'},
-                             {n:'ไทยหลังอาน',d:'ตื่นตัว สายเลือดโบราณ',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
-                             {n:'ลาบราดอร์',d:'ฝึกง่าย ยักษ์ใจดี ปกป้องครอบครัว',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'}]} },
-  freespirit:  { emoji:'🦜', grad:'from-clay-500 via-gold-500 to-gold-400',
+                     breeds:[{n:'เยอรมัน เชพเพิร์ด',d:'ฉลาด ฝึกง่าย ผู้ปกป้องตัวจริง',i:BREED_IMG.germanShepherd},
+                             {n:'บางแก้ว',d:'สายพันธุ์ไทย แข็งแรงและฉลาด',i:BREED_IMG.bangkaew},
+                             {n:'ลาบราดอร์',d:'ฝึกง่าย ยักษ์ใจดี ปกป้องครอบครัว',i:BREED_IMG.labrador}]} },
+  freespirit:  { emoji:'🦋', grad:'from-clay-500 via-gold-500 to-gold-400',
                  en:{name:'The Free Spirit', tag:'Unconventional · curious · collector of rare beauty', traits:['Creative','Curious','Independent','Open-minded'],
-                     breeds:[{n:'Sun Conure',d:'Vibrant, vocal, charismatic exotic',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Scottish Fold',d:'Quirky ears, sweet personality',i:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Sugar Glider',d:'Tiny, nocturnal, deeply bonding',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]},
-                 th:{name:'จิตวิญญาณเสรี', tag:'ไม่ตามขนบ · ช่างสงสัย · นักสะสมความงามหายาก', traits:['สร้างสรรค์','อยากรู้อยากเห็น','อิสระ','เปิดกว้าง'],
-                     breeds:[{n:'นกซันคอนัวร์',d:'สีสด ช่างพูด มีเสน่ห์',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
-                             {n:'สก็อตติช โฟลด์',d:'หูพับน่ารัก นิสัยหวาน',i:'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'},
-                             {n:'ชูการ์ไกลเดอร์',d:'ตัวจิ๋ว ออกหากินกลางคืน ผูกพันลึก',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}]} },
-  nurturer:    { emoji:'🌸', grad:'from-clay-400 via-clay-500 to-forest-500',
-                 en:{name:'The Heartfelt Nurturer', tag:'Family-first · warm · the human everyone calls when sad', traits:['Caring','Patient','Family-oriented','Empathetic'],
-                     breeds:[{n:'Golden Retriever',d:'Patient, gentle, classic family dog',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Maine Coon',d:'Gentle giant cat, sociable, kid-friendly',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-                             {n:'Cavalier King Charles',d:'Cuddly, affectionate, loves everyone',i:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80'}]},
-                 th:{name:'ผู้ดูแลใจอบอุ่น', tag:'ครอบครัวมาก่อน · อบอุ่น · คนที่ทุกคนเรียกหา', traits:['ใส่ใจ','อดทน','รักครอบครัว','เห็นอกเห็นใจ'],
-                     breeds:[{n:'โกลเด้น รีทรีฟเวอร์',d:'อดทน อ่อนโยน สุนัขครอบครัวคลาสสิก',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-                             {n:'เมนคูน',d:'แมวยักษ์ใจดี เข้ากับเด็กได้',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-                             {n:'คาวาเลียร์',d:'ขี้กอด อ่อนโยน รักทุกคน',i:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?auto=format&fit=crop&w=600&q=80'}]} },
+                     breeds:[{n:'Sugar Glider',d:'Tiny, nocturnal, deeply bonding rare exotic',i:BREED_IMG.sugarGlider},
+                             {n:'Cockatiel',d:'Cheerful, whistling, vibrant companion',i:BREED_IMG.cockatiel},
+                             {n:'Scottish Fold',d:'Quirky ears, sweet curious personality',i:BREED_IMG.scottishFold}]},
+                 th:{name:'จิตวิญญาณอิสระ', tag:'ไม่ตามขนบ · ช่างสงสัย · นักสะสมความงามหายาก', traits:['สร้างสรรค์','อยากรู้อยากเห็น','อิสระ','เปิดกว้าง'],
+                     breeds:[{n:'ชูการ์ไกลเดอร์',d:'ตัวจิ๋ว สายดึก ผูกพันลึก หายาก',i:BREED_IMG.sugarGlider},
+                             {n:'ค็อกคาเทล',d:'ร่าเริง ชอบผิวปาก สีสันสด',i:BREED_IMG.cockatiel},
+                             {n:'สก็อตติช โฟลด์',d:'หูพับน่ารัก นิสัยช่างสงสัย',i:BREED_IMG.scottishFold}]} },
+  nurturer:    { emoji:'💖', grad:'from-clay-400 via-clay-500 to-forest-500',
+                 en:{name:'The Heartfelt Nurturer', tag:'Family-first · warm · emotional support', traits:['Caring','Patient','Family-oriented','Empathetic'],
+                     breeds:[{n:'Golden Retriever',d:'Patient, gentle, classic family dog',i:BREED_IMG.golden},
+                             {n:'Maine Coon',d:'Gentle giant cat, sociable, kid-friendly',i:BREED_IMG.mainecoon},
+                             {n:'Cavalier King Charles',d:'Cuddly, affectionate, loves everyone',i:BREED_IMG.cavalier}]},
+                 th:{name:'ผู้ดูแลใจอบอุ่น', tag:'ครอบครัวมาก่อน · อบอุ่น · กำลังใจของทุกคน', traits:['ใส่ใจ','อดทน','รักครอบครัว','เห็นอกเห็นใจ'],
+                     breeds:[{n:'โกลเด้น รีทรีฟเวอร์',d:'อดทน อ่อนโยน สุนัขครอบครัวคลาสสิก',i:BREED_IMG.golden},
+                             {n:'เมนคูน',d:'แมวยักษ์ใจดี เข้ากับเด็กได้',i:BREED_IMG.mainecoon},
+                             {n:'คาวาเลียร์',d:'ขี้กอด อ่อนโยน รักทุกคน',i:BREED_IMG.cavalier}]} },
+  chaos:       { emoji:'⚡', grad:'from-gold-400 via-gold-500 to-clay-500',
+                 en:{name:'Tiny Chaos Gremlin', tag:'Chaotic cute · hyper · meme energy', traits:['Playful','Mischievous','High-energy','Spontaneous'],
+                     breeds:[{n:'Hamster',d:'Pocket-sized chaos, 3am wheel sprints',i:BREED_IMG.hamster},
+                             {n:'Netherland Dwarf',d:'Tiny bunny, big personality, zoomies certified',i:BREED_IMG.netherlandDwarf},
+                             {n:'Shiba Inu',d:'Iconic gremlin energy, internet legend',i:BREED_IMG.shiba}]},
+                 th:{name:'ตัวป่วนพลังล้น', tag:'น่ารักวุ่นวาย · พลังเหลือล้น · สไตล์มีม', traits:['ขี้เล่น','ซน','พลังงานสูง','สปอนเทเนียส'],
+                     breeds:[{n:'แฮมสเตอร์',d:'ตัวจิ๋วเจ้าความวุ่นวาย วิ่งล้อตี 3',i:BREED_IMG.hamster},
+                             {n:'เนเธอร์แลนด์ดวอร์ฟ',d:'กระต่ายตัวจิ๋ว นิสัยใหญ่ ซูมมี่รับรอง',i:BREED_IMG.netherlandDwarf},
+                             {n:'ชิบะ อินุ',d:'พลังป่วนระดับตำนาน',i:BREED_IMG.shiba}]} },
+  royal:       { emoji:'👑', grad:'from-cream-300 via-gold-400 to-clay-400',
+                 en:{name:'Elegant Royal', tag:'Classy · aesthetic · calm luxury', traits:['Refined','Composed','Aesthetic','Discerning'],
+                     breeds:[{n:'Persian',d:'Long-haired aristocrat, serene & poised',i:BREED_IMG.persian},
+                             {n:'British Shorthair',d:'Plush royalty, quiet dignified vibe',i:BREED_IMG.britishShort},
+                             {n:'Cavalier King Charles',d:'Soft & royal, lap-dog of nobility',i:BREED_IMG.cavalier}]},
+                 th:{name:'คุณหนูผู้ดี', tag:'มีสไตล์ · สวยงาม · หรูหราอย่างสงบ', traits:['สง่างาม','สงบ','รักความสวยงาม','พิถีพิถัน'],
+                     breeds:[{n:'เปอร์เซีย',d:'ขนยาว สงบนิ่ง อบอุ่นสง่างาม',i:BREED_IMG.persian},
+                             {n:'บริติช ชอร์ตแฮร์',d:'นุ่ม สงบ ดูแลง่ายสไตล์ราชา',i:BREED_IMG.britishShort},
+                             {n:'คาวาเลียร์',d:'นุ่มและสง่า สุนัขประจำราชสำนัก',i:BREED_IMG.cavalier}]} },
 };
 
 const LEAST_COMPAT = {
   cozy: {
-    en:[{n:'Labrador',d:'24/7 energy = zero nap zone 🥲',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
-        {n:'Thai Ridgeback',d:'Built for hikes, not couches 🏃',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
-        {n:'Sun Conure',d:"6 am alarm you can't turn off ⏰",i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
-    th:[{n:'ลาบราดอร์',d:'พลังงาน 24 ชม. ไม่มีเวลานอนเลย 🥲',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
-        {n:'ไทยหลังอาน',d:'เกิดมาเดินป่า ไม่ใช่นอนโซฟา 🏃',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
-        {n:'นกซันคอนัวร์',d:'นาฬิกาปลุกตี 6 ที่ปิดไม่ได้ ⏰',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+    en:[{n:'Border Collie',d:'24/7 herding mode = zero nap zone 🥲',i:BREED_IMG.borderCollie},
+        {n:'Siberian Husky',d:'Endless zoomies for your peaceful couch ❄️',i:BREED_IMG.husky},
+        {n:'Sun Conure',d:"6 am alarm you can't turn off ⏰",i:BREED_IMG.sunConure}],
+    th:[{n:'บอร์เดอร์ คอลลี่',d:'พลังต้อนแกะ 24 ชม. ไม่ได้พักเลย 🥲',i:BREED_IMG.borderCollie},
+        {n:'ไซบีเรียน ฮัสกี้',d:'วิ่งซูมไม่หยุดกับโซฟาสงบของคุณ ❄️',i:BREED_IMG.husky},
+        {n:'นกซันคอนัวร์',d:'นาฬิกาปลุกตี 6 ที่ปิดไม่ได้ ⏰',i:BREED_IMG.sunConure}],
   },
   adventurer: {
-    en:[{n:'Ragdoll',d:'Naps through your adventures 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-        {n:'British Shorthair',d:'Beach trip? Hard pass 🏖️',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
-        {n:'Holland Lop',d:'Too tiny for the trail 🥲',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}],
-    th:[{n:'แร็กดอลล์',d:'หลับตลอดการผจญภัยของคุณ 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-        {n:'บริติช ชอร์ตแฮร์',d:'เที่ยวทะเล? ขอผ่าน 🏖️',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'},
-        {n:'ฮอลแลนด์ลอป',d:'ตัวเล็กไป เดินป่าไม่ไหว 🥲',i:'https://images.unsplash.com/photo-1535241749838-299277b6305f?auto=format&fit=crop&w=600&q=80'}],
+    en:[{n:'Persian',d:'Refuses to leave the velvet cushion 👑',i:BREED_IMG.persian},
+        {n:'Ragdoll',d:'Naps through your adventures 😴',i:BREED_IMG.ragdoll},
+        {n:'Hamster',d:'Too fragile for the trail 🥲',i:BREED_IMG.hamster}],
+    th:[{n:'เปอร์เซีย',d:'ไม่ยอมลุกจากเบาะกำมะหยี่ 👑',i:BREED_IMG.persian},
+        {n:'แร็กดอลล์',d:'หลับตลอดการผจญภัยของคุณ 😴',i:BREED_IMG.ragdoll},
+        {n:'แฮมสเตอร์',d:'บอบบางเกินไป เดินป่าไม่ได้ 🥲',i:BREED_IMG.hamster}],
   },
   social: {
-    en:[{n:'Sugar Glider',d:'Nocturnal vibes vs. your party schedule 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
-        {n:'Thai Ridgeback',d:'Side-eyes your friend group 👀',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
-        {n:'British Shorthair',d:"Won't pose for your feed 📵",i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'}],
-    th:[{n:'ชูการ์ไกลเดอร์',d:'สายดึก ไม่ชอบปาร์ตี้ของคุณ 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
-        {n:'ไทยหลังอาน',d:'มองเพื่อนคุณแบบไม่ไว้ใจ 👀',i:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'},
-        {n:'บริติช ชอร์ตแฮร์',d:'ไม่ยอมโพสต์ท่าให้ฟีด 📵',i:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80'}],
+    en:[{n:'German Shepherd',d:'Side-eyes every new friend you bring 👀',i:BREED_IMG.germanShepherd},
+        {n:'Guinea Pig',d:'Stage fright at every party 📵',i:BREED_IMG.guineaPig},
+        {n:'Persian',d:"Won't pose for your feed 🙅",i:BREED_IMG.persian}],
+    th:[{n:'เยอรมัน เชพเพิร์ด',d:'มองเพื่อนใหม่ของคุณแบบไม่ไว้ใจ 👀',i:BREED_IMG.germanShepherd},
+        {n:'หนูตะเภา',d:'ขี้อายในทุกปาร์ตี้ 📵',i:BREED_IMG.guineaPig},
+        {n:'เปอร์เซีย',d:'ไม่ยอมโพสต์ท่าให้ฟีด 🙅',i:BREED_IMG.persian}],
   },
   guardian: {
-    en:[{n:'Golden Retriever',d:'Welcomes burglars with kisses 💋',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-        {n:'Ragdoll',d:'Naps through any emergency 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-        {n:'Pomeranian',d:'Cute bark, zero scare factor 🐾',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
-    th:[{n:'โกลเด้น รีทรีฟเวอร์',d:'ต้อนรับขโมยด้วยจูบ 💋',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-        {n:'แร็กดอลล์',d:'นอนหลับท่ามกลางทุกเหตุการณ์ 😴',i:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80'},
-        {n:'ปอมเมอเรเนียน',d:'น่ารักเกิน ขู่ใครก็ไม่ขึ้น 🐾',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+    en:[{n:'Hamster',d:'Too fragile to bond with a guard 🥲',i:BREED_IMG.hamster},
+        {n:'Sugar Glider',d:'Nocturnal — sleeps through your watch 😴',i:BREED_IMG.sugarGlider},
+        {n:'Cockatiel',d:'Loud but harmless, zero scare factor 🐾',i:BREED_IMG.cockatiel}],
+    th:[{n:'แฮมสเตอร์',d:'บอบบางเกินไปสำหรับผู้พิทักษ์ 🥲',i:BREED_IMG.hamster},
+        {n:'ชูการ์ไกลเดอร์',d:'หากินกลางคืน หลับช่วงคุณเฝ้า 😴',i:BREED_IMG.sugarGlider},
+        {n:'ค็อกคาเทล',d:'เสียงดังแต่ไม่ขู่ใคร 🐾',i:BREED_IMG.cockatiel}],
   },
   freespirit: {
-    en:[{n:'Labrador',d:'Too mainstream-coded for your aesthetic 📌',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
-        {n:'Golden Retriever',d:'Vanilla energy, no edge 🥱',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-        {n:'Pomeranian',d:'Already all over your TikTok FYP 😴',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
-    th:[{n:'ลาบราดอร์',d:'โหลโคจรเกินไปสำหรับสายอินดี้ 📌',i:'https://images.unsplash.com/photo-1605568427561-40dd23c2acea?auto=format&fit=crop&w=600&q=80'},
-        {n:'โกลเด้น รีทรีฟเวอร์',d:'ธรรมดาเกินสำหรับสายแปลก 🥱',i:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80'},
-        {n:'ปอมเมอเรเนียน',d:'เห็นทั่ว TikTok แล้ว 😴',i:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80'}],
+    en:[{n:'Thai Ridgeback',d:'Demands structure and a strict routine 📏',i:BREED_IMG.thaiRidgeback},
+        {n:'Bangkaew',d:'Too disciplined for your free-flowing life 🥱',i:BREED_IMG.bangkaew},
+        {n:'Labrador',d:'Too mainstream-coded for your aesthetic 📌',i:BREED_IMG.labrador}],
+    th:[{n:'ไทยหลังอาน',d:'ต้องการกฎ ระเบียบที่เคร่งครัด 📏',i:BREED_IMG.thaiRidgeback},
+        {n:'บางแก้ว',d:'มีวินัยเกินสำหรับสายฟรีไหลของคุณ 🥱',i:BREED_IMG.bangkaew},
+        {n:'ลาบราดอร์',d:'โหลโคจรเกินสำหรับสายอินดี้ 📌',i:BREED_IMG.labrador}],
   },
   nurturer: {
-    en:[{n:'Shiba Inu',d:'Strong "don\'t touch me" energy 🙅',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
-        {n:'Sugar Glider',d:'Nocturnal = no family time 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
-        {n:'Sun Conure',d:'Loud screams during dinner ⚠️',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
-    th:[{n:'ชิบะ อินุ',d:'พลัง "อย่ามาแตะ" รัวๆ 🙅',i:'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'},
-        {n:'ชูการ์ไกลเดอร์',d:'หากินกลางคืน ไม่มีเวลาให้ครอบครัว 🌙',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'},
-        {n:'นกซันคอนัวร์',d:'เสียงดังตอนทานข้าวครอบครัว ⚠️',i:'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=600&q=80'}],
+    en:[{n:'Shiba Inu',d:'Strong "don\'t touch me" energy 🙅',i:BREED_IMG.shiba},
+        {n:'Sun Conure',d:'Loud screams during family dinner ⚠️',i:BREED_IMG.sunConure},
+        {n:'Gecko',d:'Cold-blooded — not exactly cuddly 🦎',i:BREED_IMG.gecko}],
+    th:[{n:'ชิบะ อินุ',d:'พลัง "อย่ามาแตะ" รัวๆ 🙅',i:BREED_IMG.shiba},
+        {n:'นกซันคอนัวร์',d:'เสียงดังตอนทานข้าวครอบครัว ⚠️',i:BREED_IMG.sunConure},
+        {n:'จิ้งจกเกคโค',d:'เลือดเย็น กอดไม่ได้ 🦎',i:BREED_IMG.gecko}],
+  },
+  chaos: {
+    en:[{n:'Persian',d:'Too poised for your gremlin energy 👑',i:BREED_IMG.persian},
+        {n:'Ragdoll',d:'Floppy & calm — opposite vibe 😴',i:BREED_IMG.ragdoll},
+        {n:'Cavalier',d:'Royal lap dog, not chaos buddy 🛌',i:BREED_IMG.cavalier}],
+    th:[{n:'เปอร์เซีย',d:'สงบเสงี่ยมเกินสำหรับสายป่วน 👑',i:BREED_IMG.persian},
+        {n:'แร็กดอลล์',d:'นุ่ม สงบ ตรงข้ามไวบ์คุณ 😴',i:BREED_IMG.ragdoll},
+        {n:'คาวาเลียร์',d:'หมาราชสำนัก ไม่ใช่คู่หูป่วน 🛌',i:BREED_IMG.cavalier}],
+  },
+  royal: {
+    en:[{n:'Thai Ridgeback',d:'Too rugged for your refined parlour 🏃',i:BREED_IMG.thaiRidgeback},
+        {n:'Border Collie',d:'High-energy workaholic = aesthetic ruined 🌀',i:BREED_IMG.borderCollie},
+        {n:'Sun Conure',d:'Loud & messy — clashes with calm luxury 📢',i:BREED_IMG.sunConure}],
+    th:[{n:'ไทยหลังอาน',d:'แข็งกระด้างเกินสำหรับห้องสไตล์คุณ 🏃',i:BREED_IMG.thaiRidgeback},
+        {n:'บอร์เดอร์ คอลลี่',d:'พลังเยอะ รบกวนความสวยงาม 🌀',i:BREED_IMG.borderCollie},
+        {n:'นกซันคอนัวร์',d:'เสียงดัง รก ขัดความหรูหรา 📢',i:BREED_IMG.sunConure}],
   },
 };
 
 function calcArchetype(a){
-  const s = { cozy:0, adventurer:0, social:0, guardian:0, freespirit:0, nurturer:0 };
-  if(a.home==='condo') { s.cozy+=3; s.social+=2; s.freespirit+=1; }
-  if(a.home==='townhouse') { s.nurturer+=2; s.cozy+=1; }
-  if(a.home==='house') { s.nurturer+=3; s.adventurer+=2; s.guardian+=2; }
+  const s = { cozy:0, adventurer:0, social:0, guardian:0, freespirit:0, nurturer:0, chaos:0, royal:0 };
+  // HOME
+  if(a.home==='condo') { s.cozy+=3; s.social+=2; s.freespirit+=1; s.royal+=3; s.chaos+=1; }
+  if(a.home==='townhouse') { s.nurturer+=2; s.cozy+=1; s.royal+=2; }
+  if(a.home==='house') { s.nurturer+=3; s.adventurer+=2; s.guardian+=2; s.royal+=1; s.chaos+=1; }
   if(a.home==='farm') { s.adventurer+=3; s.guardian+=3; s.freespirit+=2; }
-  if(a.energy==='low') { s.cozy+=3; s.freespirit+=1; }
-  if(a.energy==='medium') { s.nurturer+=2; s.social+=2; s.guardian+=1; }
-  if(a.energy==='high') { s.adventurer+=4; s.social+=2; }
-  if(a.social==='introvert') { s.cozy+=3; s.freespirit+=2; s.guardian+=1; }
-  if(a.social==='ambivert') { s.nurturer+=2; s.guardian+=1; }
-  if(a.social==='extrovert') { s.social+=4; s.adventurer+=1; }
-  if(a.weekend==='cafe') { s.cozy+=2; s.social+=1; }
-  if(a.weekend==='mall') { s.social+=3; }
+  // ENERGY
+  if(a.energy==='low') { s.cozy+=3; s.freespirit+=1; s.royal+=2; }
+  if(a.energy==='medium') { s.nurturer+=2; s.social+=2; s.guardian+=1; s.chaos+=1; s.royal+=1; }
+  if(a.energy==='high') { s.adventurer+=4; s.social+=2; s.chaos+=3; }
+  // SOCIAL
+  if(a.social==='introvert') { s.cozy+=3; s.freespirit+=2; s.guardian+=1; s.royal+=2; }
+  if(a.social==='ambivert') { s.nurturer+=2; s.guardian+=1; s.royal+=2; s.chaos+=1; }
+  if(a.social==='extrovert') { s.social+=4; s.adventurer+=1; s.chaos+=2; }
+  // WEEKEND
+  if(a.weekend==='cafe') { s.cozy+=2; s.social+=1; s.royal+=3; }
+  if(a.weekend==='mall') { s.social+=3; s.chaos+=2; }
   if(a.weekend==='nature') { s.adventurer+=4; s.freespirit+=1; }
-  if(a.weekend==='home') { s.cozy+=3; s.nurturer+=1; }
-  if(a.family==='solo') { s.freespirit+=2; s.cozy+=1; }
-  if(a.family==='couple') { s.social+=1; s.adventurer+=1; }
-  if(a.family==='kids') { s.nurturer+=4; }
-  if(a.family==='multi') { s.nurturer+=3; s.guardian+=2; }
-  if(a.time==='<1') { s.cozy+=1; s.freespirit+=1; }
-  if(a.time==='1-3') { s.nurturer+=1; s.social+=1; }
-  if(a.time==='3+') { s.adventurer+=2; s.nurturer+=2; s.guardian+=2; }
-  if(a.noise==='quiet') { s.cozy+=2; }
-  if(a.noise==='mild') { s.nurturer+=1; s.guardian+=1; }
-  if(a.noise==='loud') { s.social+=2; s.adventurer+=1; s.freespirit+=2; }
-  if(a.mess==='spotless') { s.cozy+=2; }
-  if(a.mess==='okay') { s.nurturer+=1; s.guardian+=1; }
-  if(a.mess==='love') { s.adventurer+=2; s.freespirit+=2; }
-  if(a.budget==='high') { s.cozy+=1; s.social+=1; s.freespirit+=1; }
-  if(a.budget==='mid') { s.nurturer+=1; }
-  if(a.budget==='low') { s.guardian+=1; }
-  if(a.exp==='first') { s.cozy+=1; s.nurturer+=1; }
-  if(a.exp==='pro') { s.adventurer+=1; s.guardian+=2; s.freespirit+=2; }
-  if(a.pref==='calm') { s.cozy+=3; }
-  if(a.pref==='play') { s.social+=3; s.adventurer+=1; }
+  if(a.weekend==='home') { s.cozy+=3; s.nurturer+=1; s.royal+=2; s.chaos+=1; }
+  // FAMILY
+  if(a.family==='solo') { s.freespirit+=2; s.cozy+=1; s.chaos+=2; s.royal+=1; }
+  if(a.family==='couple') { s.social+=1; s.adventurer+=1; s.royal+=2; s.chaos+=1; }
+  if(a.family==='kids') { s.nurturer+=4; s.chaos+=1; }
+  if(a.family==='multi') { s.nurturer+=3; s.guardian+=2; s.royal+=1; }
+  // TIME
+  if(a.time==='<1') { s.cozy+=1; s.freespirit+=1; s.royal+=1; s.chaos+=1; }
+  if(a.time==='1-3') { s.nurturer+=1; s.social+=1; s.royal+=2; s.chaos+=2; }
+  if(a.time==='3+') { s.adventurer+=2; s.nurturer+=2; s.guardian+=2; s.chaos+=1; }
+  // NOISE
+  if(a.noise==='quiet') { s.cozy+=2; s.royal+=3; }
+  if(a.noise==='mild') { s.nurturer+=1; s.guardian+=1; s.royal+=1; s.chaos+=1; }
+  if(a.noise==='loud') { s.social+=2; s.adventurer+=1; s.freespirit+=2; s.chaos+=3; }
+  // MESS
+  if(a.mess==='spotless') { s.cozy+=2; s.royal+=3; }
+  if(a.mess==='okay') { s.nurturer+=1; s.guardian+=1; s.chaos+=1; s.royal+=1; }
+  if(a.mess==='love') { s.adventurer+=2; s.freespirit+=2; s.chaos+=3; }
+  // BUDGET
+  if(a.budget==='high') { s.cozy+=1; s.social+=1; s.freespirit+=1; s.royal+=3; }
+  if(a.budget==='mid') { s.nurturer+=1; s.royal+=1; }
+  if(a.budget==='low') { s.guardian+=1; s.chaos+=1; }
+  // EXP
+  if(a.exp==='first') { s.cozy+=1; s.nurturer+=1; s.chaos+=1; }
+  if(a.exp==='some') { s.royal+=1; s.chaos+=1; }
+  if(a.exp==='pro') { s.adventurer+=1; s.guardian+=2; s.freespirit+=2; s.royal+=1; s.chaos+=1; }
+  // PREF
+  if(a.pref==='calm') { s.cozy+=3; s.royal+=2; }
+  if(a.pref==='play') { s.social+=3; s.adventurer+=1; s.chaos+=3; }
   if(a.pref==='loyal') { s.guardian+=4; }
-  if(a.pref==='unique') { s.freespirit+=4; }
-  if(a.goal==='comfort') { s.cozy+=2; s.nurturer+=2; }
-  if(a.goal==='adventure') { s.adventurer+=3; }
+  if(a.pref==='unique') { s.freespirit+=4; s.chaos+=2; s.royal+=1; }
+  // GOAL
+  if(a.goal==='comfort') { s.cozy+=2; s.nurturer+=2; s.royal+=1; }
+  if(a.goal==='adventure') { s.adventurer+=3; s.chaos+=1; }
   if(a.goal==='family') { s.nurturer+=3; s.guardian+=1; }
-  if(a.goal==='aesthetic') { s.social+=2; s.freespirit+=2; }
+  if(a.goal==='aesthetic') { s.social+=2; s.freespirit+=2; s.royal+=3; s.chaos+=2; }
+
   let top = 'cozy', max=-1;
   for(const k in s){ if(s[k]>max){ max=s[k]; top=k; } }
   return { key: top, scores: s };
@@ -765,9 +855,19 @@ document.querySelectorAll('#mnav-panel a').forEach(a=> a.addEventListener('click
 
 /* ============= Canvas — IG Story export (simplified — reuses brand assets) ============= */
 const ARCH_GRAD_CSS = {
-  cozy:['#D88A6A','#C2674A','#A04E36'], adventurer:['#2E4A3B','#1F3A2C','#15291F'],
-  social:['#D8B26E','#D88A6A','#C2674A'], guardian:['#1F3A2C','#15291F','#0E1F18'],
-  freespirit:['#C2674A','#B8924C','#D8B26E'], nurturer:['#D88A6A','#C2674A','#2E4A3B'],
+  cozy:       ['#D88A6A','#C2674A','#A04E36'],
+  adventurer: ['#2E4A3B','#1F3A2C','#15291F'],
+  social:     ['#D8B26E','#D88A6A','#C2674A'],
+  guardian:   ['#1F3A2C','#15291F','#0E1F18'],
+  freespirit: ['#C2674A','#B8924C','#D8B26E'],
+  nurturer:   ['#D88A6A','#C2674A','#2E4A3B'],
+  chaos:      ['#D8B26E','#B8924C','#8E6F32'],
+  royal:      ['#E5D2B0','#D8B26E','#C2674A'],
+};
+// Bar/badge color per persona (used in canvas for progress bars and the persona pill)
+const ARCH_ACCENT = {
+  cozy:'#D88A6A', adventurer:'#2E4A3B', social:'#D8B26E', guardian:'#1F3A2C',
+  freespirit:'#B8924C', nurturer:'#C2674A', chaos:'#B8924C', royal:'#8E6F32',
 };
 function loadImage(src){ return new Promise(res => { const im = new Image(); im.crossOrigin='anonymous'; im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; }); }
 function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
@@ -787,231 +887,284 @@ async function downloadResultCard(archKey, arch, A){
   const sans  = '"Inter","IBM Plex Sans Thai",sans-serif';
   const disp  = isThai ? '"IBM Plex Sans Thai","Sarabun",sans-serif' : 'Georgia,"IBM Plex Sans Thai",serif';
   const italic = isThai ? '' : 'italic ';
+  const personaTint = ARCH_ACCENT[archKey] || '#C2674A';
+
+  // Match score palettes for the 3 ranks (best + least share the spectrum)
+  const rankColors = [
+    { bg:'#F7D5D5', bar:'#C2674A', txt:'#A04E36' }, // #1 — clay rose
+    { bg:'#D7DEE7', bar:'#5B7A99', txt:'#3F5A78' }, // #2 — dusty blue
+    { bg:'#DEE6CF', bar:'#7B9A6B', txt:'#5C7F4D' }, // #3 — sage
+  ];
 
   // ===== CREAM PAPER BACKGROUND =====
   ctx.fillStyle = '#FBF7F1';
   ctx.fillRect(0,0,W,H);
-  // Soft warm washes
   const wash=(cx,cy,r,col)=>{ const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(255,255,255,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); };
-  wash(120, 240, 480, 'rgba(216,178,110,0.15)');
-  wash(950, 1700, 520, 'rgba(216,138,138,0.10)');
+  wash(120, 240, 520, 'rgba(216,178,110,0.18)');
+  wash(960, 200, 360, 'rgba(216,138,138,0.15)');
+  wash(540, 1800, 600, 'rgba(216,178,110,0.10)');
   // Paper grain
   ctx.fillStyle='rgba(60,40,20,0.025)';
   for(let i=0;i<1400;i++) ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2);
 
   // ===== TOP HEADER =====
-  ctx.fillStyle='#15291F'; ctx.textAlign='left';
-  ctx.font='800 38px '+sans;
-  ctx.fillText('🐾 PawMatch', 60, 92);
-  ctx.font='600 18px '+sans;
+  ctx.textAlign='left';
+  ctx.fillStyle='#15291F';
+  ctx.font='800 36px '+sans;
+  ctx.fillText('🐾 PawMatch', 60, 88);
+  ctx.font='600 16px '+sans;
   ctx.fillStyle='#8E8479';
-  ctx.fillText('PET PERSONA QUIZ', 60, 122);
+  ctx.fillText('PET PERSONA QUIZ', 60, 116);
 
-  // ===== HERO PERSONA CARD =====
-  const heroX=60, heroY=170, heroW=W-120, heroH=600;
-  ctx.save();
-  roundRect(ctx, heroX, heroY, heroW, heroH, 36);
-  const colors = ARCH_GRAD_CSS[archKey] || ['#C2674A','#A04E36','#7E3B28'];
-  const grad = ctx.createLinearGradient(heroX, heroY, heroX+heroW, heroY+heroH);
-  grad.addColorStop(0,colors[0]); grad.addColorStop(0.55,colors[1]); grad.addColorStop(1,colors[2]);
-  ctx.fillStyle = grad; ctx.fill();
-  ctx.clip();
-  ctx.fillStyle='rgba(255,255,255,0.05)';
-  for(let i=0;i<450;i++) ctx.fillRect(heroX+Math.random()*heroW, heroY+Math.random()*heroH, 3, 3);
-  ctx.restore();
-
-  // Decorative star top-left
-  ctx.save();
-  ctx.translate(heroX+50, heroY+50);
-  ctx.fillStyle='rgba(251,247,241,0.55)';
-  ctx.beginPath();
-  for(let i=0;i<4;i++){ ctx.rotate(Math.PI/2);
-    ctx.beginPath();
-    ctx.moveTo(0,-14); ctx.bezierCurveTo(3,-3,3,-3,14,0); ctx.bezierCurveTo(3,3,3,3,0,14); ctx.bezierCurveTo(-3,3,-3,3,-14,0); ctx.bezierCurveTo(-3,-3,-3,-3,0,-14); ctx.fill();
-    break;
+  // Persona pill (top-right)
+  ctx.font='700 18px '+sans;
+  const personaTxt = arch.emoji + '  ' + A.name;
+  const personaTxtW = ctx.measureText(personaTxt).width;
+  let personaPillW = Math.min(personaTxtW + 40, 520);
+  // Truncate if too long
+  let personaLabel = personaTxt;
+  while(ctx.measureText(personaLabel).width + 40 > personaPillW && personaLabel.length > 4){
+    personaLabel = personaLabel.slice(0, -1);
   }
-  ctx.restore();
+  if(personaLabel !== personaTxt) personaLabel += '…';
+  const personaPillX = W - 60 - personaPillW;
+  roundRect(ctx, personaPillX, 70, personaPillW, 50, 25);
+  ctx.fillStyle='#FBF7F1'; ctx.fill();
+  ctx.strokeStyle=personaTint; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle=personaTint;
+  ctx.fillText(personaLabel, personaPillX + 20, 100);
 
-  // Decorative heart bottom-right
-  ctx.save();
-  ctx.translate(heroX+heroW-50, heroY+heroH-45);
-  ctx.fillStyle='rgba(251,247,241,0.5)';
-  ctx.beginPath();
-  ctx.moveTo(0, 4);
-  ctx.bezierCurveTo(-9, -5, -16, 4, 0, 14);
-  ctx.bezierCurveTo(16, 4, 9, -5, 0, 4);
-  ctx.fill();
-  ctx.restore();
-
-  // PET PERSONA chip
+  // ===== HERO TITLE BLOCK =====
+  // "ผลลัพธ์คือคุณเป็น" pre-title
   ctx.textAlign='center';
-  ctx.font='700 22px '+sans;
-  const chipTxt = '🐾   PET PERSONA';
-  const chipMW = ctx.measureText(chipTxt).width;
-  const chipW = chipMW + 52, chipX = W/2 - chipW/2, chipY = heroY + 50;
-  roundRect(ctx, chipX, chipY, chipW, 50, 25);
-  ctx.fillStyle='rgba(251,247,241,0.22)'; ctx.fill();
-  ctx.strokeStyle='rgba(251,247,241,0.32)'; ctx.lineWidth=2; ctx.stroke();
-  ctx.fillStyle='#FBF7F1';
-  ctx.fillText(chipTxt, W/2, chipY + 33);
+  ctx.fillStyle='#6B6157';
+  ctx.font=`${italic}500 32px ${disp}`;
+  ctx.fillText(t('r.youAre'), W/2, 200);
 
-  // Big emoji
-  ctx.font='180px serif';
-  ctx.fillText(arch.emoji, W/2, heroY + 295);
+  // Big persona name — split into 2 lines if Thai compound; else fit
+  let nameLines;
+  if(isThai && A.name.length > 6){
+    // Try to split Thai name at midpoint by character count
+    const mid = Math.ceil(A.name.length / 2);
+    // Find a sensible break — look for the first character with vowel/space near mid
+    let breakPt = mid;
+    nameLines = [A.name.slice(0, breakPt), A.name.slice(breakPt)];
+    // If second line is too short, don't split
+    if(nameLines[1].length < 3){ nameLines = [A.name]; }
+  } else if (!isThai && A.name.split(' ').length > 2){
+    const words = A.name.split(' ').filter(w => w !== 'The');
+    const half = Math.ceil(words.length / 2);
+    nameLines = [words.slice(0,half).join(' '), words.slice(half).join(' ')];
+  } else {
+    nameLines = [A.name];
+  }
 
-  // "You are the..." label
-  ctx.font='500 22px '+sans;
-  ctx.fillStyle='rgba(251,247,241,0.85)';
-  ctx.fillText(t('r.youAre'), heroY ? W/2 : W/2, heroY + 350);
-
-  // Archetype NAME (auto-fit, italic for English only)
-  let nameSize = isThai ? 70 : 80;
+  // Render lines — line1 dark, line2 (if exists) in clay
+  let nameSize = isThai ? 92 : 96;
   ctx.font = `${italic}800 ${nameSize}px ${disp}`;
-  while(ctx.measureText(A.name).width > heroW - 80 && nameSize > 44){
+  // Auto-fit
+  while(nameLines.some(l => ctx.measureText(l).width > W - 140) && nameSize > 56){
     nameSize -= 4;
     ctx.font = `${italic}800 ${nameSize}px ${disp}`;
   }
-  ctx.fillStyle='#FBF7F1';
-  ctx.fillText(A.name, W/2, heroY + 430);
-
-  // Tag
-  ctx.font='500 26px '+sans;
-  ctx.fillStyle='rgba(251,247,241,0.93)';
-  wrapText(ctx, A.tag, W/2, heroY + 478, heroW - 120, 34, 2);
-
-  // Trait chips row
-  ctx.font='600 21px '+sans;
-  const chips = A.traits.slice(0,4);
-  const chipPad = 22, chipGap = 12, chipsH = 42;
-  let chipWidths = chips.map(cc => ctx.measureText(cc).width + chipPad*2);
-  let totalCW = chipWidths.reduce((a,b)=>a+b,0) + chipGap*(chips.length-1);
-  // Scale down font if too wide
-  let traitSize = 21;
-  while(totalCW > heroW - 60 && traitSize > 14){
-    traitSize -= 1;
-    ctx.font='600 '+traitSize+'px '+sans;
-    chipWidths = chips.map(cc => ctx.measureText(cc).width + chipPad*2);
-    totalCW = chipWidths.reduce((a,b)=>a+b,0) + chipGap*(chips.length-1);
+  if(nameLines.length === 1){
+    ctx.fillStyle='#15291F';
+    ctx.fillText(nameLines[0], W/2, 280);
+  } else {
+    ctx.fillStyle='#15291F';
+    ctx.fillText(nameLines[0], W/2, 270);
+    ctx.fillStyle=personaTint;
+    ctx.fillText(nameLines[1], W/2, 270 + nameSize + 8);
   }
-  let chipCursor = W/2 - totalCW/2;
-  const chipsRowY = heroY + heroH - 80;
-  chips.forEach((cc, i) => {
-    const cw = chipWidths[i];
-    roundRect(ctx, chipCursor, chipsRowY, cw, chipsH, chipsH/2);
-    ctx.fillStyle='rgba(251,247,241,0.22)'; ctx.fill();
-    ctx.strokeStyle='rgba(251,247,241,0.32)'; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.fillStyle='#FBF7F1';
-    ctx.fillText(cc, chipCursor + cw/2, chipsRowY + chipsH/2 + 7);
-    chipCursor += cw + chipGap;
+
+  // Squiggle underline under name (in clay/accent)
+  const squiggleY = 270 + (nameLines.length === 1 ? 30 : nameSize + 40);
+  ctx.strokeStyle=personaTint; ctx.lineWidth=4; ctx.lineCap='round';
+  ctx.beginPath();
+  const sqStart = W/2 - 150, sqEnd = W/2 + 150;
+  for(let x = sqStart; x <= sqEnd; x += 6){
+    const yOff = Math.sin((x - sqStart) * 0.04) * 5;
+    if(x === sqStart) ctx.moveTo(x, squiggleY + yOff);
+    else ctx.lineTo(x, squiggleY + yOff);
+  }
+  ctx.stroke();
+
+  // Traits row with heart bullets
+  const traitsY = squiggleY + 50;
+  ctx.font='600 22px '+sans;
+  const traits = A.traits.slice(0,3);
+  ctx.fillStyle='#3B342D';
+  // measure
+  let traitMeasures = traits.map(tt => ctx.measureText(tt).width);
+  const heartGap = 36;
+  const traitsTotal = traitMeasures.reduce((a,b)=>a+b,0) + heartGap*(traits.length-1);
+  let tx = W/2 - traitsTotal/2;
+  traits.forEach((tt, i) => {
+    ctx.fillStyle='#3B342D';
+    ctx.textAlign='left';
+    ctx.fillText(tt, tx, traitsY);
+    tx += traitMeasures[i];
+    if(i < traits.length - 1){
+      // heart between
+      ctx.fillStyle='#D88A6A';
+      ctx.save();
+      ctx.translate(tx + heartGap/2, traitsY - 7);
+      ctx.beginPath();
+      ctx.moveTo(0, 4);
+      ctx.bezierCurveTo(-8, -3, -14, 3, 0, 12);
+      ctx.bezierCurveTo(14, 3, 8, -3, 0, 4);
+      ctx.fill();
+      ctx.restore();
+      tx += heartGap;
+    }
   });
 
-  // Preload images
+  // ===== PERSONA ILLUSTRATION =====
+  const personaImg = await loadImage(PERSONA_IMAGE[archKey] || 'assets/personas/cozy-curator.png');
+  if(personaImg){
+    const imgH = 360;
+    const imgW = personaImg.width / personaImg.height * imgH;
+    const imgX = W/2 - imgW/2;
+    const imgY = traitsY + 30;
+    ctx.drawImage(personaImg, imgX, imgY, imgW, imgH);
+  }
+
+  // ===== TOP 3 MATCHES SECTION =====
   const bestImgs  = await Promise.all(A.breeds.slice(0,3).map(b => loadImage(b.i)));
   const leastImgs = await Promise.all(leastList.slice(0,3).map(b => loadImage(b.i)));
 
-  // ===== SECTION renderer =====
-  const renderSection = (yPos, label, subtitle, items, imgs, kind) => {
-    const sx=heroX, sy=yPos, sw=heroW, sh=490;
-    // Container
-    roundRect(ctx, sx, sy, sw, sh, 32);
+  // Section header banner
+  const banner1Y = 770;
+  ctx.textAlign='center';
+  ctx.font='800 28px '+sans;
+  const banner1Txt = '🐾   ' + t('r.bestTitle');
+  const b1W = ctx.measureText(banner1Txt).width + 80;
+  roundRect(ctx, W/2 - b1W/2, banner1Y, b1W, 56, 28);
+  ctx.fillStyle='rgba(216,178,110,0.20)'; ctx.fill();
+  ctx.strokeStyle='rgba(184,146,76,0.4)'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#15291F';
+  ctx.fillText(banner1Txt, W/2, banner1Y + 38);
+
+  // Render best/least cards
+  const bestScores  = [95, 90, 86];
+  const leastScores = [25, 28, 30];
+
+  // ===== Card renderer (vertical, full-width) =====
+  const renderCard = (cardY, b, im, kind, rank, score) => {
+    const cx = 60, cw = W - 120, ch = 160;
+    const col = rankColors[rank];
+    // Card body
+    ctx.save();
+    ctx.shadowColor='rgba(60,40,20,0.08)'; ctx.shadowBlur=14; ctx.shadowOffsetY=4;
+    roundRect(ctx, cx, cardY, cw, ch, 24);
     ctx.fillStyle='#FFFFFF'; ctx.fill();
-    ctx.strokeStyle='#EFE3CE'; ctx.lineWidth=2; ctx.stroke();
+    ctx.restore();
+    ctx.strokeStyle='#EFE3CE'; ctx.lineWidth=1.5; ctx.stroke();
 
-    // Header
-    ctx.textAlign='left';
+    // Photo on left (rounded square)
+    const photoSize = 128, photoX = cx + 16, photoY = cardY + 16;
+    ctx.save();
+    roundRect(ctx, photoX, photoY, photoSize, photoSize, 18);
+    ctx.fillStyle='#EFE3CE'; ctx.fill();
+    ctx.clip();
+    if(im){
+      const ar=im.width/im.height; let sw2=im.width, sh2=im.height, sxc=0, syc=0;
+      if(ar>1){ sw2=im.height; sxc=(im.width-sw2)/2; } else { sh2=im.width; syc=(im.height-sh2)/2; }
+      if(kind==='least'){ ctx.filter='saturate(0.55) brightness(0.95)'; }
+      ctx.drawImage(im, sxc, syc, sw2, sh2, photoX, photoY, photoSize, photoSize);
+      ctx.filter='none';
+    }
+    ctx.restore();
+
+    // Number badge or ✕ badge (top-left of card, slightly overlapping)
+    const badgeX = cx + 8, badgeY = cardY + 8, badgeR = 22;
+    ctx.beginPath(); ctx.arc(badgeX + badgeR, badgeY + badgeR, badgeR, 0, Math.PI*2);
+    if(kind==='best'){
+      ctx.fillStyle=col.bar;
+    } else {
+      ctx.fillStyle='rgba(50,40,30,0.6)';
+    }
+    ctx.fill();
+    ctx.strokeStyle='#FFFFFF'; ctx.lineWidth=3; ctx.stroke();
+    ctx.fillStyle='#FFFFFF';
+    ctx.font='800 22px '+sans;
+    ctx.textAlign='center';
+    ctx.fillText(kind==='best' ? String(rank+1) : '✕', badgeX + badgeR, badgeY + badgeR + 8);
+
+    // Right content area
+    const rx = photoX + photoSize + 28;
+    const rw = cw - photoSize - 60;
+
+    // Name
     ctx.fillStyle='#15291F';
-    ctx.font='800 30px '+sans;
-    ctx.fillText(label, sx+30, sy+60);
-    if(subtitle){
-      ctx.textAlign='right';
-      ctx.font=`${italic}500 16px ${sans}`;
-      ctx.fillStyle='#8E8479';
-      ctx.fillText(subtitle, sx+sw-30, sy+60);
-    }
+    ctx.font='700 30px '+disp;
+    ctx.textAlign='left';
+    let name = b.n;
+    while(ctx.measureText(name).width > rw - 140 && name.length > 1) name = name.slice(0,-1);
+    if(name !== b.n) name = name.slice(0,-1) + '…';
+    ctx.fillText(name, rx, photoY + 30);
 
-    // 3 cards row
-    const cardsY = sy + 90;
-    const cardW = 280, gap = 30, photoSize = 280;
-    const cardsStart = sx + 30;
-    for(let i=0;i<3;i++){
-      const b = items[i]; if(!b) continue;
-      const im = imgs[i];
-      const cx = cardsStart + i*(cardW+gap);
-      // Card body
-      roundRect(ctx, cx, cardsY, cardW, 370, 22);
-      ctx.fillStyle='#FBF7F1'; ctx.fill();
-      ctx.strokeStyle='#EFE3CE'; ctx.lineWidth=1.5; ctx.stroke();
-      // Photo
-      ctx.save();
-      roundRect(ctx, cx, cardsY, cardW, photoSize, 22);
-      ctx.fillStyle='#EFE3CE'; ctx.fill();
-      ctx.clip();
-      if(im){
-        const ar=im.width/im.height; let sw2=im.width, sh2=im.height, sxc=0, syc=0;
-        if(ar>1){ sw2=im.height; sxc=(im.width-sw2)/2; } else { sh2=im.width; syc=(im.height-sh2)/2; }
-        if(kind==='least'){ ctx.filter='saturate(0.72)'; }
-        ctx.drawImage(im, sxc, syc, sw2, sh2, cx, cardsY, cardW, photoSize);
-        ctx.filter='none';
-      }
-      if(kind==='least'){
-        ctx.fillStyle='rgba(251,247,241,0.10)';
-        ctx.fillRect(cx, cardsY, cardW, photoSize);
-      }
-      ctx.restore();
-      // Badge
-      if(kind==='best'){
-        ctx.beginPath(); ctx.arc(cx+30, cardsY+30, 19, 0, Math.PI*2);
-        ctx.fillStyle='#B8924C'; ctx.fill();
-        ctx.strokeStyle='#FBF7F1'; ctx.lineWidth=2; ctx.stroke();
-        ctx.fillStyle='#15291F';
-        ctx.font='800 22px '+sans;
-        ctx.textAlign='center';
-        ctx.fillText(String(i+1), cx+30, cardsY+38);
-      } else {
-        ctx.beginPath(); ctx.arc(cx+cardW-30, cardsY+30, 18, 0, Math.PI*2);
-        ctx.fillStyle='rgba(15,15,15,0.55)'; ctx.fill();
-        ctx.strokeStyle='#FBF7F1'; ctx.lineWidth=2; ctx.stroke();
-        ctx.fillStyle='#FBF7F1';
-        ctx.font='700 20px '+sans;
-        ctx.textAlign='center';
-        ctx.fillText('✕', cx+cardW-30, cardsY+37);
-      }
-      // Name
-      ctx.fillStyle='#15291F';
-      ctx.font='700 22px '+disp;
-      ctx.textAlign='left';
-      let name = b.n;
-      while(ctx.measureText(name).width > cardW - 30 && name.length > 1){ name = name.slice(0,-1); }
-      if(name !== b.n) name = name.slice(0,-1) + '…';
-      ctx.fillText(name, cx+16, cardsY + photoSize + 32);
-      // Description
-      if(kind==='least'){
-        ctx.font=`${italic}500 16px ${sans}`;
-        ctx.fillStyle='#A04E36';
-      } else {
-        ctx.font='500 16px '+sans;
-        ctx.fillStyle='#6B6157';
-      }
-      wrapText(ctx, b.d, cx+16, cardsY + photoSize + 58, cardW - 32, 22, 2);
-    }
+    // Description (1 line, truncate)
+    ctx.font=(kind==='least' ? italic : '') + '500 18px '+sans;
+    ctx.fillStyle = kind==='least' ? '#A04E36' : '#6B6157';
+    let desc = b.d;
+    while(ctx.measureText(desc).width > rw - 20 && desc.length > 1) desc = desc.slice(0,-1);
+    if(desc !== b.d) desc = desc.slice(0,-1) + '…';
+    ctx.fillText(desc, rx, photoY + 58);
+
+    // Match % (big)
+    ctx.font='800 42px '+disp;
+    ctx.fillStyle=col.txt;
+    const pctTxt = score + '%';
+    ctx.fillText(pctTxt, rx, photoY + 108);
+    const pctW = ctx.measureText(pctTxt).width;
+    ctx.font='500 18px '+sans;
+    ctx.fillStyle='#8E8479';
+    ctx.fillText('match', rx + pctW + 10, photoY + 108);
+
+    // Progress bar
+    const barX = rx, barY = photoY + 122, barW = rw - 20, barH = 8;
+    roundRect(ctx, barX, barY, barW, barH, 4);
+    ctx.fillStyle='#F0E6D5'; ctx.fill();
+    roundRect(ctx, barX, barY, barW * score/100, barH, 4);
+    ctx.fillStyle=col.bar; ctx.fill();
   };
 
-  renderSection(800,  '💚  ' + t('r.bestTitle'),  null,             A.breeds, bestImgs,  'best');
-  renderSection(1310, '🙈  ' + t('r.leastTitle'), t('r.leastSub'),  leastList, leastImgs, 'least');
+  // Render 3 best cards
+  let cardY = banner1Y + 80;
+  for(let i=0;i<3;i++){
+    if(!A.breeds[i]) continue;
+    renderCard(cardY, A.breeds[i], bestImgs[i], 'best', i, bestScores[i]);
+    cardY += 170;
+  }
+
+  // ===== TOP 3 NOT MATCH SECTION =====
+  const banner2Y = cardY + 30;
+  ctx.textAlign='center';
+  ctx.font='800 28px '+sans;
+  const banner2Txt = '🐾   ' + t('r.leastTitle');
+  const b2W = ctx.measureText(banner2Txt).width + 80;
+  roundRect(ctx, W/2 - b2W/2, banner2Y, b2W, 56, 28);
+  ctx.fillStyle='rgba(216,138,138,0.20)'; ctx.fill();
+  ctx.strokeStyle='rgba(194,103,74,0.4)'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#15291F';
+  ctx.fillText(banner2Txt, W/2, banner2Y + 38);
+
+  cardY = banner2Y + 80;
+  for(let i=0;i<3;i++){
+    if(!leastList[i]) continue;
+    renderCard(cardY, leastList[i], leastImgs[i], 'least', i, leastScores[i]);
+    cardY += 170;
+  }
 
   // ===== FOOTER =====
-  // Divider
-  ctx.strokeStyle='#E5D2B0'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(heroX, 1830); ctx.lineTo(heroX+heroW, 1830); ctx.stroke();
-
-  // Brand attribution (centered)
   ctx.textAlign='center';
-  ctx.fillStyle='#8E8479';
-  ctx.font='600 18px '+sans;
-  ctx.fillText('PAWMATCH · PET PERSONA QUIZ', W/2, 1870);
+  ctx.fillStyle='#6B6157';
+  ctx.font=`${italic}500 18px ${disp}`;
+  ctx.fillText(t('r.leastSub'), W/2, cardY + 30);
   ctx.fillStyle='#15291F';
-  ctx.font='italic 800 32px '+(isThai?'"IBM Plex Sans Thai",sans-serif':'Georgia,serif');
-  ctx.fillText('Find your match. Take the quiz.', W/2, 1905);
+  ctx.font='800 22px '+sans;
+  ctx.fillText('PAWMATCH · PET PERSONA QUIZ', W/2, cardY + 60);
   ctx.textAlign='left';
 
   // ===== DOWNLOAD =====
