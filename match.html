@@ -578,8 +578,8 @@ function renderResults(){
   qtitle.textContent = t('r.persona');
   qbar.style.width = '100%';
 
-  const inviteCode = 'PAW' + Math.random().toString(36).slice(2,7).toUpperCase();
-  const shareUrl = `${window.location.origin}/match.html?ref=${inviteCode}`;
+  // Use current page URL for sharing (no invite codes / referral system yet)
+  const shareUrl = window.location.href.split('?')[0].split('#')[0];
 
   qcontent.innerHTML = `
     <div class="space-y-4 sm:space-y-5">
@@ -689,15 +689,7 @@ function renderResults(){
             ${t('r.shareCopy')}
           </button>
         </div>
-        <div class="mt-4 bg-forest-800/60 rounded-2xl p-3 backdrop-blur border border-forest-600/50">
-          <div class="text-[10px] uppercase tracking-[0.18em] text-gold-400 font-semibold">${t('r.invite')}</div>
-          <div class="mt-1 text-xs leading-snug">${t('r.inviteSub')}</div>
-          <div class="mt-2 flex items-center gap-2 bg-forest-700 rounded-xl p-2 border border-forest-600/60">
-            <code class="flex-1 px-2 text-sm font-mono">${inviteCode}</code>
-            <button data-share="invite" class="bg-gold-500 hover:bg-gold-400 text-forest-800 font-semibold text-xs px-3 py-1.5 rounded-lg">${t('r.copyCode')}</button>
-          </div>
-          <div class="mt-2 text-[10px] text-cream-100/70 leading-snug">${t('r.referReward')}</div>
-        </div>
+        <!-- MVP-HIDDEN: invite code + referral rewards not built yet — restore when referral system is live -->
       </div>
     </div>
 
@@ -730,14 +722,13 @@ function renderResults(){
   document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', async ()=>{
     const kind = b.dataset.share;
     try { window.PawDB?.logEvent('share_clicked', { platform: kind, archetype: archKey }); } catch{}
-    if(kind==='copy' || kind==='invite'){
-      const text = kind==='copy' ? `${shareText}\n${shareUrl}` : `${inviteCode} — ${shareUrl}`;
-      try { await navigator.clipboard.writeText(text); toast(t('r.copied')); } catch { toast('Copy failed'); }
+    if(kind==='copy'){
+      try { await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`); toast(t('r.copied')); } catch { toast('Copy failed'); }
       return;
     }
     if(kind==='ig'){
       toast(t('r.generating'));
-      try { await downloadResultCard(archKey, arch, A, inviteCode); toast(t('r.igTip')); }
+      try { await downloadResultCard(archKey, arch, A); toast(t('r.igTip')); }
       catch(e){ toast('Image generation failed'); }
       return;
     }
@@ -785,7 +776,7 @@ function wrapText(ctx,text,x,y,maxW,lineH,maxLines){
   for(const w of words){ const test=line+w+' '; if(ctx.measureText(test).width>maxW&&line){ ctx.fillText(line,x,yy); line=w+' '; yy+=lineH; lines++; if(maxLines&&lines>=maxLines-1){ let rest=line; for(const w2 of words.slice(words.indexOf(w)+1)) rest+=w2+' '; while(ctx.measureText(rest+'…').width>maxW&&rest.length>1) rest=rest.slice(0,-1); ctx.fillText(rest+'…',x,yy); return; } } else line=test; }
   ctx.fillText(line,x,yy);
 }
-async function downloadResultCard(archKey, arch, A, code){
+async function downloadResultCard(archKey, arch, A){
   const W=1080, H=1920;
   const c=document.createElement('canvas'); c.width=W; c.height=H;
   const ctx=c.getContext('2d');
@@ -1013,24 +1004,15 @@ async function downloadResultCard(archKey, arch, A, code){
   ctx.strokeStyle='#E5D2B0'; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(heroX, 1830); ctx.lineTo(heroX+heroW, 1830); ctx.stroke();
 
-  ctx.textAlign='left';
+  // Brand attribution (centered)
+  ctx.textAlign='center';
   ctx.fillStyle='#8E8479';
   ctx.font='600 18px '+sans;
-  ctx.fillText('FIND YOUR PET PERSONA →', 60, 1870);
+  ctx.fillText('PAWMATCH · PET PERSONA QUIZ', W/2, 1870);
   ctx.fillStyle='#15291F';
-  ctx.font='800 34px '+sans;
-  ctx.fillText('pawmatch.co', 60, 1905);
-
-  // Invite chip
-  ctx.font='700 18px '+sans;
-  const inviteTxt = '🔗 Invite · ' + code;
-  const inW = ctx.measureText(inviteTxt).width + 38;
-  const inX = W - 60 - inW, inY = 1872;
-  roundRect(ctx, inX, inY, inW, 44, 22);
-  ctx.fillStyle='#1F3A2C'; ctx.fill();
-  ctx.fillStyle='#FBF7F1';
+  ctx.font='italic 800 32px '+(isThai?'"IBM Plex Sans Thai",sans-serif':'Georgia,serif');
+  ctx.fillText('Find your match. Take the quiz.', W/2, 1905);
   ctx.textAlign='left';
-  ctx.fillText(inviteTxt, inX + 19, inY + 28);
 
   // ===== DOWNLOAD =====
   const url=c.toDataURL('image/png');
