@@ -188,6 +188,7 @@
 
     <div class="lg:col-span-5 relative">
       <div class="relative mx-auto max-w-md px-2 sm:px-0">
+        <!-- MVP-HIDDEN: fake match score + breeder name — re-enable when real data exists
         <div class="absolute top-2 -left-2 sm:-top-4 sm:-left-6 bg-cream-50 rounded-2xl shadow-lift p-2.5 sm:p-3 w-36 sm:w-44 floaty z-10 border border-cream-200">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full bg-clay-400 flex items-center justify-center text-cream-50">🐾</div>
@@ -210,6 +211,8 @@
             </div>
           </div>
         </div>
+        -->
+        <!-- /MVP-HIDDEN -->
 
         <div class="relative rounded-[28px] overflow-hidden shadow-lift bg-cream-200 aspect-[4/5]">
           <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80" alt="Featured pet" class="w-full h-full object-cover"/>
@@ -227,7 +230,7 @@
     </div>
   </div>
 
-  <!-- logo strip -->
+  <!-- MVP-HIDDEN: no real brand partnerships yet — re-enable once partnerships signed
   <div class="border-y border-cream-200 bg-cream-100/60 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-x-8 gap-y-3 sm:justify-between">
       <div class="text-xs uppercase tracking-[0.18em] text-ink-500" data-i18n="hero.partners">Trusted partners</div>
@@ -240,6 +243,7 @@
       </div>
     </div>
   </div>
+  /MVP-HIDDEN -->
 </section>
 
 <!-- ============== AI MATCHING ============== -->
@@ -385,12 +389,12 @@
   </div>
 </section>
 
-<!-- ============== PEDIGREE & HEALTH ============== -->
+<!-- MVP-HIDDEN: certificate is fabricated (Khao Niao · TH-2026-00482) — re-enable when first real pedigree is in the system
 <section class="py-16 sm:py-24">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
     <div>
       <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600">
-        <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="ped.eyebrow">Pedigree & health</span>
+        <span class="w-6 h-px bg-clay-500"></span> <span data-i18n="ped.eyebrow">Pedigree and health</span>
       </div>
       <h2 class="font-display text-3xl sm:text-4xl font-semibold mt-3 text-forest-700" data-i18n="ped.title">Every pet, fully transparent.</h2>
       <p class="mt-4 text-ink-700 max-w-lg" data-i18n="ped.sub">Tap any pet to see four generations of pedigree, vaccination history, vet checks, and DNA-tested traits — all verified by our licensed veterinarian partners.</p>
@@ -462,8 +466,9 @@
     </div>
   </div>
 </section>
+/MVP-HIDDEN -->
 
-<!-- ============== TESTIMONIALS ============== -->
+<!-- MVP-HIDDEN: placeholder quotes from imaginary people — re-enable once we have 3+ real customer testimonials
 <section class="py-16 sm:py-20 bg-forest-700 text-cream-50 relative overflow-hidden">
   <div class="absolute inset-0 grain opacity-100"></div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -476,19 +481,20 @@
     <div class="mt-10 grid md:grid-cols-3 gap-5">
       <figure class="bg-forest-600/60 backdrop-blur p-6 rounded-2xl border border-forest-500/40">
         <blockquote class="font-display text-lg leading-snug" data-i18n="tst.q1">"The AI suggested a Shiba I'd never have picked. Three months in, she's perfect for our small condo."</blockquote>
-        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a1">— Praew · Sukhumvit</figcaption>
+        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a1">Praew · Sukhumvit</figcaption>
       </figure>
       <figure class="bg-forest-600/60 backdrop-blur p-6 rounded-2xl border border-forest-500/40">
-        <blockquote class="font-display text-lg leading-snug" data-i18n="tst.q2">"Finally a platform where you can trust the breeder. Pedigree, health, and ethics — all in one place."</blockquote>
-        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a2">— Dr. Nattapong · Veterinarian, CM</figcaption>
+        <blockquote class="font-display text-lg leading-snug" data-i18n="tst.q2">"Finally a platform where you can trust the breeder. Pedigree, health, and ethics in one place."</blockquote>
+        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a2">Dr. Nattapong · Veterinarian, CM</figcaption>
       </figure>
       <figure class="bg-forest-600/60 backdrop-blur p-6 rounded-2xl border border-forest-500/40">
         <blockquote class="font-display text-lg leading-snug" data-i18n="tst.q3">"96% match wasn't a marketing number. Mochi fits our family like he was always meant to."</blockquote>
-        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a3">— The Lim Family · Phuket</figcaption>
+        <figcaption class="mt-4 text-sm text-cream-100/80" data-i18n="tst.a3">The Lim Family · Phuket</figcaption>
       </figure>
     </div>
   </div>
 </section>
+/MVP-HIDDEN -->
 
 <!-- ============== FAQ ============== -->
 <section id="faq" class="py-16 sm:py-24">
