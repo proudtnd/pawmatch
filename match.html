@@ -941,17 +941,9 @@ async function downloadResultCard(archKey, arch, A){
   ctx.font=`${italic}500 32px ${disp}`;
   ctx.fillText(t('r.youAre'), W/2, 200);
 
-  // Big persona name — split into 2 lines if Thai compound; else fit
+  // Big persona name — Thai: always single line (avoid breaking syllable clusters); English: split on word boundary only if 3+ words
   let nameLines;
-  if(isThai && A.name.length > 6){
-    // Try to split Thai name at midpoint by character count
-    const mid = Math.ceil(A.name.length / 2);
-    // Find a sensible break — look for the first character with vowel/space near mid
-    let breakPt = mid;
-    nameLines = [A.name.slice(0, breakPt), A.name.slice(breakPt)];
-    // If second line is too short, don't split
-    if(nameLines[1].length < 3){ nameLines = [A.name]; }
-  } else if (!isThai && A.name.split(' ').length > 2){
+  if (!isThai && A.name.split(' ').length > 2){
     const words = A.name.split(' ').filter(w => w !== 'The');
     const half = Math.ceil(words.length / 2);
     nameLines = [words.slice(0,half).join(' '), words.slice(half).join(' ')];
@@ -960,10 +952,11 @@ async function downloadResultCard(archKey, arch, A){
   }
 
   // Render lines — line1 dark, line2 (if exists) in clay
-  let nameSize = isThai ? 92 : 96;
+  let nameSize = isThai ? 96 : 96;
   ctx.font = `${italic}800 ${nameSize}px ${disp}`;
-  // Auto-fit
-  while(nameLines.some(l => ctx.measureText(l).width > W - 140) && nameSize > 56){
+  // Auto-fit — shrink until widest line fits in safe width
+  const maxW = W - 120;
+  while(nameLines.some(l => ctx.measureText(l).width > maxW) && nameSize > 48){
     nameSize -= 4;
     ctx.font = `${italic}800 ${nameSize}px ${disp}`;
   }
@@ -1021,11 +1014,11 @@ async function downloadResultCard(archKey, arch, A){
 
   // ===== PERSONA ILLUSTRATION =====
   const personaImg = await loadImage(PERSONA_IMAGE[archKey] || 'assets/personas/cozy-curator.png');
+  const imgH = 280;
+  const imgY = traitsY + 24;
   if(personaImg){
-    const imgH = 360;
     const imgW = personaImg.width / personaImg.height * imgH;
     const imgX = W/2 - imgW/2;
-    const imgY = traitsY + 30;
     ctx.drawImage(personaImg, imgX, imgY, imgW, imgH);
   }
 
@@ -1033,8 +1026,8 @@ async function downloadResultCard(archKey, arch, A){
   const bestImgs  = await Promise.all(A.breeds.slice(0,3).map(b => loadImage(b.i)));
   const leastImgs = await Promise.all(leastList.slice(0,3).map(b => loadImage(b.i)));
 
-  // Section header banner
-  const banner1Y = 770;
+  // Section header banner — dynamic Y below illustration
+  const banner1Y = imgY + imgH + 20;
   ctx.textAlign='center';
   ctx.font='800 28px '+sans;
   const banner1Txt = '🐾   ' + t('r.bestTitle');
@@ -1051,7 +1044,7 @@ async function downloadResultCard(archKey, arch, A){
 
   // ===== Card renderer (vertical, full-width) =====
   const renderCard = (cardY, b, im, kind, rank, score) => {
-    const cx = 60, cw = W - 120, ch = 160;
+    const cx = 60, cw = W - 120, ch = 140;
     const col = rankColors[rank];
     // Card body
     ctx.save();
@@ -1062,7 +1055,7 @@ async function downloadResultCard(archKey, arch, A){
     ctx.strokeStyle='#EFE3CE'; ctx.lineWidth=1.5; ctx.stroke();
 
     // Photo on left (rounded square)
-    const photoSize = 128, photoX = cx + 16, photoY = cardY + 16;
+    const photoSize = 108, photoX = cx + 16, photoY = cardY + 16;
     ctx.save();
     roundRect(ctx, photoX, photoY, photoSize, photoSize, 18);
     ctx.fillStyle='#EFE3CE'; ctx.fill();
@@ -1097,33 +1090,33 @@ async function downloadResultCard(archKey, arch, A){
 
     // Name
     ctx.fillStyle='#15291F';
-    ctx.font='700 30px '+disp;
+    ctx.font='700 28px '+disp;
     ctx.textAlign='left';
     let name = b.n;
     while(ctx.measureText(name).width > rw - 140 && name.length > 1) name = name.slice(0,-1);
     if(name !== b.n) name = name.slice(0,-1) + '…';
-    ctx.fillText(name, rx, photoY + 30);
+    ctx.fillText(name, rx, photoY + 26);
 
     // Description (1 line, truncate)
-    ctx.font=(kind==='least' ? italic : '') + '500 18px '+sans;
+    ctx.font=(kind==='least' ? italic : '') + '500 17px '+sans;
     ctx.fillStyle = kind==='least' ? '#A04E36' : '#6B6157';
     let desc = b.d;
     while(ctx.measureText(desc).width > rw - 20 && desc.length > 1) desc = desc.slice(0,-1);
     if(desc !== b.d) desc = desc.slice(0,-1) + '…';
-    ctx.fillText(desc, rx, photoY + 58);
+    ctx.fillText(desc, rx, photoY + 52);
 
     // Match % (big)
-    ctx.font='800 42px '+disp;
+    ctx.font='800 36px '+disp;
     ctx.fillStyle=col.txt;
     const pctTxt = score + '%';
-    ctx.fillText(pctTxt, rx, photoY + 108);
+    ctx.fillText(pctTxt, rx, photoY + 94);
     const pctW = ctx.measureText(pctTxt).width;
-    ctx.font='500 18px '+sans;
+    ctx.font='500 16px '+sans;
     ctx.fillStyle='#8E8479';
-    ctx.fillText('match', rx + pctW + 10, photoY + 108);
+    ctx.fillText('match', rx + pctW + 10, photoY + 94);
 
     // Progress bar
-    const barX = rx, barY = photoY + 122, barW = rw - 20, barH = 8;
+    const barX = rx, barY = photoY + 104, barW = rw - 20, barH = 8;
     roundRect(ctx, barX, barY, barW, barH, 4);
     ctx.fillStyle='#F0E6D5'; ctx.fill();
     roundRect(ctx, barX, barY, barW * score/100, barH, 4);
@@ -1131,15 +1124,15 @@ async function downloadResultCard(archKey, arch, A){
   };
 
   // Render 3 best cards
-  let cardY = banner1Y + 80;
+  let cardY = banner1Y + 72;
   for(let i=0;i<3;i++){
     if(!A.breeds[i]) continue;
     renderCard(cardY, A.breeds[i], bestImgs[i], 'best', i, bestScores[i]);
-    cardY += 170;
+    cardY += 152;
   }
 
   // ===== TOP 3 NOT MATCH SECTION =====
-  const banner2Y = cardY + 30;
+  const banner2Y = cardY + 16;
   ctx.textAlign='center';
   ctx.font='800 28px '+sans;
   const banner2Txt = '🐾   ' + t('r.leastTitle');
@@ -1150,11 +1143,11 @@ async function downloadResultCard(archKey, arch, A){
   ctx.fillStyle='#15291F';
   ctx.fillText(banner2Txt, W/2, banner2Y + 38);
 
-  cardY = banner2Y + 80;
+  cardY = banner2Y + 72;
   for(let i=0;i<3;i++){
     if(!leastList[i]) continue;
     renderCard(cardY, leastList[i], leastImgs[i], 'least', i, leastScores[i]);
-    cardY += 170;
+    cardY += 152;
   }
 
   // ===== FOOTER =====
